@@ -27,6 +27,7 @@ let package = Package(
         .package(url: "https://github.com/pxlshpr/VisionSugar", from: "0.0.77"),
 
         .package(url: "https://github.com/exyte/ActivityIndicatorView", from: "1.1.0"),
+        .package(url: "https://github.com/markiv/SwiftUI-Shimmer", from: "1.1.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -41,6 +42,9 @@ let package = Package(
                 .product(name: "SwiftSugar", package: "swiftsugar"),
                 .product(name: "SwiftUISugar", package: "swiftuisugar"),
                 .product(name: "VisionSugar", package: "visionsugar"),
+                
+                .product(name: "ActivityIndicatorView", package: "activityindicatorview"),
+                .product(name: "Shimmer", package: "swiftui-shimmer"),
             ]),
         .testTarget(
             name: "FoodLabelExtractorTests",
