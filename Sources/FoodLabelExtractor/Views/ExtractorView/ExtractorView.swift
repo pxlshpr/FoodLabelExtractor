@@ -23,6 +23,7 @@ public struct ExtractorView: View {
         }
     }
 
+    
     func textBoxesChanged(_ newValue: [TextBox]) {
         print("▪️ textBoxesChanged to \(newValue.count) items, while current value is: \(extractor.textBoxes.count)")
         withAnimation {
