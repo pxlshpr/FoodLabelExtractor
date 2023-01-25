@@ -4,7 +4,7 @@ public extension ImageViewer {
     class ViewModel: ObservableObject {
         
         let id: UUID
-        let image: UIImage
+        @Published public var image: UIImage?
         
         @Published public var textBoxes: [TextBox] = []
         
@@ -17,13 +17,12 @@ public extension ImageViewer {
         @Published public var isFocused: Bool = true
         @Published public var textPickerHasAppeared: Bool = true
 
-        public init(image: UIImage) {
+        public init(image: UIImage? = nil) {
             self.id = UUID()
             self.image = image
         }
     }
 }
-
 
 extension ImageViewer.ViewModel {
     

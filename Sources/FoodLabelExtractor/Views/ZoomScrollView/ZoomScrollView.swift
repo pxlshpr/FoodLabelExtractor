@@ -155,7 +155,7 @@ fileprivate struct ZoomScrollViewRepresentable<Content: View>: UIViewControllerR
         
         @objc func scannerDidSetImage(_ notification: Notification) {
             guard let userInfo = notification.userInfo,
-                  let imageSize = userInfo[Notification.ZoomableScrollViewKeys.imageSize] as? CGSize
+                  let _ = userInfo[Notification.ZoomableScrollViewKeys.imageSize] as? CGSize
             else { return }
 //            scrollView.centerContent(for: imageSize)
             scrollView.centerContent()

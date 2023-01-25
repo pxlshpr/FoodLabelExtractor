@@ -14,15 +14,29 @@ public struct ImageViewer: View {
             Color(.systemBackground)
             zoomableScrollView
         }
+        .onChange(of: viewModel.image, perform: imageChanged)
     }
     
+    func imageChanged(_ image: UIImage?) {
+        guard let image else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            NotificationCenter.default.post(name: .scannerDidSetImage, object: nil, userInfo: [
+                Notification.ZoomableScrollViewKeys.imageSize: image.size
+            ])
+        }
+    }
+    
+    @ViewBuilder
     var zoomableScrollView: some View {
-        ZoomScrollView {
-            VStack(spacing: 0) {
-                imageView(viewModel.image)
-                    .overlay(textBoxesLayer)
-                    .overlay(scannedTextBoxesLayer)
+        if let image = viewModel.image {
+            ZoomScrollView {
+                VStack(spacing: 0) {
+                    imageView(image)
+                        .overlay(textBoxesLayer)
+                        .overlay(scannedTextBoxesLayer)
+                }
             }
+            .transition(.opacity)
         }
     }
     
