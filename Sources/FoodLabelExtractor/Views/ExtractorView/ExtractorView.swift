@@ -34,6 +34,7 @@ public struct ExtractorView: View {
         withAnimation {
             imageViewerViewModel.isShimmering = state == .classifying
             imageViewerViewModel.showingBoxes = state.shouldShowTextBoxes
+            imageViewerViewModel.isFocused = state.shouldShowTextBoxes
         }
     }
 

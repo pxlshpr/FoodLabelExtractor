@@ -74,10 +74,6 @@ public struct AttributesLayer: View {
         .clipped()
     }
     
-    var pickerView: some View {
-        Color.blue
-    }
-    
     func loadingView(_ string: String) -> some View {
         VStack {
             Spacer()
