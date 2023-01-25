@@ -83,25 +83,22 @@ extension Extractor {
             if scanResult.columnCount == 2 {
 //                try await self.showColumnPicker()
             } else {
-                try await self.showValuesPicker()
+                try await self.extractNutrients()
             }
         }
     }
     
-    func showValuesPicker() async throws {
+    func extractNutrients() async throws {
+        guard let scanResult else { return }
         
-        setState(to: .awaitingConfirmation)
-        extractNutrients()
+        guard let firstAttribute = scanResult.nutrientAttributes.first else {
+            //TODO: Handle no attributes being read
+            return
+        }
+        
         Haptics.feedback(style: .soft)
+        setState(to: .awaitingConfirmation)
 
-        await zoomToColumns()
-    }
-    
-    func extractNutrients() {
-        guard let scanResult,
-              let firstAttribute = scanResult.nutrientAttributes.first
-        else { return }
-        
         withAnimation {
             extractedNutrients = scanResult.extractedNutrientsForColumn(extractedColumns.selectedColumnIndex)
         }
@@ -109,27 +106,7 @@ extension Extractor {
         currentAttribute = firstAttribute
         textBoxes = []
         showFocusedTextBox()
-    }
 
-    func zoomToColumns() async {
-        guard let imageSize = image?.size,
-              let boundingBox = scanResult?.columnsWithAttributesBoundingBox
-        else { return }
-        
-        let columnZoomBox = ZoomBox(
-            boundingBox: boundingBox,
-            animated: true,
-            padded: true,
-            imageSize: imageSize
-        )
-
-        await MainActor.run { [weak self] in
-            guard let _ = self else { return }
-            NotificationCenter.default.post(
-                name: .zoomZoomableScrollView,
-                object: nil,
-                userInfo: [Notification.ZoomableScrollViewKeys.zoomBox: columnZoomBox]
-            )
-        }
+        await zoomToNutrients()
     }
 }

@@ -83,5 +83,5 @@ extension Extractor {
             numberOfHops += 1
         }
         return nil
-    }
+    }    
 }

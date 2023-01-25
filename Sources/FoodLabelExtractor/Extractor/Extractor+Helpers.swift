@@ -8,19 +8,6 @@ extension Extractor {
         }
     }
     
-    var textBoxesForAllRecognizedTexts: [TextBox] {
-        guard let textSet else { return [] }
-        return textSet.texts.map {
-            TextBox(
-                id: $0.id,
-                boundingBox: $0.boundingBox,
-                color: .accentColor,
-                opacity: 0.8,
-                tapHandler: {}
-            )
-        }
-    }
-    
     func checkIfAllNutrientsAreConfirmed(unsettingCurrentAttribute: Bool = true) {
         if extractedNutrients.allSatisfy({ $0.isConfirmed }) {
             withAnimation {
@@ -35,22 +22,26 @@ extension Extractor {
             }
         }
     }
-
-}
-
-import PrepDataTypes
-import FoodLabelScanner
-
-extension FoodLabelValue {
-    mutating func correctUnit(for attribute: Attribute) {
-        guard let unit else {
-            self.unit = attribute.defaultUnit
-            return
-        }
+    
+    func zoomToNutrients() async {
+        guard let imageSize = image?.size,
+              let boundingBox = scanResult?.nutrientsBoundingBox(includeAttributes: true)
+        else { return }
         
-        if !attribute.supportsUnit(unit) {
-            self.unit = attribute.defaultUnit
+        let zoomBox = ZoomBox(
+            boundingBox: boundingBox,
+            animated: true,
+            padded: true,
+            imageSize: imageSize
+        )
+
+        await MainActor.run { [weak self] in
+            guard let _ = self else { return }
+            NotificationCenter.default.post(
+                name: .zoomZoomableScrollView,
+                object: nil,
+                userInfo: [Notification.ZoomableScrollViewKeys.zoomBox: zoomBox]
+            )
         }
-        return
     }
 }
