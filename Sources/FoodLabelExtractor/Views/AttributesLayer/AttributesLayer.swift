@@ -64,7 +64,7 @@ public struct AttributesLayer: View {
                 loadingView(description)
             } else {
                 pickerView
-                    .transition(.move(edge: .top))
+                    .transition(.move(edge: .bottom))
                     .zIndex(10)
             }
         }

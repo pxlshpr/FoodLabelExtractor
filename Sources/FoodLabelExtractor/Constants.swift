@@ -9,7 +9,10 @@ struct K {
     static let suggestionsBarHeight: CGFloat = 40
 
     static let topButtonHeight: CGFloat = 50.0
-    
+    static let topButtonWidth: CGFloat = 70.0
+
+    static let topButtonCornerRadius: CGFloat = 12.0
+
     static let topButtonsVerticalPadding: CGFloat = 10.0
     static let topButtonsHorizontalPadding: CGFloat = 10.0
 

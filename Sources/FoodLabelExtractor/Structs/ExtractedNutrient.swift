@@ -34,6 +34,23 @@ public class ExtractedNutrient: ObservableObject, Identifiable {
         self.attribute
     }
 }
+
+extension ExtractedNutrient {
+    var attributeBoundingBox: CGRect {
+        attributeText?.boundingBox ?? .null
+    }
+
+    var valueBoundingBox: CGRect {
+        valueText?.boundingBox ?? .null
+    }
+
+    var boundingBoxWithAttribute: CGRect {
+        attributeBoundingBox.union(valueBoundingBox)
+    }
+}
+
+//MARK: Hashable and Equatable Conformance
+
 extension ExtractedNutrient: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(attribute)

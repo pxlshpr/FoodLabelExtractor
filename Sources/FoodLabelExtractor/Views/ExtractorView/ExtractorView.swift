@@ -25,6 +25,7 @@ public struct ExtractorView: View {
 
     func textBoxesChanged(_ newValue: [TextBox]) {
         withAnimation {
+            print("▫️ Setting imageViewerViewModel.textBoxes with \(newValue.count) items")
             imageViewerViewModel.textBoxes = newValue
         }
     }
@@ -58,24 +59,7 @@ public struct ExtractorView: View {
     var attributesLayer: some View {
         AttributesLayer(
             extractor: extractor,
-            actionHandler: handleAttributesLayerAction
+            actionHandler: extractor.handleAttributesLayerAction
         )
-    }
-    
-    func handleAttributesLayerAction(_ action: AttributesLayerAction) {
-//        switch action {
-//        case .dismiss:
-//            viewModel.dismissHandler?()
-//        case .confirmCurrentAttribute:
-//            confirmCurrentAttribute()
-//        case .deleteCurrentAttribute:
-//            deleteCurrentAttribute()
-//        case .moveToAttribute(let attribute):
-//            moveToAttribute(attribute)
-//        case .moveToAttributeAndShowKeyboard(let attribute):
-//            moveToAttributeAndShowKeyboard(attribute)
-//        case .toggleAttributeConfirmation(let attribute):
-//            toggleAttributeConfirmation(attribute)
-//        }
     }
 }

@@ -24,6 +24,7 @@ public class Extractor: ObservableObject {
 
 //    @Published var showingBoxes = false
     @Published var showingBackground: Bool = true
+    @Published var extractedColumns: ExtractedColumns = ExtractedColumns()
 
     @Published var currentAttribute: Attribute? = nil {
         didSet {
@@ -42,37 +43,6 @@ public class Extractor: ObservableObject {
     //MARK: Tasks
     var scanTask: Task<(), Error>? = nil
     var classifyTask: Task<(), Error>? = nil
-
-    //MARK: Computed
-    var textFieldAmountString: String {
-        get { internalTextfieldString }
-        set {
-            guard !newValue.isEmpty else {
-                internalTextfieldDouble = nil
-                internalTextfieldString = newValue
-                return
-            }
-            guard let double = Double(newValue) else {
-                return
-            }
-            self.internalTextfieldDouble = double
-            self.internalTextfieldString = newValue
-        }
-    }
-    
-    var currentUnit: FoodLabelUnit {
-        currentNutrient?.value?.unit ?? .g
-    }
-
-    var currentAmountString: String {
-        guard let amount = currentNutrient?.value?.amount else { return "" }
-        return amount.cleanAmount
-    }
-    
-    var currentNutrient: ExtractedNutrient? {
-        guard let currentAttribute else { return nil }
-        return extractedNutrients.first(where: { $0.attribute == currentAttribute })
-    }
 
     //MARK: Init
     public init() {

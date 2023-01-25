@@ -91,32 +91,38 @@ extension Extractor {
     func showValuesPicker() async throws {
         
         setState(to: .awaitingConfirmation)
-        withAnimation {
-//            showingValuePickerUI = true
-        }
-
-        await MainActor.run { [weak self] in
-//            self?.shimmering = false
-        }
-
+        extractNutrients()
         Haptics.feedback(style: .soft)
 
-//        await zoomToColumns()
+        await zoomToColumns()
     }
     
+    func extractNutrients() {
+        guard let scanResult,
+              let firstAttribute = scanResult.nutrientAttributes.first
+        else { return }
+        
+        withAnimation {
+            extractedNutrients = scanResult.extractedNutrientsForColumn(extractedColumns.selectedColumnIndex)
+        }
+        
+        currentAttribute = firstAttribute
+        textBoxes = []
+        showFocusedTextBox()
+    }
+
     func zoomToColumns() async {
         guard let imageSize = image?.size,
               let boundingBox = scanResult?.columnsWithAttributesBoundingBox
         else { return }
         
-        let columnZoomBox = ZBox(
+        let columnZoomBox = ZoomBox(
             boundingBox: boundingBox,
             animated: true,
             padded: true,
             imageSize: imageSize
         )
 
-        print("🏎 zooming to boundingBox: \(boundingBox)")
         await MainActor.run { [weak self] in
             guard let _ = self else { return }
             NotificationCenter.default.post(
@@ -125,39 +131,5 @@ extension Extractor {
                 userInfo: [Notification.ZoomableScrollViewKeys.zoomBox: columnZoomBox]
             )
         }
-    }
-}
-
-import VisionSugar
-
-extension ScanResult {
-
-    func columnsTexts(includeAttributes: Bool = false) -> [RecognizedText] {
-        var texts: [RecognizedText] = []
-        texts = headerTexts
-        for nutrient in nutrients.rows {
-            if includeAttributes {
-                texts.append(nutrient.attributeText.text)
-            }
-            if let text = nutrient.valueText1?.text {
-                texts.append(text)
-            }
-            if let text = nutrient.valueText2?.text {
-                texts.append(text)
-            }
-        }
-        return texts
-    }
-
-    var columnsBoundingBox: CGRect {
-        columnsTexts()
-            .filter { $0.id != defaultUUID }
-            .boundingBox
-    }
-    
-    var columnsWithAttributesBoundingBox: CGRect {
-        columnsTexts(includeAttributes: true)
-            .filter { $0.id != defaultUUID }
-            .boundingBox
     }
 }
