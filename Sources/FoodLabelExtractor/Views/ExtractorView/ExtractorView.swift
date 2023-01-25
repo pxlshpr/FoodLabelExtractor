@@ -45,12 +45,36 @@ public struct ExtractorView: View {
             }
             imageViewerLayer
 //            cameraLayer
-//            valuesPickerLayer
+            attributesLayer
 //            columnPickerLayer
 //            if !viewModel.animatingCollapse {
 //                buttonsLayer
 //                    .transition(.scale)
 //            }
         }
+    }
+    
+    var attributesLayer: some View {
+        AttributesLayer(
+            extractor: extractor,
+            actionHandler: handleAttributesLayerAction
+        )
+    }
+    
+    func handleAttributesLayerAction(_ action: AttributesLayerAction) {
+//        switch action {
+//        case .dismiss:
+//            viewModel.dismissHandler?()
+//        case .confirmCurrentAttribute:
+//            confirmCurrentAttribute()
+//        case .deleteCurrentAttribute:
+//            deleteCurrentAttribute()
+//        case .moveToAttribute(let attribute):
+//            moveToAttribute(attribute)
+//        case .moveToAttributeAndShowKeyboard(let attribute):
+//            moveToAttributeAndShowKeyboard(attribute)
+//        case .toggleAttributeConfirmation(let attribute):
+//            toggleAttributeConfirmation(attribute)
+//        }
     }
 }

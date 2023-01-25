@@ -21,4 +21,8 @@ struct K {
         static let minimumClassifySeconds: Double = 1.0
         static let appearanceTransitionDelay: Double = 0.2
     }
+    
+    struct Animations {
+        static let bounce: Animation = .interactiveSpring(response: 0.35, dampingFraction: 0.66, blendDuration: 0.35)
+    }
 }
