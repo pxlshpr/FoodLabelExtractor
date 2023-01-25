@@ -1,6 +1,7 @@
 import SwiftUI
 import VisionSugar
 import SwiftHaptics
+import FoodLabelScanner
 
 extension Extractor {
     
@@ -11,6 +12,16 @@ extension Extractor {
         )
     }
     
+    func showTextBoxes(for attribute: Attribute) {
+        guard let nutrient = extractedNutrients.first(where: { $0.attribute == attribute} ) else {
+            return
+        }
+        setTextBoxes(
+            attributeText: nutrient.attributeText,
+            valueText: nutrient.valueText
+        )
+    }
+
     func setTextBoxes(
         attributeText: RecognizedText?,
         valueText: RecognizedText?,
@@ -36,6 +47,7 @@ extension Extractor {
         }
 
         withAnimation {
+            print("▫️ Setting textBoxes with: \(textBoxes.count) items")
             self.textBoxes = textBoxes
         }
         

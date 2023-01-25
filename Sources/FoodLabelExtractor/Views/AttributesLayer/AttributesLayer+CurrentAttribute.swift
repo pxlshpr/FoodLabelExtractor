@@ -23,7 +23,7 @@ extension AttributesLayer {
 
     var attributeButton: some View {
         Button {
-//            tappedValueButton()
+            tappedValueButton()
         } label: {
             Text(extractor.currentAttribute?.description ?? "")
                 .matchedGeometryEffect(id: "attributeName", in: namespace)
@@ -59,7 +59,7 @@ extension AttributesLayer {
         }
         
         return Button {
-//            tappedValueButton()
+            tappedValueButton()
         } label: {
             HStack(alignment: .firstTextBaseline, spacing: 2) {
                 if extractor.currentAmountString.isEmpty {

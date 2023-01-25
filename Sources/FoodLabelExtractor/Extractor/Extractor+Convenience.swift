@@ -63,6 +63,10 @@ extension Extractor {
         nextUnconfirmedAttribute(to: currentAttribute)
     }
 
+    var containsUnconfirmedAttributes: Bool {
+        extractedNutrients.contains(where: { !$0.isConfirmed })
+    }
+
     /// Returns the next element to `attribute` in `nutrients`,
     /// cycling back to the first once the end is reached.
     func nextUnconfirmedAttribute(to attribute: Attribute? = nil) -> Attribute? {

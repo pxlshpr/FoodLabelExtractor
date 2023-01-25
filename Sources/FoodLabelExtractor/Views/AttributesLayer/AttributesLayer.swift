@@ -7,7 +7,6 @@ public enum AttributesLayerAction {
     case confirmCurrentAttribute
     case deleteCurrentAttribute
     case moveToAttribute(Attribute)
-    case moveToAttributeAndShowKeyboard(Attribute)
     case toggleAttributeConfirmation(Attribute)
 }
 
@@ -38,8 +37,8 @@ public struct AttributesLayer: View {
     
     public var body: some View {
         ZStack {
-//            topButtonsLayer
-//            supplementaryContentLayer
+            topButtonsLayer
+            supplementaryContentLayer
             primaryContentLayer
 //            buttonsLayer
         }

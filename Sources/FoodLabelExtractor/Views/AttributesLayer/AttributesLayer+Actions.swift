@@ -28,8 +28,6 @@ extension AttributesLayer {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             tappedValueButton()
         }
-//        isFocused = true
-//        actionHandler(.moveToAttributeAndShowKeyboard(attribute))
     }
     
     //MARK: - Helpers Actions
@@ -48,6 +46,5 @@ extension AttributesLayer {
         withAnimation {
             extractor.hideTappableTextBoxesForCurrentAttribute()
         }
-//        viewModel.hideTappableTextBoxesForCurrentAttribute()
     }
 }
