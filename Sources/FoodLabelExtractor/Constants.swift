@@ -15,6 +15,7 @@ struct K {
 
     static let topButtonPaddedHeight = topButtonHeight + (topButtonsVerticalPadding * 2.0)
 
+    static let attributesLayerHeight = keyboardHeight + topButtonPaddedHeight + suggestionsBarHeight
     
     struct Pipeline {
         static let tolerance: Double = 0.005
@@ -23,6 +24,10 @@ struct K {
     }
     
     struct Animations {
-        static let bounce: Animation = .interactiveSpring(response: 0.35, dampingFraction: 0.66, blendDuration: 0.35)
+        static let bounce: Animation = .interactiveSpring(
+            response: 0.35,
+            dampingFraction: 0.66,
+            blendDuration: 0.35
+        )
     }
 }
