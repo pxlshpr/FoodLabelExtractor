@@ -44,6 +44,11 @@ extension Extractor {
         return currentNutrient.valueText
     }
     
+    var currentNutrientIndex: Int? {
+        guard let currentAttribute else { return nil }
+        return extractedNutrients.firstIndex(where: { $0.attribute == currentAttribute })
+    }
+    
     var currentUnitString: String {
         guard let unit = currentNutrient?.value?.unit else { return "" }
         return unit.description

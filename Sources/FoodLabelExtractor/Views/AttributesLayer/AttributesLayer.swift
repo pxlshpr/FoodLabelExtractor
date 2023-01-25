@@ -15,7 +15,8 @@ public struct AttributesLayer: View {
     
     @Environment(\.colorScheme) var colorScheme
     @Namespace var namespace
-
+    @FocusState var isFocused: Bool
+    
     @ObservedObject var extractor: Extractor
     /// Try and embed this in `extractor`
     var actionHandler: (AttributesLayerAction) -> ()
@@ -63,7 +64,7 @@ public struct AttributesLayer: View {
             if let description = extractor.state.loadingDescription {
                 loadingView(description)
             } else {
-                pickerView
+                attributesView
                     .transition(.move(edge: .bottom))
                     .zIndex(10)
             }

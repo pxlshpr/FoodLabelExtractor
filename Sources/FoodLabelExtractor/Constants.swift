@@ -17,6 +17,7 @@ struct K {
     static let topButtonsHorizontalPadding: CGFloat = 10.0
 
     static let topButtonPaddedHeight = topButtonHeight + (topButtonsVerticalPadding * 2.0)
+    static let textFieldHorizontalPadding: CGFloat = 25
 
     static let attributesLayerHeight = keyboardHeight + topButtonPaddedHeight + suggestionsBarHeight
     
@@ -24,6 +25,15 @@ struct K {
         static let tolerance: Double = 0.005
         static let minimumClassifySeconds: Double = 1.0
         static let appearanceTransitionDelay: Double = 0.2
+    }
+    
+    struct ColorHex {
+        static let keyboardLight_legacy = "CDD0D6"
+        static let keyboardDark_legacy = "303030"
+        static let keyboardLight = "CFD3D9"
+        static let keyboardDark = "383838"
+        static let searchTextFieldDark = "535355"
+        static let searchTextFieldLight = "FFFFFF"
     }
     
     struct Animations {
