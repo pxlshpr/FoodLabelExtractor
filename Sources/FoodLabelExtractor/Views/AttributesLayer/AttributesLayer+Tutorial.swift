@@ -170,7 +170,7 @@ struct TutorialLayer: View {
                     Spacer()
 //                    Color.yellow
                     Color.clear
-                        .frame(width: 70, height: 44)
+                        .frame(width: 70, height: 50)
                         .padding(.trailing, 30)
                         .padding(.top, K.topBarHeight)
                         .popover(
