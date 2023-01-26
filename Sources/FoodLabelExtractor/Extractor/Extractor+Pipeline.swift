@@ -90,8 +90,10 @@ extension Extractor {
     
     func extractNutrients() async throws {
         guard let scanResult else { return }
-        
-        let extractedNutrients = scanResult.extractedNutrientsForColumn(extractedColumns.selectedColumnIndex)
+        let extractedNutrients = scanResult.extractedNutrientsForColumn(
+            extractedColumns.selectedColumnIndex,
+            includeSingleColumnValues: true
+        )
 
 //        guard let firstAttribute = extractedNutrients.first?.attribute else {
         guard let _ = extractedNutrients.first?.attribute else {
@@ -107,6 +109,7 @@ extension Extractor {
         }
         
 //        currentAttribute = firstAttribute
+        selectableTextBoxes = []
         textBoxes = []
         showTextBoxesForCurrentAttribute()
 

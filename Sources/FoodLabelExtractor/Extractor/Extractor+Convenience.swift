@@ -20,6 +20,16 @@ extension Extractor {
         }
     }
     
+    var leftColumnTitle: String {
+        guard let scanResult else { return "" }
+        return scanResult.headerTitle1
+    }
+
+    var rightColumnTitle: String {
+        guard let scanResult else { return "" }
+        return scanResult.headerTitle2
+    }
+
     var currentUnit: FoodLabelUnit {
         currentNutrient?.value?.unit ?? .g
     }

@@ -7,10 +7,11 @@ extension AttributesLayer {
         VStack {
             Spacer()
             segmentedPicker
-            autoFillButton
             Spacer()
+            autoFillButton
         }
         .padding(.horizontal, K.SegmentedButton.paddingHorizontal)
+        .padding(.bottom, K.bottomSafeAreaPadding)
     }
     
 }
@@ -67,8 +68,7 @@ extension AttributesLayer {
                 extractor.selectColumn(1)
             }
         } label: {
-//            Text(leftTitle)
-            Text("leftTitle")
+            Text(extractor.leftColumnTitle)
                 .font(.system(size: 18, weight: .semibold, design: .default))
                 .foregroundColor(selectedColumn == 1 ? .white : .secondary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -83,8 +83,7 @@ extension AttributesLayer {
                 extractor.selectColumn(2)
             }
         } label: {
-//            Text(rightTitle)
-            Text("rightTitle")
+            Text(extractor.rightColumnTitle)
                 .font(.system(size: 18, weight: .semibold, design: .default))
                 .foregroundColor(selectedColumn == 2 ? .white : .secondary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -94,7 +93,9 @@ extension AttributesLayer {
     
     var autoFillButton: some View {
         Button {
-//            didTapAutofill()
+            Task {
+                try await extractor.extractNutrients()
+            }
         } label: {
             Text("Use this column")
                 .font(.system(size: 22, weight: .semibold, design: .default))
@@ -134,7 +135,7 @@ extension AttributesLayer {
         var cancelAnimation: Animation {
             .interactiveSpring()
         }
-//        print("👉🏽 drag.translation: \(value.translation)")
+        print("👉🏽 drag.translation: \(value.translation)")
         let predictedTranslationX = value.predictedEndTranslation.width
         let predictedButtonX = (buttonWidth / 2.0) + (selectedColumn == 2 ? buttonWidth : 0) + predictedTranslationX
         let predictedButtonIsOnRight = predictedButtonX > buttonWidth
@@ -142,6 +143,7 @@ extension AttributesLayer {
         if predictedButtonIsOnRight {
             if selectedColumn == 1 {
                 Haptics.feedback(style: .soft)
+                print("👉🏽 setting dragTranslation as: \(buttonWidth) with animation before resetting to nil")
                 withAnimation(transitionAnimation) {
                     dragTranslationX = buttonWidth
                 }
@@ -156,6 +158,7 @@ extension AttributesLayer {
             if selectedColumn == 2 {
                 Haptics.feedback(style: .soft)
 //                dragTranslationX = nil
+                print("👉🏽 setting dragTranslation as: -\(buttonWidth) with animation before resetting to nil")
                 withAnimation(transitionAnimation) {
                     dragTranslationX = -buttonWidth
                 }
@@ -213,6 +216,8 @@ extension AttributesLayer {
         if let dragTranslationX {
             x += dragTranslationX
         }
+        x = max(x, (buttonWidth / 2.0))
+        x = min(x, (buttonWidth / 2.0) + buttonWidth)
         return x
     }
 }

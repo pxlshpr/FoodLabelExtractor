@@ -22,19 +22,32 @@ extension ScanResult {
 }
 
 import PrepDataTypes
+import VisionSugar
 
 extension ScanResult {
     
-    func extractedNutrientsForColumn(_ column: Int) -> [ExtractedNutrient] {
+    func extractedNutrientsForColumn(_ column: Int, includeSingleColumnValues singles: Bool = false) -> [ExtractedNutrient] {
         var extractedNutrients = nutrients.rows.map({ row in
-            var value = column == 1 ? row.valueText1?.value : row.valueText2?.value
+            
+            var value: FoodLabelValue? = nil
+            let valueText: RecognizedText?
+            /// If the column doesn't have a value, pick the opposite one if it exists,
+            /// so that we're always returning nutrients with a value in 1 column
+            if column == 1 {
+                value = row.value1 ?? (singles ? row.value2 : nil)
+                valueText = row.valueText1?.text ?? (singles ? row.valueText2?.text : nil)
+            } else {
+                value = row.value2 ?? (singles ? row.value1 : nil)
+                valueText = row.valueText2?.text ?? (singles ? row.valueText1?.text : nil)
+            }
+            
             value?.correctUnit(for: row.attribute)
             return ExtractedNutrient(
                 attribute: row.attribute,
                 attributeText: row.attributeText.text,
                 isConfirmed: false,
                 value: value,
-                valueText: column == 1 ? row.valueText1?.text : row.valueText2?.text
+                valueText: valueText
             )
         })
         

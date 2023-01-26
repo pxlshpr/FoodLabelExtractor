@@ -10,6 +10,8 @@ struct K {
 
     static let topButtonHeight: CGFloat = 50.0
     static let topButtonWidth: CGFloat = 70.0
+    
+    static let bottomSafeAreaPadding: CGFloat = 34.0
 
     static let topButtonCornerRadius: CGFloat = 12.0
 
@@ -26,7 +28,7 @@ struct K {
     }
     
     struct SegmentedButton {
-        static let paddingHorizontal: CGFloat = 20.0
+        static let paddingHorizontal: CGFloat = 40.0
     }
     
     struct Pipeline {

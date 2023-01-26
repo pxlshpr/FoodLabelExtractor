@@ -220,7 +220,7 @@ extension AttributesLayer {
     var buttonsLayer: some View {
         
         var bottomPadding: CGFloat {
-            return 34
+            return K.bottomSafeAreaPadding
         }
         
         var addButton: some View {
@@ -245,6 +245,7 @@ extension AttributesLayer {
         var addButtonRow: some View {
             var shouldShow: Bool {
                 !extractor.state.isLoading
+                && extractor.state != .awaitingColumnSelection
             }
             
             return HStack {
@@ -278,6 +279,7 @@ extension AttributesLayer {
             
             var shouldShow: Bool {
                 !extractor.state.isLoading
+                && extractor.state != .awaitingColumnSelection
             }
             
             return Group {
