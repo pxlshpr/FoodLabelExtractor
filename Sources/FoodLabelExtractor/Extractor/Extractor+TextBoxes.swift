@@ -137,14 +137,6 @@ extension Extractor {
         }
     }
     
-    func color(for text: RecognizedText) -> Color {
-//        if extractedColumns.selectedColumnContains(text) {
-            return Color.accentColor
-//        } else {
-//            return Color.yellow
-//        }
-    }
-    
     var textBoxesForAllRecognizedTexts: [TextBox] {
         guard let textSet else { return [] }
         return textSet.texts.map {

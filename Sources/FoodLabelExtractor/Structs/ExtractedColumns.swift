@@ -52,10 +52,6 @@ class ExtractedColumns: ObservableObject {
         nonSelectedColumn.valueTexts
     }
     
-    func selectedColumnContains(_ text: RecognizedText) -> Bool {
-        selectedColumnValueTexts.contains(text)
-    }
-    
     var boundingBox: CGRect {
         var boundingBoxes: [CGRect] = []
         for column in [column1, column2] {
