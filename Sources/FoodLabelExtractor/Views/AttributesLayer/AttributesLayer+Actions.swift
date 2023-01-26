@@ -9,10 +9,12 @@ extension AttributesLayer {
         resignFocusOfSearchTextField()
         if extractor.shouldShowDeleteForCurrentAttribute {
             withAnimation {
-                actionHandler(.deleteCurrentAttribute)
+//                actionHandler(.deleteCurrentAttribute)
+                extractor.deleteCurrentAttribute()
             }
         } else {
-            actionHandler(.confirmCurrentAttribute)
+//            actionHandler(.confirmCurrentAttribute)
+            extractor.confirmCurrentAttribute()
         }
     }
     
@@ -25,12 +27,22 @@ extension AttributesLayer {
         extractor.showTappableTextBoxesForCurrentAttribute()
     }
     
+    func tappedCell(for attribute: Attribute) {
+        if attribute != extractor.currentAttribute {
+//            actionHandler(.moveToAttribute(attribute))
+            extractor.moveToAttribute(attribute)
+        } else {
+            extractor.deselectCurrentAttribute()
+        }
+    }
+    
     func tappedCellValue(for attribute: Attribute) {
         if extractor.currentAttribute == attribute {
             tappedValueButton()
         } else {
-            actionHandler(.moveToAttribute(attribute))
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//            actionHandler(.moveToAttribute(attribute))
+            extractor.moveToAttribute(attribute)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                 tappedValueButton()
             }
         }

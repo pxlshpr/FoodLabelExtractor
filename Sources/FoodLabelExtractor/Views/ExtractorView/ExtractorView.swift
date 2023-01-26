@@ -25,15 +25,12 @@ public struct ExtractorView: View {
 
     
     func textBoxesChanged(_ newValue: [TextBox]) {
-        print("▪️ textBoxesChanged to \(newValue.count) items, while current value is: \(extractor.textBoxes.count)")
-        withAnimation {
-            print("▪️ Setting imageViewerViewModel.textBoxes with \(newValue.count) items")
+        withAnimation(.interactiveSpring()) {
             imageViewerViewModel.textBoxes = newValue
         }
     }
 
     func stateChanged(_ state: ExtractorState) {
-        print("▫️ State changed to \(state.rawValue)")
         withAnimation {
             imageViewerViewModel.isShimmering = state == .classifying
             imageViewerViewModel.showingBoxes = state.shouldShowTextBoxes
@@ -60,8 +57,8 @@ public struct ExtractorView: View {
     
     var attributesLayer: some View {
         AttributesLayer(
-            extractor: extractor,
-            actionHandler: extractor.handleAttributesLayerAction
+            extractor: extractor
+//            actionHandler: extractor.handleAttributesLayerAction
         )
     }
 }

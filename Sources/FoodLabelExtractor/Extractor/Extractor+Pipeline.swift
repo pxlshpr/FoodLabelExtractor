@@ -105,7 +105,7 @@ extension Extractor {
             self.extractedNutrients = extractedNutrients
         }
         
-        currentAttribute = firstAttribute
+//        currentAttribute = firstAttribute
         textBoxes = []
         showTextBoxesForCurrentAttribute()
 

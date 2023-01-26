@@ -18,7 +18,7 @@ public struct AttributesLayer: View {
     
     @ObservedObject var extractor: Extractor
     /// Try and embed this in `extractor`
-    var actionHandler: (AttributesLayerAction) -> ()
+//    var actionHandler: (AttributesLayerAction) -> ()
     
     @State var hideBackground: Bool = false
     @State var showingNutrientsPicker = false
@@ -28,11 +28,11 @@ public struct AttributesLayer: View {
     let scannerDidChangeAttribute = NotificationCenter.default.publisher(for: .scannerDidChangeAttribute)
     
     public init(
-        extractor: Extractor,
-        actionHandler: @escaping (AttributesLayerAction) -> ()
+        extractor: Extractor
+//        actionHandler: @escaping (AttributesLayerAction) -> ()
     ) {
         self.extractor = extractor
-        self.actionHandler = actionHandler
+//        self.actionHandler = actionHandler
     }
     
     public var body: some View {
@@ -40,7 +40,7 @@ public struct AttributesLayer: View {
             topButtonsLayer
             supplementaryContentLayer
             primaryContentLayer
-//            buttonsLayer
+            buttonsLayer
         }
 //        .onChange(of: extractor.state, perform: stateChanged)
     }

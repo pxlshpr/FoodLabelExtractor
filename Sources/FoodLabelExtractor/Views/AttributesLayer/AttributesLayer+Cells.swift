@@ -40,7 +40,7 @@ extension AttributesLayer {
             
             return HStack(spacing: 0) {
                 Button {
-                    actionHandler(.moveToAttribute(nutrient.attribute))
+                    tappedCell(for: nutrient.attribute)
                 } label: {
                     HStack(spacing: 0) {
                         Text(nutrient.attribute.description)
@@ -55,7 +55,8 @@ extension AttributesLayer {
                         .foregroundColor(valueTextColor)
                 }
                 Button {
-                    actionHandler(.toggleAttributeConfirmation(nutrient.attribute))
+//                    actionHandler(.toggleAttributeConfirmation(nutrient.attribute))
+                    extractor.toggleAttributeConfirmation(nutrient.attribute)
                 } label: {
                     Image(systemName: imageName)
                         .foregroundColor(.secondary)

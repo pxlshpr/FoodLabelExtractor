@@ -22,6 +22,13 @@ extension Extractor {
         }
     }
 
+    func deselectCurrentAttribute() {
+        withAnimation(.interactiveSpring()) {
+            currentAttribute = nil
+            showTextBoxesForCurrentAttribute()
+        }
+    }
+    
     func confirmCurrentAttribute() {
         confirmCurrentAttributeAndMoveToNext()
         showTextBoxesForCurrentAttribute()
@@ -54,10 +61,10 @@ extension Extractor {
         moveToAttribute(nextUnconfirmedAttribute)
     }
     
-    func moveToAttribute(_ attribute: Attribute) {
+    func moveToAttribute(_ attribute: Attribute, animation: Animation = .interactiveSpring()) {
         Haptics.selectionFeedback()
 
-        withAnimation {
+        withAnimation(animation) {
             self.currentAttribute = attribute
             textFieldAmountString = currentAmountString
         }
@@ -68,7 +75,7 @@ extension Extractor {
             userInfo: [Notification.ScannerKeys.nextAttribute: attribute]
         )
         
-        withAnimation {
+        withAnimation(animation) {
             showTextBoxes(for: attribute)
         }
     }

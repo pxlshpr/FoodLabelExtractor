@@ -197,3 +197,124 @@ extension AttributesLayer {
     }
 
 }
+
+extension AttributesLayer {
+
+    var dismissButton: some View {
+        Button {
+            Haptics.feedback(style: .soft)
+        } label: {
+            Image(systemName: "multiply")
+                .imageScale(.medium)
+                .fontWeight(.medium)
+                .foregroundColor(Color(.secondaryLabel))
+                .frame(width: 38, height: 38)
+                .background(
+                    Circle()
+                        .foregroundStyle(.ultraThinMaterial)
+                        .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+                )
+        }
+    }
+    
+    var buttonsLayer: some View {
+        
+        var bottomPadding: CGFloat {
+            return 34
+        }
+        
+        var addButton: some View {
+            Button {
+                Haptics.feedback(style: .soft)
+                showingNutrientsPicker = true
+            } label: {
+                Image(systemName: "plus")
+                    .imageScale(.medium)
+                    .fontWeight(.medium)
+                    .foregroundColor(Color(.secondaryLabel))
+                    .frame(width: 38, height: 38)
+                    .background(
+                        Circle()
+                            .foregroundStyle(.ultraThinMaterial)
+                            .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+                    )
+            }
+            .sheet(isPresented: $showingNutrientsPicker) { nutrientsPicker }
+        }
+        
+        var addButtonRow: some View {
+            var shouldShow: Bool {
+                !extractor.state.isLoading
+            }
+            
+            return HStack {
+                Spacer()
+                if shouldShow {
+                    addButton
+                        .transition(.move(edge: .trailing))
+                }
+            }
+        }
+        
+        var doneButton: some View {
+            var textColor: Color {
+                extractor.state == .allConfirmed
+                ? Color.white
+                : Color(.secondaryLabel)
+            }
+            
+            @ViewBuilder
+            var backgroundView: some View {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 19, style: .continuous)
+                        .foregroundStyle(.ultraThinMaterial)
+                        .opacity(extractor.state == .allConfirmed ? 0 : 1)
+                    RoundedRectangle(cornerRadius: 19, style: .continuous)
+                        .foregroundStyle(Color.accentColor)
+                        .opacity(extractor.state == .allConfirmed ? 1 : 0)
+                }
+                .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+            }
+            
+            var shouldShow: Bool {
+                !extractor.state.isLoading
+            }
+            
+            return Group {
+                if shouldShow {
+                    Button {
+                        
+                    } label: {
+                        Text("Done")
+                            .imageScale(.medium)
+                            .fontWeight(.medium)
+                            .foregroundColor(textColor)
+                            .frame(height: 38)
+                            .padding(.horizontal, 15)
+                            .background(backgroundView)
+                    }
+                    .transition(.move(edge: .trailing))
+                }
+            }
+        }
+        
+        var topButtons: some View {
+            HStack {
+                dismissButton
+                Spacer()
+                doneButton
+            }
+        }
+        
+        return VStack {
+            topButtons
+                .padding(.horizontal, 20)
+            Spacer()
+            addButtonRow
+            .padding(.horizontal, 20)
+            .padding(.bottom, bottomPadding)
+        }
+        .frame(width: UIScreen.main.bounds.width)
+        .edgesIgnoringSafeArea(.bottom)
+    }
+}

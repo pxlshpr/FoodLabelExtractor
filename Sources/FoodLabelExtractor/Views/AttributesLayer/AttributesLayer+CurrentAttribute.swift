@@ -5,7 +5,10 @@ extension AttributesLayer {
         Group {
             if extractor.currentAttribute == nil {
                 statusMessage
-                    .transition(.move(edge: .trailing))
+                    .transition(
+                        .move(edge: .trailing)
+                        .combined(with: .opacity)
+                    )
             } else {
                 HStack(spacing: K.topButtonsHorizontalPadding) {
                     if extractor.state == .showingKeyboard {
@@ -130,17 +133,27 @@ extension AttributesLayer {
         var string: String {
             extractor.state == .allConfirmed
             ? "All nutrients confirmed"
-            : "Confirm or correct nutrients"
+            : "Edit Nutrients"
         }
-        return Text(string)
-        .font(.system(size: 18, weight: .medium, design: .default))
-        .foregroundColor(.secondary)
-        .padding(.horizontal)
-        .frame(height: K.topButtonHeight)
-        .background(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .foregroundStyle(Color(.tertiarySystemFill))
-        )
-        .contentShape(Rectangle())
+        var label: some View {
+            HStack {
+                Text(string)
+                    .font(.system(size: 18, weight: .medium, design: .default))
+                    .foregroundColor(.primary)
+                Image(systemName: "info.circle")
+            }
+            .padding(.horizontal)
+            .frame(height: K.topButtonHeight)
+            .background(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .foregroundStyle(Color(.tertiarySystemFill))
+            )
+            .contentShape(Rectangle())
+        }
+        return Button {
+            
+        } label: {
+            label
+        }
     }
 }
