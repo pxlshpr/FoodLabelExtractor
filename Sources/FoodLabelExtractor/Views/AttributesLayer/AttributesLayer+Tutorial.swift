@@ -1,5 +1,6 @@
 import SwiftUI
 import Popovers
+import SwiftHaptics
 
 extension AttributesLayer {
     
@@ -24,7 +25,7 @@ enum TutorialStep: String {
     var message: String {
         switch self {
         case .edit:
-            return "Tap to edit any incorrectly detected nutrients."
+            return "Edit any incorrectly detected nutrients."
         case .checkboxes:
             return "Check off what you confirm to be correct."
         case .add:
@@ -38,13 +39,14 @@ enum TutorialStep: String {
 struct TutorialLayer: View {
     @State var step: String?
     
-    let dismiss: (() -> ())
+    let didTapDismiss: (() -> ())
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             Color.black.opacity(0.1)
                 .onTapGesture {
-                    dismiss()
+                    Haptics.feedback(style: .soft)
+                    didTapDismiss()
                 }
                 
 //            Color.blue.opacity(0.5)
@@ -70,6 +72,7 @@ struct TutorialLayer: View {
                             backgroundColor: .accentColor
                         ) {
                             Button {
+                                Haptics.feedback(style: .soft)
                                 step = TutorialStep.add.rawValue
                             } label: {
                                 HStack {
@@ -109,6 +112,7 @@ struct TutorialLayer: View {
                             backgroundColor: .accentColor
                         ) {
                             Button {
+                                Haptics.feedback(style: .soft)
                                 step = TutorialStep.checkboxes.rawValue
                             } label: {
                                 HStack {
@@ -149,6 +153,7 @@ struct TutorialLayer: View {
                             backgroundColor: .accentColor
                         ) {
                             Button {
+                                Haptics.feedback(style: .soft)
                                 step = TutorialStep.done.rawValue
                             } label: {
                                 HStack {
@@ -191,8 +196,9 @@ struct TutorialLayer: View {
                                 backgroundColor: .accentColor
                             ) {
                                 Button {
+                                    Haptics.successFeedback()
                                     step = nil
-                                    dismiss()
+                                    didTapDismiss()
                                 } label: {
                                     HStack {
                                         Text(TutorialStep.done.message)
