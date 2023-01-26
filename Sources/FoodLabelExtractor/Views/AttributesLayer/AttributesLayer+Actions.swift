@@ -48,6 +48,12 @@ extension AttributesLayer {
         }
     }
     
+    func showTutorial() {
+        withAnimation {
+            showingTutorial = true
+        }
+    }
+    
     //MARK: - Helpers Actions
     
     func showKeyboardForCurrentAttribute() {

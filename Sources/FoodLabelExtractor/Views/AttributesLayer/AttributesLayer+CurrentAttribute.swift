@@ -161,7 +161,7 @@ extension AttributesLayer {
         }
         var button: some View {
             Button {
-                
+                showTutorial()
             } label: {
                 label
             }

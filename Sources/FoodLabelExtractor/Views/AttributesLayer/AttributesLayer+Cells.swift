@@ -35,7 +35,8 @@ extension AttributesLayer {
                 guard nutrient.value != nil else {
                     return Color(.tertiaryLabel)
                 }
-                return textColor
+                return isConfirmed ? .secondary : .accentColor
+//                return textColor
             }
             
             return HStack(spacing: 0) {
@@ -52,7 +53,16 @@ extension AttributesLayer {
                     tappedCellValue(for: nutrient.attribute)
                 } label: {
                     Text(valueDescription)
+                        .monospacedDigit()
+                        .font(.system(.body, design: .rounded, weight: .medium))
                         .foregroundColor(valueTextColor)
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 5, style: .continuous)
+                                .fill(Color(.tertiarySystemFill))
+                                .opacity(isConfirmed ? 0 : 1)
+                        )
                 }
                 Button {
 //                    actionHandler(.toggleAttributeConfirmation(nutrient.attribute))
@@ -60,8 +70,10 @@ extension AttributesLayer {
                 } label: {
                     Image(systemName: imageName)
                         .foregroundColor(.secondary)
-                        .padding(.horizontal, 15)
+//                        .padding(.horizontal, 15)
+                        .frame(width: K.Cell.checkBoxButtonWidth)
                         .frame(maxHeight: .infinity)
+                        .contentShape(Rectangle())
                 }
             }
             .foregroundColor(textColor)

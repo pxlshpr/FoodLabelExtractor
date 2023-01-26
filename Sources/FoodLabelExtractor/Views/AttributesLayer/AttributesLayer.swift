@@ -22,6 +22,7 @@ public struct AttributesLayer: View {
     
     @State var hideBackground: Bool = false
     @State var showingNutrientsPicker = false
+    @State var showingTutorial = false
     
     let attributesListAnimation: Animation = K.Animations.bounce
     
@@ -41,6 +42,7 @@ public struct AttributesLayer: View {
             supplementaryContentLayer
             primaryContentLayer
             buttonsLayer
+            tutorialLayer
         }
 //        .onChange(of: extractor.state, perform: stateChanged)
     }

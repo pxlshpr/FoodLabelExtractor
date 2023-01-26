@@ -23,8 +23,9 @@ let package = Package(
         .package(url: "https://github.com/pxlshpr/PrepViews", from: "0.0.130"),
         .package(url: "https://github.com/pxlshpr/SwiftHaptics", from: "0.1.3"),
         .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.86"),
-        .package(url: "https://github.com/pxlshpr/SwiftUISugar", from: "0.0.323"),
+        .package(url: "https://github.com/pxlshpr/SwiftUISugar", from: "0.0.324"),
         .package(url: "https://github.com/pxlshpr/VisionSugar", from: "0.0.77"),
+        .package(url: "https://github.com/pxlshpr/SwiftUIPopovers", from: "1.3.3"),
 
         .package(url: "https://github.com/exyte/ActivityIndicatorView", from: "1.1.0"),
         .package(url: "https://github.com/markiv/SwiftUI-Shimmer", from: "1.1.0"),
@@ -42,7 +43,8 @@ let package = Package(
                 .product(name: "SwiftSugar", package: "swiftsugar"),
                 .product(name: "SwiftUISugar", package: "swiftuisugar"),
                 .product(name: "VisionSugar", package: "visionsugar"),
-                
+                .product(name: "Popovers", package: "swiftuipopovers"),
+
                 .product(name: "ActivityIndicatorView", package: "activityindicatorview"),
                 .product(name: "Shimmer", package: "swiftui-shimmer"),
             ]),

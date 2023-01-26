@@ -21,6 +21,10 @@ struct K {
 
     static let attributesLayerHeight = keyboardHeight + topButtonPaddedHeight + suggestionsBarHeight
     
+    struct Cell {
+        static let checkBoxButtonWidth: CGFloat = 45.0
+    }
+    
     struct Pipeline {
         static let tolerance: Double = 0.005
         static let minimumClassifySeconds: Double = 1.0
