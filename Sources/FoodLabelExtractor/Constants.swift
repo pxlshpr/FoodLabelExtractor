@@ -25,6 +25,10 @@ struct K {
         static let checkBoxButtonWidth: CGFloat = 45.0
     }
     
+    struct SegmentedButton {
+        static let paddingHorizontal: CGFloat = 20.0
+    }
+    
     struct Pipeline {
         static let tolerance: Double = 0.005
         static let minimumClassifySeconds: Double = 1.0

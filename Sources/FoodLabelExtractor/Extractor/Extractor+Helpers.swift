@@ -46,7 +46,9 @@ extension Extractor {
     }
     
     func selectColumn(_ index: Int) {
-        extractedColumns.selectedColumnIndex = index
+        withAnimation {
+            extractedColumns.selectedColumnIndex = index
+        }
         showColumnTextBoxes()
     }
 }

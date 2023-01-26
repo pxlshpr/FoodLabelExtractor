@@ -5,9 +5,12 @@ extension AttributesLayer {
     
     var columnPicker: some View {
         VStack {
+            Spacer()
             segmentedPicker
             autoFillButton
+            Spacer()
         }
+        .padding(.horizontal, K.SegmentedButton.paddingHorizontal)
     }
     
 }
@@ -179,6 +182,10 @@ extension AttributesLayer {
             .padding(3)
             .frame(width: buttonWidth)
             .position(x: buttonXPosition, y: 25)
+            .animation(
+                .interactiveSpring(),
+                value: extractor.extractedColumns.selectedColumnIndex
+            )
 //            .gesture(dragGesture)
     }
 
@@ -198,7 +205,7 @@ extension AttributesLayer {
     }
     
     var buttonWidth: CGFloat {
-        (UIScreen.main.bounds.width - 40) / 2.0
+        (UIScreen.main.bounds.width - (K.SegmentedButton.paddingHorizontal * 2.0)) / 2.0
     }
     
     var buttonXPosition: CGFloat {
