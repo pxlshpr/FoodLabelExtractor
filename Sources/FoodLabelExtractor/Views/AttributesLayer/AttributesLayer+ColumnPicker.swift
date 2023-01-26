@@ -5,8 +5,8 @@ extension AttributesLayer {
     
     var columnPicker: some View {
         VStack {
-            Text("Column Picker")
-            Text("Confirmation button")
+            segmentedPicker
+            autoFillButton
         }
     }
     
