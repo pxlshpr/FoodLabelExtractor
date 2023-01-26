@@ -27,11 +27,11 @@ enum TutorialStep: String {
         case .edit:
             return "Edit any incorrectly detected nutrients."
         case .checkboxes:
-            return "Check off what you confirm to be correct."
+            return "Use these to mark and keep track of what you've confirmed to be correct."
         case .add:
             return "Add missing nutrients if needed."
         case .done:
-            return "Fill in the nutrients after confirming they're all correct."
+            return "Fill in the nutrients once confirmed."
         }
     }
 }

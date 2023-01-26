@@ -58,9 +58,9 @@ extension Extractor {
         self.textBoxes = textBoxes
 //        }
         
-//        if includeTappableTexts {
-//            showTappableTextBoxesForCurrentAttribute()
-//        }
+        if includeTappableTexts {
+            showTappableTextBoxesForCurrentAttribute()
+        }
     }
     
     func showTappableTextBoxesForCurrentAttribute() {
