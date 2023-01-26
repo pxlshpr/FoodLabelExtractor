@@ -11,7 +11,10 @@ public class Extractor: ObservableObject {
     @Published public var image: UIImage? = nil
 
     @Published var textSet: RecognizedTextSet? = nil
+    
     @Published var textBoxes: [TextBox] = []
+    @Published var selectableTextBoxes: [TextBox] = []
+
     @Published var scanResult: ScanResult? = nil
     @Published var extractedNutrients: [ExtractedNutrient] = [] {
         didSet {

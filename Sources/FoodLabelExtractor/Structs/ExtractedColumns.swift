@@ -24,7 +24,11 @@ class ExtractedColumns: ObservableObject {
     var selectedColumn: ExtractedColumn {
         selectedColumnIndex == 1 ? column1 : column2
     }
-    
+
+    var nonSelectedColumn: ExtractedColumn {
+        selectedColumnIndex == 1 ? column2 : column1
+    }
+
     var selectedColumnNutrients: [ExtractedNutrient] {
         selectedColumnIndex == 1 ? column1.extractedNutrients : column2.extractedNutrients
     }
@@ -40,12 +44,16 @@ class ExtractedColumns: ObservableObject {
         return texts
     }
     
-    var selectedColumnTexts: [RecognizedText] {
+    var selectedColumnValueTexts: [RecognizedText] {
         selectedColumn.valueTexts
     }
     
+    var nonSelectedColumnValueTexts: [RecognizedText] {
+        nonSelectedColumn.valueTexts
+    }
+    
     func selectedColumnContains(_ text: RecognizedText) -> Bool {
-        selectedColumnTexts.contains(text)
+        selectedColumnValueTexts.contains(text)
     }
     
     var boundingBox: CGRect {

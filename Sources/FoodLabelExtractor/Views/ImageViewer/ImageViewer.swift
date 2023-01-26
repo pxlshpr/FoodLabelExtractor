@@ -34,6 +34,7 @@ public struct ImageViewer: View {
                     imageView(image)
                         .overlay(textBoxesLayer)
                         .overlay(scannedTextBoxesLayer)
+                        .overlay(selectableTextBoxesLayer)
                 }
             }
             .transition(.opacity)
@@ -58,6 +59,20 @@ public struct ImageViewer: View {
         .opacity(viewModel.textBoxesOpacity)
         .animation(.default, value: viewModel.textPickerHasAppeared)
         .animation(.default, value: viewModel.textBoxes)
+        .animation(.default, value: viewModel.showingBoxes)
+        .animation(.default, value: viewModel.isShimmering)
+        .animation(.default, value: viewModel.scannedTextBoxes.count)
+        .shimmering(active: viewModel.isShimmering)
+    }
+    
+    var selectableTextBoxesLayer: some View {
+        TextBoxesLayer(
+            textBoxes: $viewModel.selectableTextBoxes,
+            shimmering: .constant(false)
+        )
+        .opacity(viewModel.textBoxesOpacity)
+        .animation(.default, value: viewModel.textPickerHasAppeared)
+        .animation(.default, value: viewModel.selectableTextBoxes)
         .animation(.default, value: viewModel.showingBoxes)
         .animation(.default, value: viewModel.isShimmering)
         .animation(.default, value: viewModel.scannedTextBoxes.count)

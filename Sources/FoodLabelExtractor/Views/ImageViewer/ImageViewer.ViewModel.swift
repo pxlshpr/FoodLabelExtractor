@@ -6,8 +6,12 @@ public extension ImageViewer {
         let id: UUID
         @Published public var image: UIImage?
         
+        /// Text boxes meant to be highlighted are placed here. Ideally with no tap handlers so that changes are animated (they'll move to the new positions)
         @Published public var textBoxes: [TextBox] = []
         
+        /// Text boxes intended for users to select are placed here.
+        @Published public var selectableTextBoxes: [TextBox] = []
+
         //TODO: Revisit these
         @Published public var zoomBox: ZoomBox? = nil
         @Published public var scannedTextBoxes: [TextBox] = []

@@ -110,32 +110,31 @@ extension Extractor {
     }
     
     func showColumnTextBoxes() {
-        self.textBoxes = extractedColumns.selectedColumn.valueTexts.map {
+        self.textBoxes = extractedColumns.selectedColumnValueTexts.map {
             TextBox(
                 boundingBox: $0.boundingBox,
-                color: color(for: $0),
-                tapHandler: columnTextBoxTapHandler(for: $0)
+                color: .accentColor,
+                tapHandler: nil
             )
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.extractedColumns.toggleSelectedColumnIndex()
-            self.showColumnTextBoxes()
+        self.selectableTextBoxes = extractedColumns.nonSelectedColumnValueTexts.map {
+            TextBox(
+                boundingBox: $0.boundingBox,
+                color: .yellow,
+                tapHandler: columnTextBoxTapHandler(for: $0)
+            )
         }
     }
     
     func columnTextBoxTapHandler(for text: RecognizedText) -> (() -> ())? {
-        return nil
-//        let allowsTaps = !extractedColumns.selectedColumn.contains(text)
-//        guard allowsTaps else { return nil }
-//
-//        return { [weak self] in
-//            guard let self else { return }
-//            withAnimation(.interactiveSpring()) {
-//                Haptics.feedback(style: .soft)
-//                self.extractedColumns.toggleSelectedColumnIndex()
-//            }
-//            self.showColumnTextBoxes()
-//        }
+        return { [weak self] in
+            guard let self else { return }
+            withAnimation(.interactiveSpring()) {
+                Haptics.feedback(style: .soft)
+                self.extractedColumns.toggleSelectedColumnIndex()
+            }
+            self.showColumnTextBoxes()
+        }
     }
     
     func color(for text: RecognizedText) -> Color {

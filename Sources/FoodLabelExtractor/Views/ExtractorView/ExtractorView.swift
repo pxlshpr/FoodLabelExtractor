@@ -14,6 +14,7 @@ public struct ExtractorView: View {
             .onChange(of: extractor.image, perform: imageChanged)
 //            .onChange(of: extractor.showingBoxes, perform: showingBoxesChanged)
             .onChange(of: extractor.textBoxes, perform: textBoxesChanged)
+            .onChange(of: extractor.selectableTextBoxes, perform: selectableTextBoxesChanged)
             .onChange(of: extractor.state, perform: stateChanged)
     }
     
@@ -22,11 +23,16 @@ public struct ExtractorView: View {
             imageViewerViewModel.showingBoxes = newValue
         }
     }
-
     
     func textBoxesChanged(_ newValue: [TextBox]) {
         withAnimation(.interactiveSpring()) {
             imageViewerViewModel.textBoxes = newValue
+        }
+    }
+
+    func selectableTextBoxesChanged(_ newValue: [TextBox]) {
+        withAnimation(.interactiveSpring()) {
+            imageViewerViewModel.selectableTextBoxes = newValue
         }
     }
 
