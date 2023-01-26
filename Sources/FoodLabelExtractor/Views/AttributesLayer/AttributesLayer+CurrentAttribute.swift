@@ -132,15 +132,24 @@ extension AttributesLayer {
     var statusMessage: some View {
         var string: String {
             extractor.state == .allConfirmed
-            ? "All nutrients confirmed"
+            ? "All Marked as Correct"
             : "Edit Nutrients"
         }
+        
+        var foregroundColor: Color {
+            extractor.state == .allConfirmed
+            ? .secondary
+            : .primary
+        }
+        
         var label: some View {
             HStack {
                 Text(string)
                     .font(.system(size: 18, weight: .medium, design: .default))
-                    .foregroundColor(.primary)
-                Image(systemName: "info.circle")
+                    .foregroundColor(foregroundColor)
+                if extractor.state != .allConfirmed {
+                    Image(systemName: "info.circle")
+                }
             }
             .padding(.horizontal)
             .frame(height: K.topButtonHeight)
@@ -150,10 +159,20 @@ extension AttributesLayer {
             )
             .contentShape(Rectangle())
         }
-        return Button {
-            
-        } label: {
-            label
+        var button: some View {
+            Button {
+                
+            } label: {
+                label
+            }
+        }
+        
+        return Group {
+            if extractor.state == .allConfirmed {
+                label
+            } else {
+                button
+            }
         }
     }
 }
