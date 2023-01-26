@@ -75,13 +75,14 @@ extension Extractor {
             )
         }
         withAnimation {
-            self.textBoxes.append(contentsOf: textBoxes)
+            self.selectableTextBoxes = textBoxes
+//            self.textBoxes.append(contentsOf: textBoxes)
         }
     }
     
     func hideTappableTextBoxesForCurrentAttribute() {
-        /// All we need to do is remove the text boxes that don't have a tap handler assigned to them
-        textBoxes = textBoxes.filter { $0.tapHandler == nil }
+//        textBoxes = textBoxes.filter { $0.tapHandler == nil }
+        self.selectableTextBoxes = []
     }
 
     func tappedText(_ text: RecognizedText) {

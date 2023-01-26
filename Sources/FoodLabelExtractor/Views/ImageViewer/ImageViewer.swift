@@ -58,7 +58,7 @@ public struct ImageViewer: View {
         )
         .opacity(viewModel.textBoxesOpacity)
         .animation(.default, value: viewModel.textPickerHasAppeared)
-        .animation(.default, value: viewModel.textBoxes)
+        .animation(.interactiveSpring(), value: viewModel.textBoxes)
         .animation(.default, value: viewModel.showingBoxes)
         .animation(.default, value: viewModel.isShimmering)
         .animation(.default, value: viewModel.scannedTextBoxes.count)
@@ -71,12 +71,12 @@ public struct ImageViewer: View {
             shimmering: .constant(false)
         )
         .opacity(viewModel.textBoxesOpacity)
-        .animation(.default, value: viewModel.textPickerHasAppeared)
-        .animation(.default, value: viewModel.selectableTextBoxes)
-        .animation(.default, value: viewModel.showingBoxes)
-        .animation(.default, value: viewModel.isShimmering)
-        .animation(.default, value: viewModel.scannedTextBoxes.count)
-        .shimmering(active: viewModel.isShimmering)
+        .animation(.none, value: viewModel.textPickerHasAppeared)
+        .animation(.none, value: viewModel.selectableTextBoxes)
+        .animation(.none, value: viewModel.showingBoxes)
+        .animation(.none, value: viewModel.isShimmering)
+        .animation(.none, value: viewModel.scannedTextBoxes.count)
+//        .shimmering(active: viewModel.isShimmering)
     }
     
     var scannedTextBoxesLayer: some View {
