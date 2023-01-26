@@ -92,7 +92,7 @@ extension Extractor {
         guard let scanResult else { return }
         
         let extractedNutrients = scanResult.extractedNutrientsForColumn(extractedColumns.selectedColumnIndex)
-¡
+
         guard let firstAttribute = extractedNutrients.first?.attribute else {
             //TODO: Handle no attributes being read
             return
