@@ -3,21 +3,23 @@ import FoodLabelScanner
 
 extension AttributesLayer {
 
-    var attributesView: some View {
+    var primaryView: some View {
         VStack(spacing: K.topButtonsVerticalPadding) {
             currentAttributeRow
                 .padding(.horizontal, K.topButtonsHorizontalPadding)
             if !extractor.extractedNutrients.isEmpty {
-                list
+                attributesList
                     .transition(.move(edge: .bottom))
                     .opacity(extractor.state == .showingKeyboard ? 0 : 1)
+            } else if extractor.state == .awaitingColumnSelection {
+                columnPicker
             }
         }
         .padding(.vertical, K.topButtonsVerticalPadding)
         .frame(maxWidth: UIScreen.main.bounds.width)
     }
     
-    var list: some View {
+    var attributesList: some View {
         ScrollViewReader { scrollProxy in
             List($extractor.extractedNutrients, id: \.self.hashValue, editActions: .delete) { $nutrient in
                 cell(for: nutrient)

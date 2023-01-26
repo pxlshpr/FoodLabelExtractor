@@ -44,4 +44,9 @@ extension Extractor {
             )
         }
     }
+    
+    func selectColumn(_ index: Int) {
+        extractedColumns.selectedColumnIndex = index
+        showColumnTextBoxes()
+    }
 }

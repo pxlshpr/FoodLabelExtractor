@@ -131,15 +131,32 @@ extension AttributesLayer {
 
     var statusMessage: some View {
         var string: String {
-            extractor.state == .allConfirmed
-            ? "All Marked as Correct"
-            : "Edit Nutrients"
+            switch extractor.state {
+            case .awaitingColumnSelection:
+                return "Select a Column"
+            case .allConfirmed:
+                return "All Marked as Correct"
+            default:
+                return "Edit Nutrients"
+            }
         }
         
         var foregroundColor: Color {
-            extractor.state == .allConfirmed
-            ? .secondary
-            : .primary
+            switch extractor.state {
+            case .allConfirmed:
+                return .secondary
+            default:
+                return .primary
+            }
+        }
+        
+        var showInfoButton: Bool {
+            switch extractor.state {
+            case .awaitingColumnSelection, .allConfirmed:
+                return false
+            default:
+                return true
+            }
         }
         
         var label: some View {
@@ -147,7 +164,7 @@ extension AttributesLayer {
                 Text(string)
                     .font(.system(size: 18, weight: .medium, design: .default))
                     .foregroundColor(foregroundColor)
-                if extractor.state != .allConfirmed {
+                if showInfoButton {
                     Image(systemName: "info.circle")
                 }
             }

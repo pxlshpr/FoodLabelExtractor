@@ -53,10 +53,7 @@ extension Extractor {
             texts.append(valueText)
         }
 
-//        withAnimation {
-        print("▪️ Setting textBoxes with: \(textBoxes.count) items")
         self.textBoxes = textBoxes
-//        }
         
         if includeTappableTexts {
             showTappableTextBoxesForCurrentAttribute()

@@ -15,7 +15,7 @@ public struct AttributesLayer: View {
     @Environment(\.colorScheme) var colorScheme
     @Namespace var namespace
     @FocusState var isFocused: Bool
-    
+
     @ObservedObject var extractor: Extractor
     /// Try and embed this in `extractor`
 //    var actionHandler: (AttributesLayerAction) -> ()
@@ -23,7 +23,8 @@ public struct AttributesLayer: View {
     @State var hideBackground: Bool = false
     @State var showingNutrientsPicker = false
     @State var showingTutorial = false
-    
+    @State var dragTranslationX: CGFloat?
+
     let attributesListAnimation: Animation = K.Animations.bounce
     
     let scannerDidChangeAttribute = NotificationCenter.default.publisher(for: .scannerDidChangeAttribute)
@@ -42,6 +43,7 @@ public struct AttributesLayer: View {
             supplementaryContentLayer
             primaryContentLayer
             buttonsLayer
+//            columnPickerLayer
             tutorialLayer
         }
 //        .onChange(of: extractor.state, perform: stateChanged)
@@ -65,7 +67,7 @@ public struct AttributesLayer: View {
             if let description = extractor.state.loadingDescription {
                 loadingView(description)
             } else {
-                attributesView
+                primaryView
                     .transition(.move(edge: .bottom))
                     .zIndex(10)
             }

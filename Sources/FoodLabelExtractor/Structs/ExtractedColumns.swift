@@ -45,11 +45,31 @@ class ExtractedColumns: ObservableObject {
     }
     
     var selectedColumnValueTexts: [RecognizedText] {
-        selectedColumn.valueTexts
+        selectedColumn.extractedNutrients
+            .filter { nutrient in
+                nonSelectedColumn.extractedNutrients
+                    .contains(where: {
+                        $0.attribute == nutrient.attribute
+                        && $0.valueText != nil
+                    })
+            }
+            .compactMap { nutrient in
+                nutrient.valueText
+            }
     }
     
     var nonSelectedColumnValueTexts: [RecognizedText] {
-        nonSelectedColumn.valueTexts
+        nonSelectedColumn.extractedNutrients
+            .filter { nutrient in
+                selectedColumn.extractedNutrients
+                    .contains(where: {
+                        $0.attribute == nutrient.attribute
+                        && $0.valueText != nil
+                    })
+            }
+            .compactMap { nutrient in
+                nutrient.valueText
+            }
     }
     
     var boundingBox: CGRect {
