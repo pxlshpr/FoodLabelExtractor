@@ -5,7 +5,7 @@ import FoodLabelScanner
 
 extension Extractor {
     
-    func showFocusedTextBox() {
+    func showTextBoxesForCurrentAttribute() {
         setTextBoxes(
             attributeText: currentAttributeText,
             valueText: currentValueText
@@ -29,7 +29,10 @@ extension Extractor {
     ) {
         var textBoxes: [TextBox] = []
         var texts: [RecognizedText] = []
-        if let attributeText {
+        
+        if let attributeText,
+           attributeText.boundingBox != .zero
+        {
             textBoxes.append(TextBox(
                 boundingBox: attributeText.boundingBox,
                 color: .accentColor,
@@ -37,7 +40,11 @@ extension Extractor {
             ))
             texts.append(attributeText)
         }
-        if let valueText, valueText.boundingBox != attributeText?.boundingBox {
+        
+        if let valueText,
+           valueText.boundingBox != attributeText?.boundingBox,
+           valueText.boundingBox != .zero
+        {
             textBoxes.append(TextBox(
                 boundingBox: valueText.boundingBox,
                 color: .accentColor,

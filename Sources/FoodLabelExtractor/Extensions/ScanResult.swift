@@ -24,7 +24,7 @@ extension ScanResult {
 extension ScanResult {
     
     func extractedNutrientsForColumn(_ column: Int) -> [ExtractedNutrient] {
-        nutrients.rows.map({ row in
+        var extractedNutrients = nutrients.rows.map({ row in
             var value = column == 1 ? row.valueText1?.value : row.valueText2?.value
             value?.correctUnit(for: row.attribute)
             return ExtractedNutrient(
@@ -35,16 +35,14 @@ extension ScanResult {
                 valueText: column == 1 ? row.valueText1?.text : row.valueText2?.text
             )
         })
-//        var nutrients: [ExtractedNutrient] = []
-//        fieldValues.append(energyFieldValue(at: column))
-//        for macro in Macro.allCases {
-//            fieldValues.append(macroFieldValue(for: macro, at: column))
-//        }
-//        for nutrientType in NutrientType.allCases {
-//            fieldValues.append(microFieldValue(for: nutrientType, at: column))
-//        }
-//        return fieldValues.compactMap({ $0?.fill.imageText })
-//        return []
+        
+        /// Ensure that energy is always at the top
+        if let energyIndex = extractedNutrients.firstIndex(where: { $0.attribute == .energy }) {
+            let energy = extractedNutrients.remove(at: energyIndex)
+            extractedNutrients.insert(energy, at: 0)
+        }
+        
+        return extractedNutrients
     }
 }
 

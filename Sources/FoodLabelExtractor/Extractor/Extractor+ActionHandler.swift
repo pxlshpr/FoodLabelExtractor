@@ -24,7 +24,7 @@ extension Extractor {
 
     func confirmCurrentAttribute() {
         confirmCurrentAttributeAndMoveToNext()
-        showFocusedTextBox()
+        showTextBoxesForCurrentAttribute()
     }
 
     func confirmCurrentAttributeAndMoveToNext() {
@@ -54,7 +54,6 @@ extension Extractor {
         moveToAttribute(nextUnconfirmedAttribute)
     }
     
-    /// 🟣🟣 ** TODO NEXT ** Make sure this matches what's being done in the legacy project as it seems to be missing
     func moveToAttribute(_ attribute: Attribute) {
         Haptics.selectionFeedback()
 
@@ -78,9 +77,8 @@ extension Extractor {
         guard let currentAttribute else { return }
         guard let index = extractedNutrients.firstIndex(where: { $0.attribute == currentAttribute })
         else { return }
-        withAnimation {
-            extractedNutrients.remove(at: index)
-        }
+        
+        extractedNutrients.remove(at: index)
     }
     
     func toggleAttributeConfirmation(_ attribute: Attribute) {

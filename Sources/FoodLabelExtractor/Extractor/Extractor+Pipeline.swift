@@ -91,7 +91,9 @@ extension Extractor {
     func extractNutrients() async throws {
         guard let scanResult else { return }
         
-        guard let firstAttribute = scanResult.nutrientAttributes.first else {
+        let extractedNutrients = scanResult.extractedNutrientsForColumn(extractedColumns.selectedColumnIndex)
+¡
+        guard let firstAttribute = extractedNutrients.first?.attribute else {
             //TODO: Handle no attributes being read
             return
         }
@@ -100,12 +102,12 @@ extension Extractor {
         setState(to: .awaitingConfirmation)
 
         withAnimation {
-            extractedNutrients = scanResult.extractedNutrientsForColumn(extractedColumns.selectedColumnIndex)
+            self.extractedNutrients = extractedNutrients
         }
         
         currentAttribute = firstAttribute
         textBoxes = []
-        showFocusedTextBox()
+        showTextBoxesForCurrentAttribute()
 
         await zoomToNutrients()
     }

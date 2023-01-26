@@ -8,7 +8,9 @@ extension AttributesLayer {
     func tappedActionButton() {
         resignFocusOfSearchTextField()
         if extractor.shouldShowDeleteForCurrentAttribute {
-            actionHandler(.deleteCurrentAttribute)
+            withAnimation {
+                actionHandler(.deleteCurrentAttribute)
+            }
         } else {
             actionHandler(.confirmCurrentAttribute)
         }
@@ -24,9 +26,13 @@ extension AttributesLayer {
     }
     
     func tappedCellValue(for attribute: Attribute) {
-        actionHandler(.moveToAttribute(attribute))
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        if extractor.currentAttribute == attribute {
             tappedValueButton()
+        } else {
+            actionHandler(.moveToAttribute(attribute))
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                tappedValueButton()
+            }
         }
     }
     
