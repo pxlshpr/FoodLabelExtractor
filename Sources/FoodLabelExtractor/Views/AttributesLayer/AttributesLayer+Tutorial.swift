@@ -43,11 +43,11 @@ struct TutorialLayer: View {
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            Color.black.opacity(0.1)
-                .onTapGesture {
-                    Haptics.feedback(style: .soft)
-                    didTapDismiss()
-                }
+//            Color.black.opacity(0.1)
+//                .onTapGesture {
+//                    Haptics.feedback(style: .soft)
+//                    didTapDismiss()
+//                }
                 
 //            Color.blue.opacity(0.5)
             HStack(spacing: 0) {
@@ -65,6 +65,9 @@ struct TutorialLayer: View {
                                 originAnchor: .top,
                                 popoverAnchor: .bottom
                             )
+                            $0.onDismiss = {
+                                didTapDismiss()
+                            }
                         }
                     ) {
                         Templates.Container(
@@ -105,6 +108,9 @@ struct TutorialLayer: View {
                                 originAnchor: .topLeft,
                                 popoverAnchor: .bottom
                             )
+                            $0.onDismiss = {
+                                didTapDismiss()
+                            }
                         }
                     ) {
                         Templates.Container(
@@ -146,6 +152,9 @@ struct TutorialLayer: View {
                                 originAnchor: .left,
                                 popoverAnchor: .right
                             )
+                            $0.onDismiss = {
+                                didTapDismiss()
+                            }
                         }
                     ) {
                         Templates.Container(
@@ -189,6 +198,9 @@ struct TutorialLayer: View {
                                     originAnchor: .bottom,
                                     popoverAnchor: .top
                                 )
+                                $0.onDismiss = {
+                                    didTapDismiss()
+                                }
                             }
                         ) {
                             Templates.Container(
