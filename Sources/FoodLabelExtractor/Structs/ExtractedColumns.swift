@@ -29,7 +29,7 @@ class ExtractedColumns: ObservableObject {
         selectedColumnIndex == 1 ? column1.extractedNutrients : column2.extractedNutrients
     }
     
-    var texts: [RecognizedText] {
+    var valueTexts: [RecognizedText] {
         var texts: [RecognizedText] = []
         for column in [column1, column2] {
             texts.append(
@@ -38,6 +38,14 @@ class ExtractedColumns: ObservableObject {
                 )
         }
         return texts
+    }
+    
+    var selectedColumnTexts: [RecognizedText] {
+        selectedColumn.valueTexts
+    }
+    
+    func selectedColumnContains(_ text: RecognizedText) -> Bool {
+        selectedColumnTexts.contains(text)
     }
     
     var boundingBox: CGRect {
@@ -73,9 +81,14 @@ struct ExtractedColumn {
 //        }
 //    }
 //
-//    func contains(_ text: RecognizedText) -> Bool {
-//        imageTexts.contains {
-//            $0.text.id == text.id
-//        }
-//    }
+    var valueTexts: [RecognizedText] {
+        extractedNutrients
+            .compactMap { $0.valueText }
+    }
+    
+    func contains(_ text: RecognizedText) -> Bool {
+        valueTexts.contains {
+            $0.id == text.id
+        }
+    }
 }

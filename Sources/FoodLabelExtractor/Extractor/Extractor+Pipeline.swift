@@ -81,7 +81,7 @@ extension Extractor {
 //            await self.startCroppingImages()
 
             if scanResult.columnCount == 2 {
-//                try await self.showColumnPicker()
+                try await self.showColumnPicker()
             } else {
                 try await self.extractNutrients()
             }
@@ -93,7 +93,8 @@ extension Extractor {
         
         let extractedNutrients = scanResult.extractedNutrientsForColumn(extractedColumns.selectedColumnIndex)
 
-        guard let firstAttribute = extractedNutrients.first?.attribute else {
+//        guard let firstAttribute = extractedNutrients.first?.attribute else {
+        guard let _ = extractedNutrients.first?.attribute else {
             //TODO: Handle no attributes being read
             return
         }
@@ -110,5 +111,23 @@ extension Extractor {
         showTextBoxesForCurrentAttribute()
 
         await zoomToNutrients()
+    }
+    
+    func showColumnPicker() async throws {
+        guard let scanResult else { return }
+
+        setState(to: .awaitingColumnSelection)
+
+        Haptics.feedback(style: .soft)
+//        withAnimation {
+//            showingColumnPicker = true
+//            showingColumnPickerUI = true
+//        }
+
+        extractedColumns = scanResult.extractedColumns
+//        selectedImageTexts = columns.selectedImageTexts
+
+        await zoomToNutrients()
+        showColumnTextBoxes()
     }
 }

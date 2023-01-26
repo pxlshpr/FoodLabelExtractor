@@ -109,6 +109,43 @@ extension Extractor {
         )
     }
     
+    func showColumnTextBoxes() {
+        self.textBoxes = extractedColumns.selectedColumn.valueTexts.map {
+            TextBox(
+                boundingBox: $0.boundingBox,
+                color: color(for: $0),
+                tapHandler: columnTextBoxTapHandler(for: $0)
+            )
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            self.extractedColumns.toggleSelectedColumnIndex()
+            self.showColumnTextBoxes()
+        }
+    }
+    
+    func columnTextBoxTapHandler(for text: RecognizedText) -> (() -> ())? {
+        return nil
+//        let allowsTaps = !extractedColumns.selectedColumn.contains(text)
+//        guard allowsTaps else { return nil }
+//
+//        return { [weak self] in
+//            guard let self else { return }
+//            withAnimation(.interactiveSpring()) {
+//                Haptics.feedback(style: .soft)
+//                self.extractedColumns.toggleSelectedColumnIndex()
+//            }
+//            self.showColumnTextBoxes()
+//        }
+    }
+    
+    func color(for text: RecognizedText) -> Color {
+//        if extractedColumns.selectedColumnContains(text) {
+            return Color.accentColor
+//        } else {
+//            return Color.yellow
+//        }
+    }
+    
     var textBoxesForAllRecognizedTexts: [TextBox] {
         guard let textSet else { return [] }
         return textSet.texts.map {
