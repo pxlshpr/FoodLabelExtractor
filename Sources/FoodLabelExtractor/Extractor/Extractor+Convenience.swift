@@ -34,6 +34,10 @@ extension Extractor {
         currentNutrient?.value?.unit ?? .g
     }
 
+    var currentValue: FoodLabelValue? {
+        currentNutrient?.value
+    }
+    
     var currentAmountString: String {
         guard let amount = currentNutrient?.value?.amount else { return "" }
         return amount.cleanWithoutRounding

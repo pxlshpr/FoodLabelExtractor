@@ -54,11 +54,14 @@ extension AttributesLayer {
     var suggestionsLayer: some View {
         
         var valueSuggestions: [FoodLabelValue] {
-//            [.init(amount: 320, unit: .kcal), .init(amount: 320, unit: .kj), .init(amount: 320), .init(amount: 3200, unit: .kcal), .init(amount: 3200, unit: .kj)]
             guard let text = extractor.currentValueText, let attribute = extractor.currentAttribute else {
                 return []
             }
-            return text.allDetectedFoodLabelValues(for: attribute)
+            let values = text.allDetectedFoodLabelValues(for: attribute)
+            /// Filter out values that are currently being displayed
+            return values.filter {
+                $0.amount != extractor.currentValue?.amount
+            }
         }
         
         var backgroundColor: Color {
@@ -79,7 +82,7 @@ extension AttributesLayer {
                             Haptics.feedback(style: .soft)
                             extractor.textFieldAmountString = value.amount.cleanWithoutRounding
                         } label: {
-                            Text(value.description)
+                            Text(value.descriptionWithoutRounding)
                                 .foregroundColor(textColor)
                                 .padding(.horizontal, 15)
                                 .frame(height: K.suggestionsBarHeight)
