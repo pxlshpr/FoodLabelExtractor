@@ -8,7 +8,8 @@ extension Extractor {
     func showTextBoxesForCurrentAttribute() {
         setTextBoxes(
             attributeText: currentAttributeText,
-            valueText: currentValueText
+            valueText: currentValueText,
+            includeTappableTexts: state == .showingKeyboard
         )
     }
     
@@ -41,16 +42,26 @@ extension Extractor {
             texts.append(attributeText)
         }
         
-        if let valueText,
-           valueText.boundingBox != attributeText?.boundingBox,
-           valueText.boundingBox != .zero
-        {
+        var validValueText: RecognizedText? {
+            guard let valueText,
+                  valueText.boundingBox != attributeText?.boundingBox,
+                  valueText.boundingBox != .zero
+            else { return nil }
+            
+//            if includeTappableTexts, valueText.string.detectedValues.count > 1 {
+//                return nil
+//            }
+            
+            return valueText
+        }
+        
+        if let validValueText {
             textBoxes.append(TextBox(
-                boundingBox: valueText.boundingBox,
+                boundingBox: validValueText.boundingBox,
                 color: .accentColor,
                 tapHandler: nil
             ))
-            texts.append(valueText)
+            texts.append(validValueText)
         }
 
         self.textBoxes = textBoxes
@@ -63,7 +74,11 @@ extension Extractor {
     func showTappableTextBoxesForCurrentAttribute() {
         guard currentAttribute != nil, let scanResult else { return }
         let texts = scanResult.textsWithFoodLabelValues.filter { text in
-            !self.textBoxes.contains(where: { $0.boundingBox == text.boundingBox })
+            if text.string.detectedValues.count > 1 {
+                return true
+            } else {
+                return !self.textBoxes.contains(where: { $0.boundingBox == text.boundingBox })
+            }
         }
         let textBoxes = texts.map { text in
             TextBox(

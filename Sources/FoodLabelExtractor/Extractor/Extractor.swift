@@ -65,12 +65,7 @@ extension Extractor {
         }
         withAnimation {
             currentNutrient?.valueText = nil
-            //TODO: Rewrite this once we change how we're showing the texts
-//            setTextBoxes(
-//                attributeText: currentAttributeText,
-//                valueText: nil,
-//                includeTappableTexts: true
-//            )
+            showTextBoxesForCurrentAttribute()
         }
     }
 
