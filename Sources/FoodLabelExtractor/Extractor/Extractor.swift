@@ -39,6 +39,7 @@ public class Extractor: ObservableObject {
     @Published var internalTextfieldDouble: Double? = nil {
         didSet {
             removeValueTextForCurrentAttributeIfDifferent()
+            removeConfirmationStatusForCurrentAttribute()
         }
     }
     @Published var internalTextfieldString: String = ""
@@ -66,6 +67,12 @@ extension Extractor {
     func setSuggestedValue(_ value: FoodLabelValue) {
         ignoreNextValueChange = true
         textFieldAmountString = value.amount.cleanWithoutRounding
+    }
+    
+    func removeConfirmationStatusForCurrentAttribute() {
+        if currentNutrientIsConfirmed {
+            toggleAttributeConfirmationForCurrentAttribute()
+        }
     }
     
     func removeValueTextForCurrentAttributeIfDifferent() {

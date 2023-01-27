@@ -50,7 +50,7 @@ extension AttributesLayer {
         }
         
         var noTextBoxPrompt: String {
-            "Select the text to autofill."
+            "Select a text to autofill."
 //            viewModel.textFieldAmountString.isEmpty
 //            ? "or select a detected text from the image."
 //            : "Select a detected text from the image."

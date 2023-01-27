@@ -32,9 +32,12 @@ extension AttributesLayer {
             VStack(spacing: 0) {
                 currentAttributeRow
                     .padding(.horizontal, K.topButtonsHorizontalPadding)
-                Divider()
-                    .opacity(0.5)
-                    .padding(.top, K.topButtonsVerticalPadding)
+                if extractor.state != .showingKeyboard {
+                    Divider()
+                        .opacity(0.5)
+                        .padding(.top, K.topButtonsVerticalPadding)
+                        .transition(.opacity)
+                }
                 if !extractor.extractedNutrients.isEmpty {
                     attributesList
                         .transition(.move(edge: .bottom))
@@ -44,8 +47,11 @@ extension AttributesLayer {
                 }
             }
             .padding(.vertical, K.topButtonsVerticalPadding)
-            shadowLayer
-                .allowsHitTesting(false)
+            if extractor.state != .showingKeyboard {
+                shadowLayer
+                    .allowsHitTesting(false)
+                    .transition(.opacity)
+            }
         }
         .frame(maxWidth: UIScreen.main.bounds.width)
     }

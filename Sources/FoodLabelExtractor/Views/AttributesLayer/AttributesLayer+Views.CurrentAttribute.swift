@@ -110,17 +110,18 @@ extension AttributesLayer {
     }
     
     var actionButton: some View {
-        var shouldDisablePrimaryButton: Bool {
-            guard let currentNutrient = extractor.currentNutrient else { return true }
-            if let textFieldDouble = extractor.internalTextfieldDouble {
-                if textFieldDouble != currentNutrient.value?.amount {
-                    return false
-                }
-                if extractor.pickedAttributeUnit != currentNutrient.value?.unit {
-                    return false
-                }
-            }
-            return currentNutrient.isConfirmed
+        var shouldDisable: Bool {
+            extractor.currentValue == nil
+//            guard let currentNutrient = extractor.currentNutrient else { return true }
+//            if let textFieldDouble = extractor.internalTextfieldDouble {
+//                if textFieldDouble != currentNutrient.value?.amount {
+//                    return false
+//                }
+//                if extractor.pickedAttributeUnit != currentNutrient.value?.unit {
+//                    return false
+//                }
+//            }
+//            return currentNutrient.isConfirmed
         }
         
         var imageName: String {
@@ -158,9 +159,8 @@ extension AttributesLayer {
                 .background(background)
                 .contentShape(Rectangle())
         }
-//        .disabled(shouldDisablePrimaryButton)
-//        .grayscale(shouldDisablePrimaryButton ? 1.0 : 0.0)
-        .animation(.interactiveSpring(), value: shouldDisablePrimaryButton)
+        .disabled(shouldDisable)
+        .animation(.interactiveSpring(), value: shouldDisable)
     }
 
     var statusMessage: some View {

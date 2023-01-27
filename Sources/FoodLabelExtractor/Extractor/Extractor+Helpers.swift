@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftHaptics
 
 extension Extractor {
     
@@ -13,6 +14,7 @@ extension Extractor {
     }
     
     func setAsAllConfirmed(unsettingCurrentAttribute: Bool = true) {
+        Haptics.successFeedback()
         withAnimation {
             state = .allConfirmed
             if unsettingCurrentAttribute {

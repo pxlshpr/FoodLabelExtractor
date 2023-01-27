@@ -74,6 +74,13 @@ extension Extractor {
         guard let currentAttribute else { return }
         toggleAttributeConfirmation(currentAttribute)
     }
+    
+    func attributeIsConfirmed(_ attribute: Attribute) -> Bool {
+        guard let index = extractedNutrients.firstIndex(where: { $0.attribute == attribute }) else {
+            return false
+        }
+        return extractedNutrients[index].isConfirmed
+    }
 
     func toggleAttributeConfirmation(_ attribute: Attribute) {
         guard let index = extractedNutrients.firstIndex(where: { $0.attribute == attribute }) else {
