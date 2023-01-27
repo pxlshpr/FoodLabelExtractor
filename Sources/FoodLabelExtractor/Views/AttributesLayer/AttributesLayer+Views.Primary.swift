@@ -32,7 +32,7 @@ extension AttributesLayer {
             VStack(spacing: 0) {
                 currentAttributeRow
                     .padding(.horizontal, K.topButtonsHorizontalPadding)
-                if extractor.state != .showingKeyboard {
+                if extractor.state.showsDivider {
                     Divider()
                         .opacity(0.5)
                         .padding(.top, K.topButtonsVerticalPadding)

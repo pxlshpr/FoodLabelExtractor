@@ -6,12 +6,46 @@ extension AttributesLayer {
     var columnPicker: some View {
         VStack {
             Spacer()
-            segmentedPicker
+            columnPickerInstructions
             Spacer()
+            segmentedPicker
             autoFillButton
         }
-        .padding(.horizontal, K.SegmentedButton.paddingHorizontal)
+//        .padding(.horizontal)
         .padding(.bottom, K.bottomSafeAreaPadding)
+    }
+    
+    var columnPickerInstructions: some View {
+        VStack(spacing: 10) {
+            HStack {
+                Text("We recommend choosing whichever column has the larger values. This makes sure that rounding errors are avoided as much as possible.")
+                    .foregroundColor(.secondary)
+                Spacer()
+            }
+            .font(.callout)
+            Divider()
+            VStack {
+                HStack {
+                    Text("**For Example**")
+                        .foregroundColor(.secondary)
+                    Spacer()
+                }
+            }
+            .font(.footnote)
+            VStack(spacing: 5) {
+                HStack {
+                    Text("A label with **`0.1g`** of Trans Fats *per `100g`* rounds it down to **`0g`** in the *per serving* column.")
+                    Spacer()
+                }
+                HStack {
+                    Text("This essentially loses that value no matter how much of that food you log.")
+                    Spacer()
+                }
+            }
+            .font(.caption)
+            .foregroundColor(.secondary)
+        }
+        .padding(.horizontal, 50)
     }
     
 }

@@ -40,4 +40,13 @@ enum ExtractorState: String {
             return nil
         }
     }
+    
+    var showsDivider: Bool {
+        switch self {
+        case .awaitingConfirmation, .allConfirmed:
+            return true
+        default:
+            return false
+        }
+    }
 }
