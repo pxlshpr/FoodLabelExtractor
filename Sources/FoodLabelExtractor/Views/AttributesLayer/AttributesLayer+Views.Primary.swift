@@ -4,28 +4,49 @@ import FoodLabelScanner
 extension AttributesLayer {
 
     var primaryView: some View {
-        VStack(spacing: 0) {
-            ZStack {
-                Color.white
-                    .frame(height: K.topButtonHeight + K.topButtonsVerticalPadding)
-                    .shadow(color: .black, radius: 2, y: 2)
+        var shadowLayer: some View {
+            GeometryReader { proxy in
                 VStack(spacing: 0) {
-                    currentAttributeRow
-                        .padding(.horizontal, K.topButtonsHorizontalPadding)
-                    Divider()
-                        .opacity(0.5)
-                        .padding(.top, K.topButtonsVerticalPadding)
+                    Color.clear
+                        .frame(height: K.topButtonPaddedHeight)
+                    ZStack {
+                        VStack {
+                            Rectangle()
+                                .fill(.green)
+                                .frame(height: 20)
+                                .shadow(radius: 5.0, y: 2.0)
+                                .position(x: proxy.size.width / 2.0, y: -10)
+                                .opacity(0.4)
+                            Spacer()
+                        }
+                    }
+                    .frame(height: 20)
+//                    .background(.yellow)
+                    .clipped()
+                    Spacer()
                 }
             }
-            if !extractor.extractedNutrients.isEmpty {
-                attributesList
-                    .transition(.move(edge: .bottom))
-                    .opacity(extractor.state == .showingKeyboard ? 0 : 1)
-            } else if extractor.state == .awaitingColumnSelection {
-                columnPicker
-            }
         }
-        .padding(.vertical, K.topButtonsVerticalPadding)
+        
+        return ZStack {
+            VStack(spacing: 0) {
+                currentAttributeRow
+                    .padding(.horizontal, K.topButtonsHorizontalPadding)
+                Divider()
+                    .opacity(0.5)
+                    .padding(.top, K.topButtonsVerticalPadding)
+                if !extractor.extractedNutrients.isEmpty {
+                    attributesList
+                        .transition(.move(edge: .bottom))
+                        .opacity(extractor.state == .showingKeyboard ? 0 : 1)
+                } else if extractor.state == .awaitingColumnSelection {
+                    columnPicker
+                }
+            }
+            .padding(.vertical, K.topButtonsVerticalPadding)
+            shadowLayer
+                .allowsHitTesting(false)
+        }
         .frame(maxWidth: UIScreen.main.bounds.width)
     }
     
