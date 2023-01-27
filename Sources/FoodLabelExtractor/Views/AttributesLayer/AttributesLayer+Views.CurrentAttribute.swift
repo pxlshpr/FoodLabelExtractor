@@ -2,13 +2,24 @@ import SwiftUI
 
 extension AttributesLayer {
     var currentAttributeRow: some View {
-        Group {
+        var editButton: some View {
+            HStack {
+                Spacer()
+                EditButton()
+                    .padding(.trailing, 20)
+            }
+        }
+        
+        return Group {
             if extractor.currentAttribute == nil {
-                statusMessage
-                    .transition(
-                        .move(edge: .trailing)
-                        .combined(with: .opacity)
-                    )
+                ZStack {
+                    statusMessage
+                    editButton
+                }
+                .transition(
+                    .move(edge: .trailing)
+                    .combined(with: .opacity)
+                )
             } else {
                 HStack(spacing: K.topButtonsHorizontalPadding) {
                     if extractor.state == .showingKeyboard {
@@ -25,14 +36,21 @@ extension AttributesLayer {
     }
 
     var attributeButton: some View {
-        Button {
+        var foregroundColor: Color {
+            extractor.currentNutrientIsConfirmed
+            ? .secondary
+            : .primary
+        }
+        
+        return Button {
             tappedValueButton()
         } label: {
             Text(extractor.currentAttribute?.description ?? "")
                 .matchedGeometryEffect(id: "attributeName", in: namespace)
 //                .font(.title3)
                 .font(.system(size: 22, weight: .semibold, design: .default))
-                .foregroundColor(.primary)
+//                .foregroundColor(.primary)
+                .foregroundColor(foregroundColor)
                 .minimumScaleFactor(0.2)
                 .lineLimit(2)
                 .foregroundColor(.primary)
@@ -43,6 +61,7 @@ extension AttributesLayer {
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .foregroundStyle(Color(.quaternarySystemFill))
                         .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+                        .opacity(0)
                 )
                 .contentShape(Rectangle())
         }
@@ -105,33 +124,27 @@ extension AttributesLayer {
         }
         
         var imageName: String {
-            extractor.shouldShowDeleteForCurrentAttribute
+            extractor.currentNutrientIsConfirmed
             ? "checkmark.square.fill" /// "trash"
             : "square.dashed"
         }
 
         var background: some View {
-            
-            var roundedRectangle: some View {
-                RoundedRectangle(cornerRadius: K.topButtonCornerRadius, style: .continuous)
-            }
-            
-            return Group {
-                if extractor.shouldShowDeleteForCurrentAttribute {
-                    roundedRectangle
-                        .foregroundStyle(Color(.secondarySystemFill))
-                } else {
-                    roundedRectangle
-                        .foregroundStyle(Color(.secondarySystemFill))
-//                        .foregroundStyle(Color.green.gradient)
-                }
-            }
+            RoundedRectangle(
+                cornerRadius: K.topButtonCornerRadius,
+                style: .continuous
+            )
+            .foregroundStyle(
+                colorScheme == .dark
+                ? Color(.secondarySystemFill)
+                : Color(.tertiarySystemFill)
+            )
         }
         
         var foregroundColor: Color {
-            extractor.shouldShowDeleteForCurrentAttribute
-            ? Color.white /// Color.red
-            : Color.white
+            colorScheme == .dark
+            ? .white
+            : .secondary
         }
         
         return Button {
@@ -158,7 +171,7 @@ extension AttributesLayer {
             case .allConfirmed:
                 return "All Marked as Correct"
             default:
-                return "Confirm Detected Nutrients"
+                return "Confirm Nutrients"
             }
         }
         

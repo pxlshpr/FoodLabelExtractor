@@ -4,9 +4,19 @@ import FoodLabelScanner
 extension AttributesLayer {
 
     var primaryView: some View {
-        VStack(spacing: K.topButtonsVerticalPadding) {
-            currentAttributeRow
-                .padding(.horizontal, K.topButtonsHorizontalPadding)
+        VStack(spacing: 0) {
+            ZStack {
+                Color.white
+                    .frame(height: K.topButtonHeight + K.topButtonsVerticalPadding)
+                    .shadow(color: .black, radius: 2, y: 2)
+                VStack(spacing: 0) {
+                    currentAttributeRow
+                        .padding(.horizontal, K.topButtonsHorizontalPadding)
+                    Divider()
+                        .opacity(0.5)
+                        .padding(.top, K.topButtonsVerticalPadding)
+                }
+            }
             if !extractor.extractedNutrients.isEmpty {
                 attributesList
                     .transition(.move(edge: .bottom))

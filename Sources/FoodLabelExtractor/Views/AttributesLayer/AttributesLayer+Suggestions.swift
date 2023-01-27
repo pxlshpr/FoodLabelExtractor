@@ -50,23 +50,44 @@ extension AttributesLayer {
         }
         
         var noTextBoxPrompt: String {
-            "Select a text from the image to autofill its value."
+            "Select the text to autofill."
 //            viewModel.textFieldAmountString.isEmpty
 //            ? "or select a detected text from the image."
 //            : "Select a detected text from the image."
         }
         
+        var keyboardDismissButton: some View {
+            Button {
+                tappedDismissKeyboard()
+            } label: {
+                Image(systemName: "keyboard.chevron.compact.down.fill")
+                    .font(.system(size: 18, weight: .medium, design: .default))
+                    .foregroundColor(colorScheme == .dark ? .white : .secondary)
+                    .frame(width: K.topButtonWidth)
+                    .frame(height: K.topButtonHeight)
+//                    .background(
+//                        RoundedRectangle(cornerRadius: K.topButtonCornerRadius, style: .continuous)
+//                            .foregroundStyle(Color(.secondarySystemFill))
+//                    )
+                    .contentShape(Rectangle())
+            }
+        }
+        
         return Group {
-            if valueSuggestions.isEmpty {
-                Text(noTextBoxPrompt)
-                    .foregroundColor(Color(.tertiaryLabel))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.horizontal, 20)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-            } else {
-                scrollView
+            HStack {
+                if valueSuggestions.isEmpty {
+                    Text(noTextBoxPrompt)
+                        .foregroundColor(Color(.tertiaryLabel))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.horizontal, 20)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                } else {
+                    scrollView
+                }
+                keyboardDismissButton
+                    .padding(.trailing, K.topButtonsHorizontalPadding)
             }
         }
         .frame(height: K.suggestionsBarHeight)

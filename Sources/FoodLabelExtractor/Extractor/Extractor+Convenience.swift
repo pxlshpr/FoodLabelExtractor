@@ -68,9 +68,8 @@ extension Extractor {
         return unit.description
     }
     
-    var shouldShowDeleteForCurrentAttribute: Bool {
+    var currentNutrientIsConfirmed: Bool {
         currentNutrient?.isConfirmed == true
-        && state != .showingKeyboard
     }
     
     var nextUnconfirmedAttribute: Attribute? {

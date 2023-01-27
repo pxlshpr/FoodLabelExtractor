@@ -7,7 +7,7 @@ import PrepDataTypes
 extension AttributesLayer {
     
     func tappedActionButton() {
-        if extractor.shouldShowDeleteForCurrentAttribute {
+        if extractor.currentNutrientIsConfirmed {
 //            withAnimation {
 //                extractor.deleteCurrentAttribute()
 //            }
@@ -23,6 +23,19 @@ extension AttributesLayer {
             } else {
                 extractor.moveToNextUnconfirmedAttribute()
             }
+        }
+    }
+    
+    func tappedDismissKeyboard() {
+        Haptics.feedback(style: .soft)
+        resignFocusOfSearchTextField()
+        withAnimation {
+            if extractor.containsUnconfirmedAttributes {
+                extractor.state = .awaitingConfirmation
+            } else {
+                extractor.state = .allConfirmed
+            }
+            hideBackground = false
         }
     }
     

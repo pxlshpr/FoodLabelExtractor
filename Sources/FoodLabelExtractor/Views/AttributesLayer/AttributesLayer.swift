@@ -31,7 +31,7 @@ public struct AttributesLayer: View {
     
     public var body: some View {
         ZStack {
-            topButtonsLayer
+//            topButtonsLayer
             supplementaryContentLayer
             primaryContentLayer
             buttonsLayer

@@ -61,16 +61,7 @@ extension AttributesLayer {
         
         var keyboardButton: some View {
             Button {
-                Haptics.feedback(style: .soft)
-                resignFocusOfSearchTextField()
-                withAnimation {
-                    if extractor.containsUnconfirmedAttributes {
-                        extractor.state = .awaitingConfirmation
-                    } else {
-                        extractor.state = .allConfirmed
-                    }
-                    hideBackground = false
-                }
+                tappedDismissKeyboard()
             } label: {
                 DismissButtonLabel(forKeyboard: true)
             }
@@ -85,31 +76,6 @@ extension AttributesLayer {
             .transition(.opacity)
         }
         
-        @ViewBuilder
-        var centerButtonLayer: some View {
-            if let currentAttribute = extractor.currentAttribute {
-                HStack {
-                    Spacer()
-                    Text(currentAttribute.description)
-    //                    .matchedGeometryEffect(id: "attributeName", in: namespace)
-    //                    .textCase(.uppercase)
-                        .font(.system(.title3, design: .rounded, weight: .medium))
-                        .foregroundColor(Color(.secondaryLabel))
-    //                    .frame(height: 38)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(2)
-                        .padding(10)
-                        .background(
-                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                .foregroundStyle(.ultraThinMaterial)
-                                .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
-                        )
-                    Spacer()
-                }
-                .padding(.horizontal, 38)
-            }
-        }
-        
         var shouldShow: Bool {
             extractor.state == .showingKeyboard
         }
@@ -119,7 +85,6 @@ extension AttributesLayer {
                 VStack {
                     Spacer()
                     ZStack(alignment: .bottom) {
-//                        centerButtonLayer
                         sideButtonsLayer
                     }
                     .padding(.horizontal, 20)
