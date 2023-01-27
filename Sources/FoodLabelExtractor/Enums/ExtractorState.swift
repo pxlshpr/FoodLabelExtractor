@@ -49,4 +49,13 @@ enum ExtractorState: String {
             return false
         }
     }
+    
+    var showsEditButton: Bool {
+        switch self {
+        case .awaitingConfirmation, .allConfirmed:
+            return true
+        default:
+            return false
+        }
+    }
 }

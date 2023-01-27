@@ -2,11 +2,14 @@ import SwiftUI
 
 extension AttributesLayer {
     var currentAttributeRow: some View {
+        @ViewBuilder
         var editButton: some View {
-            HStack {
-                Spacer()
-                EditButton()
-                    .padding(.trailing, 20)
+            if extractor.state.showsEditButton {
+                HStack {
+                    Spacer()
+                    EditButton()
+                        .padding(.trailing, 20)
+                }
             }
         }
         

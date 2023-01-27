@@ -47,7 +47,7 @@ extension AttributesLayer {
                 }
             }
             .padding(.vertical, K.topButtonsVerticalPadding)
-            if extractor.state != .showingKeyboard {
+            if extractor.state.showsDivider {
                 shadowLayer
                     .allowsHitTesting(false)
                     .transition(.opacity)

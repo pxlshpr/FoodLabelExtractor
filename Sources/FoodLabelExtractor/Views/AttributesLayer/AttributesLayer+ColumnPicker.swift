@@ -7,45 +7,28 @@ extension AttributesLayer {
         VStack {
             Spacer()
             columnPickerInstructions
+                .padding(.horizontal)
             Spacer()
-            segmentedPicker
-            autoFillButton
+            Group {
+                segmentedPicker
+                autoFillButton
+            }
+            .padding(.horizontal, K.SegmentedButton.paddingHorizontal)
         }
-//        .padding(.horizontal)
         .padding(.bottom, K.bottomSafeAreaPadding)
     }
     
     var columnPickerInstructions: some View {
         VStack(spacing: 10) {
-            HStack {
-                Text("We recommend choosing whichever column has the larger values. This makes sure that rounding errors are avoided as much as possible.")
-                    .foregroundColor(.secondary)
-                Spacer()
-            }
-            .font(.callout)
+            Text("We recommend choosing the column with larger values.")
+                .multilineTextAlignment(.center)
             Divider()
-            VStack {
-                HStack {
-                    Text("**For Example**")
-                        .foregroundColor(.secondary)
-                    Spacer()
-                }
-            }
-            .font(.footnote)
-            VStack(spacing: 5) {
-                HStack {
-                    Text("A label with **`0.1g`** of Trans Fats *per `100g`* rounds it down to **`0g`** in the *per serving* column.")
-                    Spacer()
-                }
-                HStack {
-                    Text("This essentially loses that value no matter how much of that food you log.")
-                    Spacer()
-                }
-            }
-            .font(.caption)
-            .foregroundColor(.secondary)
+                .frame(width: 200)
+            Text("This reduces rounding errors as much as possible.")
+                .multilineTextAlignment(.center)
+                .font(.callout)
         }
-        .padding(.horizontal, 50)
+        .foregroundColor(.secondary)
     }
     
 }
