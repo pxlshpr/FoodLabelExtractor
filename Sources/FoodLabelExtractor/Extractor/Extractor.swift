@@ -43,6 +43,10 @@ public class Extractor: ObservableObject {
     }
     @Published var internalTextfieldString: String = ""
 
+    /// This flag is used to keep the association with the value's `RecognizedText` when its changed
+    /// by tapping a suggestion.
+    var ignoreNextValueChange: Bool = false
+    
     //MARK: Tasks
     var scanTask: Task<(), Error>? = nil
     var classifyTask: Task<(), Error>? = nil
@@ -59,7 +63,17 @@ extension Extractor {
 }
 
 extension Extractor {
+    func setSuggestedValue(_ value: FoodLabelValue) {
+        ignoreNextValueChange = true
+        textFieldAmountString = value.amount.cleanWithoutRounding
+    }
+    
     func removeValueTextForCurrentAttributeIfDifferent() {
+        guard !ignoreNextValueChange else {
+            ignoreNextValueChange = false
+            return
+        }
+        
         guard internalTextfieldDouble != currentNutrient?.value?.amount else {
             return
         }

@@ -8,14 +8,22 @@ extension Extractor {
         }
     }
     
-    func checkIfAllNutrientsAreConfirmed(unsettingCurrentAttribute: Bool = true) {
-        if extractedNutrients.allSatisfy({ $0.isConfirmed }) {
-            withAnimation {
-                state = .allConfirmed
-                if unsettingCurrentAttribute {
-                    currentAttribute = nil
-                }
+    var allNutrientsConfirmed: Bool {
+        extractedNutrients.allSatisfy({ $0.isConfirmed })
+    }
+    
+    func setAsAllConfirmed(unsettingCurrentAttribute: Bool = true) {
+        withAnimation {
+            state = .allConfirmed
+            if unsettingCurrentAttribute {
+                currentAttribute = nil
             }
+        }
+    }
+    
+    func checkIfAllNutrientsAreConfirmed(unsettingCurrentAttribute: Bool = true) {
+        if allNutrientsConfirmed {
+            setAsAllConfirmed(unsettingCurrentAttribute: unsettingCurrentAttribute)
         } else {
             withAnimation {
                 state = state == .showingKeyboard ? .showingKeyboard : .awaitingConfirmation

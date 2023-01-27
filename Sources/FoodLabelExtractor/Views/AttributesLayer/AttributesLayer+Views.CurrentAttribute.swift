@@ -50,11 +50,13 @@ extension AttributesLayer {
     
     var valueButton: some View {
         var amountColor: Color {
-            Color.primary
+//            Color.primary
+            Color.accentColor
         }
         
         var unitColor: Color {
-            Color.secondary
+//            Color.secondary
+            Color.accentColor.opacity(0.7)
         }
         
         var backgroundStyle: some ShapeStyle {
@@ -103,11 +105,33 @@ extension AttributesLayer {
         }
         
         var imageName: String {
-            extractor.shouldShowDeleteForCurrentAttribute ? "trash" : "checkmark"
+            extractor.shouldShowDeleteForCurrentAttribute
+            ? "checkmark.square.fill" /// "trash"
+            : "square.dashed"
         }
 
-        var foregroundStyle: some ShapeStyle {
-            extractor.shouldShowDeleteForCurrentAttribute ? Color.red.gradient : Color.green.gradient
+        var background: some View {
+            
+            var roundedRectangle: some View {
+                RoundedRectangle(cornerRadius: K.topButtonCornerRadius, style: .continuous)
+            }
+            
+            return Group {
+                if extractor.shouldShowDeleteForCurrentAttribute {
+                    roundedRectangle
+                        .foregroundStyle(Color(.secondarySystemFill))
+                } else {
+                    roundedRectangle
+                        .foregroundStyle(Color(.secondarySystemFill))
+//                        .foregroundStyle(Color.green.gradient)
+                }
+            }
+        }
+        
+        var foregroundColor: Color {
+            extractor.shouldShowDeleteForCurrentAttribute
+            ? Color.white /// Color.red
+            : Color.white
         }
         
         return Button {
@@ -115,13 +139,10 @@ extension AttributesLayer {
         } label: {
             Image(systemName: imageName)
                 .font(.system(size: 22, weight: .semibold, design: .default))
-                .foregroundColor(.white)
+                .foregroundColor(foregroundColor)
                 .frame(width: K.topButtonWidth)
                 .frame(height: K.topButtonHeight)
-                .background(
-                    RoundedRectangle(cornerRadius: K.topButtonCornerRadius, style: .continuous)
-                        .foregroundStyle(foregroundStyle)
-                )
+                .background(background)
                 .contentShape(Rectangle())
         }
 //        .disabled(shouldDisablePrimaryButton)
@@ -137,7 +158,7 @@ extension AttributesLayer {
             case .allConfirmed:
                 return "All Marked as Correct"
             default:
-                return "Edit Nutrients"
+                return "Confirm Detected Nutrients"
             }
         }
         

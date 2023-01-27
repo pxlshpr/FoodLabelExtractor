@@ -10,7 +10,7 @@ extension AttributesLayer {
 //            ? "circle.inset.filled"
 //            : "circle"
             ? "checkmark.square.fill"
-            : "square"
+            : "square.dashed"
         }
 
         var listRowBackground: some View {

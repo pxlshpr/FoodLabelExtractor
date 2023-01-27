@@ -5,23 +5,6 @@ import FoodLabelScanner
 
 extension Extractor {
     
-    func handleAttributesLayerAction(_ action: AttributesLayerAction) {
-        switch action {
-//        case .dismiss:
-//            viewModel.dismissHandler?()
-        case .confirmCurrentAttribute:
-            confirmCurrentAttribute()
-        case .deleteCurrentAttribute:
-            deleteCurrentAttribute()
-        case .moveToAttribute(let attribute):
-            moveToAttribute(attribute)
-        case .toggleAttributeConfirmation(let attribute):
-            toggleAttributeConfirmation(attribute)
-        default:
-            break
-        }
-    }
-
     func deselectCurrentAttribute() {
         withAnimation(.interactiveSpring()) {
             currentAttribute = nil
@@ -30,11 +13,6 @@ extension Extractor {
     }
     
     func confirmCurrentAttribute() {
-        confirmCurrentAttributeAndMoveToNext()
-        showTextBoxesForCurrentAttribute()
-    }
-
-    func confirmCurrentAttributeAndMoveToNext() {
         guard let currentAttribute else { return }
         guard let index = extractedNutrients.firstIndex(where: { $0.attribute == currentAttribute })
         else { return }
@@ -55,12 +33,16 @@ extension Extractor {
             )
         }
 
-        checkIfAllNutrientsAreConfirmed()
-        
-        guard let nextUnconfirmedAttribute else { return }
-        moveToAttribute(nextUnconfirmedAttribute)
+//        checkIfAllNutrientsAreConfirmed()
+//        moveToNextUnconfirmedAttribute()
     }
     
+    func moveToNextUnconfirmedAttribute() {
+        guard let nextUnconfirmedAttribute else { return }
+        moveToAttribute(nextUnconfirmedAttribute)
+        showTextBoxesForCurrentAttribute()
+    }
+
     func moveToAttribute(_ attribute: Attribute, animation: Animation = .interactiveSpring()) {
         Haptics.selectionFeedback()
 
@@ -87,7 +69,12 @@ extension Extractor {
         
         extractedNutrients.remove(at: index)
     }
-    
+
+    func toggleAttributeConfirmationForCurrentAttribute() {
+        guard let currentAttribute else { return }
+        toggleAttributeConfirmation(currentAttribute)
+    }
+
     func toggleAttributeConfirmation(_ attribute: Attribute) {
         guard let index = extractedNutrients.firstIndex(where: { $0.attribute == attribute }) else {
             return

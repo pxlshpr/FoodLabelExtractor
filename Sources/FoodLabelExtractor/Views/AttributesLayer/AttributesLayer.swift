@@ -2,14 +2,6 @@ import SwiftUI
 import FoodLabelScanner
 import ActivityIndicatorView
 
-public enum AttributesLayerAction {
-    case dismiss
-    case confirmCurrentAttribute
-    case deleteCurrentAttribute
-    case moveToAttribute(Attribute)
-    case toggleAttributeConfirmation(Attribute)
-}
-
 public struct AttributesLayer: View {
     
     @Environment(\.colorScheme) var colorScheme

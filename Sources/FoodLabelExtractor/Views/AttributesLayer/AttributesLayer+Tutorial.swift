@@ -193,7 +193,7 @@ struct TutorialLayer: View {
                             attributes: {
     //                            $0.sourceFrameInset.top = -8
 //                                $0.sourceFrameInset.right = 20
-                                $0.screenEdgePadding = .init(top: 0, left: 0, bottom: 0, right: 16)
+                                $0.screenEdgePadding = .init(top: 0, left: 0, bottom: 0, right: -3)
                                 $0.position = .absolute(
                                     originAnchor: .bottom,
                                     popoverAnchor: .top

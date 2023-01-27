@@ -2,20 +2,33 @@ import SwiftUI
 import SwiftHaptics
 import FoodLabelScanner
 import VisionSugar
+import PrepDataTypes
 
 extension AttributesLayer {
     
     func tappedActionButton() {
-//        resignFocusOfSearchTextField()
         if extractor.shouldShowDeleteForCurrentAttribute {
-            withAnimation {
-//                actionHandler(.deleteCurrentAttribute)
-                extractor.deleteCurrentAttribute()
-            }
+//            withAnimation {
+//                extractor.deleteCurrentAttribute()
+//            }
+            extractor.toggleAttributeConfirmationForCurrentAttribute()
         } else {
 //            actionHandler(.confirmCurrentAttribute)
             extractor.confirmCurrentAttribute()
+            if extractor.allNutrientsConfirmed {
+                if extractor.state == .showingKeyboard {
+                    resignFocusOfSearchTextField()
+                }
+                extractor.setAsAllConfirmed()
+            } else {
+                extractor.moveToNextUnconfirmedAttribute()
+            }
         }
+    }
+    
+    func tappedSuggestedValue(_ value: FoodLabelValue) {
+        Haptics.feedback(style: .soft)
+        extractor.setSuggestedValue(value)
     }
     
     func tappedValueButton() {
