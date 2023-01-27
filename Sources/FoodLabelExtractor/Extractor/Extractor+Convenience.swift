@@ -36,7 +36,7 @@ extension Extractor {
 
     var currentAmountString: String {
         guard let amount = currentNutrient?.value?.amount else { return "" }
-        return amount.cleanAmount
+        return amount.cleanWithoutRounding
     }
     
     var currentNutrient: ExtractedNutrient? {

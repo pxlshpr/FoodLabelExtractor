@@ -90,7 +90,7 @@ extension Extractor {
             return
         }
         Haptics.feedback(style: .rigid)
-        self.textFieldAmountString = firstValue.amount.cleanAmount
+        self.textFieldAmountString = firstValue.amount.cleanWithoutRounding
         if let unit = firstValue.unit {
             self.pickedAttributeUnit = unit
         }
@@ -108,20 +108,27 @@ extension Extractor {
     }
     
     func showColumnTextBoxes() {
-        self.textBoxes = extractedColumns.selectedColumnValueTexts.map {
+        let textBoxes = extractedColumns.selectedColumnValueTexts.map {
             TextBox(
                 boundingBox: $0.boundingBox,
                 color: .accentColor,
                 tapHandler: nil
             )
         }
-        self.selectableTextBoxes = extractedColumns.nonSelectedColumnValueTexts.map {
+        var selectableTextBoxes = extractedColumns.nonSelectedColumnValueTexts.map {
             TextBox(
                 boundingBox: $0.boundingBox,
                 color: .yellow,
                 tapHandler: columnTextBoxTapHandler(for: $0)
             )
         }
+        /// Filter out any selectable text boxes that have also been set for the standard text boxes
+        selectableTextBoxes = selectableTextBoxes.filter { selectableTextBox in
+            !textBoxes.contains(where: { $0.boundingBox == selectableTextBox.boundingBox })
+        }
+        
+        self.textBoxes = textBoxes
+        self.selectableTextBoxes = selectableTextBoxes
     }
     
     func columnTextBoxTapHandler(for text: RecognizedText) -> (() -> ())? {

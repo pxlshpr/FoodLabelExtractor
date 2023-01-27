@@ -6,7 +6,7 @@ import VisionSugar
 extension AttributesLayer {
     
     func tappedActionButton() {
-        resignFocusOfSearchTextField()
+//        resignFocusOfSearchTextField()
         if extractor.shouldShowDeleteForCurrentAttribute {
             withAnimation {
 //                actionHandler(.deleteCurrentAttribute)

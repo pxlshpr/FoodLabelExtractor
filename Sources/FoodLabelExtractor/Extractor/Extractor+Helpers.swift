@@ -18,7 +18,7 @@ extension Extractor {
             }
         } else {
             withAnimation {
-                state = .awaitingConfirmation
+                state = state == .showingKeyboard ? .showingKeyboard : .awaitingConfirmation
             }
         }
     }

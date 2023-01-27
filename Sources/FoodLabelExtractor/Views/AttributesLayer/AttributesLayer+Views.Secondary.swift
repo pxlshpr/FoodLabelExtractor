@@ -75,16 +75,19 @@ extension AttributesLayer {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
                     ForEach(valueSuggestions, id: \.self) { value in
-                        Text(value.description)
-    //                            .font(.system(size: 18, weight: .medium, design: .rounded))
-                            .foregroundColor(textColor)
-                            .padding(.horizontal, 15)
-                            .frame(height: K.suggestionsBarHeight)
-                            .background(
-    //                                Capsule(style: .continuous)
-                                RoundedRectangle(cornerRadius: 5, style: .continuous)
-                                    .foregroundColor(backgroundColor)
-                            )
+                        Button {
+                            Haptics.feedback(style: .soft)
+                            extractor.textFieldAmountString = value.amount.cleanWithoutRounding
+                        } label: {
+                            Text(value.description)
+                                .foregroundColor(textColor)
+                                .padding(.horizontal, 15)
+                                .frame(height: K.suggestionsBarHeight)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 5, style: .continuous)
+                                        .foregroundColor(backgroundColor)
+                                )
+                        }
                     }
                 }
                 .padding(.horizontal, 10)

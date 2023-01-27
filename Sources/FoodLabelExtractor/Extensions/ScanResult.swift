@@ -51,6 +51,23 @@ extension ScanResult {
             )
         })
         
+        /// Remove any value-less attributes that lie outside the bounding box of nutrients
+        let boundingBox = nutrientsBoundingBox(includeAttributes: true)
+        extractedNutrients = extractedNutrients.filter { extractedNutrient in
+            guard extractedNutrient.valueText == nil,
+                  let attributeText = extractedNutrient.attributeText
+            else { return true }
+            return boundingBox.contains(attributeText.boundingBox)
+        }
+        
+        /// Sort everything by ascending `minY` of their attribute's text
+        extractedNutrients.sort {
+            guard let rect1 = $0.attributeText?.rect, let rect2 = $1.attributeText?.rect else {
+                return false
+            }
+            return rect1.minY < rect2.minY
+        }
+        
         /// Ensure that energy is always at the top
         let energy: ExtractedNutrient
         if let energyIndex = extractedNutrients.firstIndex(where: { $0.attribute == .energy }) {
@@ -60,6 +77,7 @@ extension ScanResult {
         }
         extractedNutrients.insert(energy, at: 0)
         
+        /// Add any missing macros (to ensure they're all always present)
         for macro in Macro.allCases {
             guard !extractedNutrients.contains(where: { $0.attribute.macro == macro }) else {
                 continue

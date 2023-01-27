@@ -24,7 +24,7 @@ extension AttributesLayer {
         
         var hstack: some View {
             var valueDescription: String {
-                nutrient.value?.description ?? "Enter a value"
+                nutrient.value?.descriptionWithoutRounding ?? "Enter a value"
             }
             
             var textColor: Color {

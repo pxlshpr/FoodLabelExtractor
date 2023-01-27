@@ -129,7 +129,7 @@ extension Extractor {
 }
 
 extension Extractor {
-    func reset() {
+    public func reset() {
         state = .loadingImage
         image = nil
         
