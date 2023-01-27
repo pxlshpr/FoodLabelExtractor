@@ -70,9 +70,11 @@ extension Extractor {
     }
     
     func removeConfirmationStatusForCurrentAttribute() {
-        if currentNutrientIsConfirmed {
-            toggleAttributeConfirmationForCurrentAttribute()
-        }
+        guard currentNutrientIsConfirmed,
+            internalTextfieldDouble != currentNutrient?.value?.amount
+        else { return }
+        
+        toggleAttributeConfirmationForCurrentAttribute()
     }
     
     func removeValueTextForCurrentAttributeIfDifferent() {
