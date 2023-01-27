@@ -3,9 +3,38 @@ import VisionSugar
 import FoodLabelScanner
 import PrepDataTypes
 
+enum ExtractorCaptureTransitionState {
+    case notStarted
+    case setup
+    case startTransition
+    case endTransition
+    case tearDown
+    
+    var isTransitioning: Bool {
+        switch self {
+        case .setup, .startTransition, .endTransition:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var showFullScreenImage: Bool {
+        switch self {
+        case .startTransition, .tearDown, .endTransition:
+            return false
+        default:
+            return true
+        }
+    }
+}
+
 @MainActor
 public class Extractor: ObservableObject {
 
+    var isUsingCamera: Bool
+
+    @Published var transitionState: ExtractorCaptureTransitionState = .notStarted
     @Published var state: ExtractorState = .loadingImage
 
     @Published public var image: UIImage? = nil
@@ -26,6 +55,7 @@ public class Extractor: ObservableObject {
     }
 
 //    @Published var showingBoxes = false
+    @Published var showingCamera = false
     @Published var showingBackground: Bool = true
     @Published var extractedColumns: ExtractedColumns = ExtractedColumns()
 
@@ -53,7 +83,8 @@ public class Extractor: ObservableObject {
     var classifyTask: Task<(), Error>? = nil
 
     //MARK: Init
-    public init() {
+    public init(isUsingCamera: Bool = false) {
+        self.isUsingCamera = isUsingCamera
     }
 }
 
@@ -147,10 +178,13 @@ extension Extractor {
 }
 
 extension Extractor {
-    public func reset() {
+    public func reset(forCamera: Bool = false) {
         state = .loadingImage
         image = nil
-        
+
+        isUsingCamera = forCamera
+        showingCamera = true
+
         textSet = nil
         textBoxes = []
         scanResult = nil

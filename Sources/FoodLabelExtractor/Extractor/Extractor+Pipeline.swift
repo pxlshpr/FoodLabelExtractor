@@ -5,6 +5,35 @@ import FoodLabelScanner
 
 extension Extractor {
 
+    func handleCapturedImage(_ image: UIImage) {
+        self.image = image
+        
+        /// Place the image where we last saw it in the camera view finder
+        withAnimation(.interactiveSpring()) {
+            transitionState = .setup
+            showingCamera = false
+        }
+
+        /// Now animate it downwards to where it will bein the extractor
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//            withAnimation(.easeInOut(duration: 0.7)) {
+            withAnimation {
+                self.transitionState = .startTransition
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.transitionState = .endTransition
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//                    withAnimation {
+                        self.transitionState = .tearDown
+//                    }
+                }
+            }
+        }
+    }
+
+    
     func detectTexts() {
         guard let image else { return }
         setState(to: .detecting)

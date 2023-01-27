@@ -39,6 +39,14 @@ extension AttributesLayer {
 //                return textColor
             }
             
+            var shouldDisable: Bool {
+                nutrient.value == nil
+            }
+            
+            var checkBoxColor: Color {
+                shouldDisable ? Color(.quaternaryLabel) : .secondary
+            }
+            
             return HStack(spacing: 0) {
                 Button {
                     tappedCell(for: nutrient.attribute)
@@ -69,13 +77,13 @@ extension AttributesLayer {
                     extractor.toggleAttributeConfirmation(nutrient.attribute)
                 } label: {
                     Image(systemName: imageName)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(checkBoxColor)
 //                        .padding(.horizontal, 15)
                         .frame(width: K.Cell.checkBoxButtonWidth)
                         .frame(maxHeight: .infinity)
                         .contentShape(Rectangle())
                 }
-                .disabled(nutrient.value == nil)
+                .disabled(shouldDisable)
             }
             .foregroundColor(textColor)
             .foregroundColor(.primary)

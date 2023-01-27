@@ -112,6 +112,7 @@ extension AttributesLayer {
     var actionButton: some View {
         var shouldDisable: Bool {
             extractor.currentValue == nil
+            && extractor.internalTextfieldDouble == nil
 //            guard let currentNutrient = extractor.currentNutrient else { return true }
 //            if let textFieldDouble = extractor.internalTextfieldDouble {
 //                if textFieldDouble != currentNutrient.value?.amount {
@@ -144,8 +145,8 @@ extension AttributesLayer {
         
         var foregroundColor: Color {
             colorScheme == .dark
-            ? .white
-            : .secondary
+            ? shouldDisable ? Color(.tertiaryLabel) : .white
+            : shouldDisable ? Color(.quaternaryLabel) : .secondary
         }
         
         return Button {

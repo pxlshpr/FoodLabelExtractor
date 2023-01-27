@@ -21,6 +21,7 @@ extension ExtractorView {
             Spacer()
         }
         .edgesIgnoringSafeArea(.all)
+        .opacity(extractor.transitionState.isTransitioning ? 0 : 1)
     }
     
     var imageViewer: some View {
@@ -58,11 +59,18 @@ extension ExtractorView {
 
     func imageChanged(_ image: UIImage?) {
         guard let image else { return }
+        guard !extractor.isUsingCamera else { return }
+        setImageInImageViewer(image)
+        startExtracting(image: image)
+    }
+    
+    func setImageInImageViewer(_ image: UIImage) {
         withAnimation(.easeInOut(duration: 0.7)) {
-//        withAnimation {
             imageViewerViewModel.image = image
         }
-        
+    }
+    
+    func startExtracting(image: UIImage) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             extractor.begin()
         }

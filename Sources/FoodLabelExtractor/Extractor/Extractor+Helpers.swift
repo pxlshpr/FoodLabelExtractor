@@ -20,6 +20,7 @@ extension Extractor {
             if unsettingCurrentAttribute {
                 currentAttribute = nil
             }
+            showTextBoxesForCurrentAttribute()
         }
     }
     
