@@ -75,7 +75,7 @@ extension AttributesLayer {
                         .frame(maxHeight: .infinity)
                         .contentShape(Rectangle())
                 }
-                .disabled(extractor.attributeIsConfirmed(nutrient.attribute))
+                .disabled(nutrient.value == nil)
             }
             .foregroundColor(textColor)
             .foregroundColor(.primary)
