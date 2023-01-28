@@ -34,7 +34,7 @@ extension ExtractorView {
         }
         
         var y: CGFloat {
-            extractor.dismissState == .stackedOnTop ? 150 : rect.midY
+            extractor.dismissState == .stackedOnTop ? 150 - K.topBarHeight : rect.midY
         }
         
         var angle: Angle {
