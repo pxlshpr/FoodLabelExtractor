@@ -107,7 +107,9 @@ public struct ExtractorView: View {
     }
     
     var foodLabelCamera: some View {
-        LabelCamera(imageHandler: handleCapturedImage)
+        LabelCamera(imageHandler: handleCapturedImage, didTapDismiss: {
+            extractor.dismiss()
+        })
     }
 
     //MARK: Events

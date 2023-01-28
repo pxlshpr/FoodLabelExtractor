@@ -10,7 +10,14 @@ public struct LabelCamera: View {
     @StateObject var cameraViewModel: CameraViewModel
     @StateObject var viewModel: ViewModel
     
-    public init(mockData: (ScanResult, UIImage)? = nil, imageHandler: @escaping ImageHandler) {
+    let didTapDismiss: () -> ()
+    
+    public init(
+        mockData: (ScanResult, UIImage)? = nil,
+        imageHandler: @escaping ImageHandler,
+        didTapDismiss: @escaping () -> ()
+    ) {
+        self.didTapDismiss = didTapDismiss
         
         let viewModel = ViewModel(mockData: mockData, imageHandler: imageHandler)
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -43,20 +50,20 @@ public struct LabelCamera: View {
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 withAnimation {
                     hasAppeared = true
                 }
             }
         }
-        .onChange(of: viewModel.shouldDismiss) { newShouldDismiss in
-            if newShouldDismiss {
+        .onChange(of: viewModel.shouldDismiss) { newValue in
+            if newValue {
                 dismiss()
             }
         }
-        .onChange(of: cameraViewModel.shouldDismiss) { newShouldDismiss in
-            if newShouldDismiss {
-                dismiss()
+        .onChange(of: cameraViewModel.shouldDismiss) { newValue in
+            if newValue {
+                didTapDismiss()
             }
         }
     }

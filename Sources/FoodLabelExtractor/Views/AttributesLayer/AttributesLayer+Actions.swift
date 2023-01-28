@@ -81,12 +81,7 @@ extension AttributesLayer {
     }
 
     func tappedDismiss() {
-        withAnimation {
-            extractor.presentationState = .offScreen
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            extractor.didDismiss?()
-        }
+        extractor.dismiss()
     }
     
     func tappedDone() {

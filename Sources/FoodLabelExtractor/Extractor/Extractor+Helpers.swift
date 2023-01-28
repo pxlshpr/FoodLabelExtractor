@@ -3,6 +3,15 @@ import SwiftHaptics
 
 extension Extractor {
     
+    func dismiss() {
+        withAnimation {
+            presentationState = .offScreen
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+            self?.didDismiss?()
+        }
+    }
+
     func setState(to newState: ExtractorState) {
         withAnimation {
             self.state = newState
