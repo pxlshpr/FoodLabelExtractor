@@ -68,7 +68,7 @@ public class Extractor: ObservableObject {
     }
     @Published var internalTextfieldString: String = ""
 
-    var didDismiss: (() -> ())? = nil
+    var didDismiss: (((ScanResult, [ExtractedNutrient])?) -> Void)? = nil
     
     /// This flag is used to keep the association with the value's `RecognizedText` when its changed
     /// by tapping a suggestion.
@@ -94,7 +94,7 @@ public class Extractor: ObservableObject {
 }
 
 extension Extractor {
-    public func setup(forCamera: Bool = false, didDismiss: @escaping () -> ()) {
+    public func setup(forCamera: Bool = false, didDismiss: @escaping (((ScanResult, [ExtractedNutrient])?) -> Void)) {
         
         isUsingCamera = forCamera
 

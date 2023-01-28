@@ -9,7 +9,7 @@ extension Extractor {
             presentationState = .offScreen
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
-            self?.didDismiss?()
+            self?.didDismiss?(nil)
         }
     }
 
