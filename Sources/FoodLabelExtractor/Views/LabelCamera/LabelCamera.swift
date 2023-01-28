@@ -9,7 +9,7 @@ public struct LabelCamera: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var cameraViewModel: CameraViewModel
     @StateObject var viewModel: ViewModel
-    
+    @State var hasAppeared = false
     let didTapDismiss: () -> ()
     
     public init(
@@ -34,8 +34,6 @@ public struct LabelCamera: View {
         )
         _cameraViewModel = StateObject(wrappedValue: cameraViewModel)
     }
-    
-    @State var hasAppeared = false
     
     public var body: some View {
         ZStack {
