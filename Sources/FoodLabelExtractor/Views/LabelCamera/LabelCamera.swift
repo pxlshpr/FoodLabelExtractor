@@ -10,6 +10,7 @@ public struct LabelCamera: View {
     @StateObject var cameraViewModel: CameraViewModel
     @StateObject var viewModel: ViewModel
     @State var hasAppeared = false
+    
     let didTapDismiss: () -> ()
     
     public init(
