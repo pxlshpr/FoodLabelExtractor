@@ -4,6 +4,7 @@ import SwiftHaptics
 extension Extractor {
     
     func dismiss() {
+        Haptics.feedback(style: .soft)
         withAnimation {
             presentationState = .offScreen
         }
