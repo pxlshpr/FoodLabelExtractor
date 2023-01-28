@@ -7,7 +7,7 @@ extension ExtractorView {
         if extractor.dismissState.shouldShowCroppedImages {
             ZStack {
                 Color.clear
-//                Color.blue.opacity(0.3)
+                //                Color.blue.opacity(0.3)
                 ForEach(extractor.croppedImages.indices, id: \.self) { i in
                     croppedImage(
                         extractor.croppedImages[i].0,
@@ -20,6 +20,9 @@ extension ExtractorView {
             .padding(.top, K.topBarHeight)
             .edgesIgnoringSafeArea(.all)
             .transition(.opacity)
+            .scaleEffect(extractor.dismissState == .shrinkingCroppedImages ? 0 : 1)
+            .padding(.top, extractor.dismissState == .shrinkingCroppedImages ? 0 : 0)
+            .padding(.trailing, extractor.dismissState == .shrinkingCroppedImages ? 300 : 0)
         }
     }
     
@@ -30,15 +33,27 @@ extension ExtractorView {
         wiggleAngles: (Angle, Angle, Angle, Angle)
     ) -> some View {
         var x: CGFloat {
-            extractor.dismissState == .stackedOnTop ? UIScreen.main.bounds.midX : rect.midX
+            extractor.dismissState.shouldStackCropImages ? UIScreen.main.bounds.midX : rect.midX
+        }
+        
+        /// This correction only needs to applied on the device for some reason
+        var yCorrection: CGFloat {
+#if targetEnvironment(simulator)
+            0
+#else
+            K.topBarHeight
+#endif
         }
         
         var y: CGFloat {
-            extractor.dismissState == .stackedOnTop ? 150 - K.topBarHeight : rect.midY
+            extractor.dismissState.shouldStackCropImages
+            //            ? 150 - K.topBarHeight
+            ? 150 - K.topBarHeight - yCorrection
+            : rect.midY - yCorrection
         }
         
         var angle: Angle {
-            if extractor.dismissState == .stackedOnTop {
+            if extractor.dismissState.shouldStackCropImages {
                 return stackedAngle
             } else if extractor.dismissState == .firstWiggle {
                 return wiggleAngles.0
@@ -52,9 +67,9 @@ extension ExtractorView {
                 return .degrees(0)
             }
         }
-
+        
         var scale: CGFloat {
-            if extractor.dismissState == .stackedOnTop {
+            if extractor.dismissState.shouldStackCropImages {
                 return 2
             } else if extractor.dismissState == .firstWiggle {
                 return 1.1
@@ -68,12 +83,12 @@ extension ExtractorView {
                 return 1.05
             } else {
                 return 1.0
-//                return 1.03
+                //                return 1.03
             }
         }
         
         var shadow: CGFloat {
-            if extractor.dismissState == .stackedOnTop {
+            if extractor.dismissState.shouldStackCropImages {
                 return 3
             } else if extractor.dismissState == .firstWiggle {
                 return 7
@@ -89,7 +104,7 @@ extension ExtractorView {
                 return 5
             }
         }
-
+        
         return Image(uiImage: image)
             .resizable()
             .scaledToFit()

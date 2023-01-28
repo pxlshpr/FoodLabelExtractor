@@ -84,9 +84,12 @@ extension AttributesLayer {
     }
     
     func tappedDone() {
+        withAnimation {
+            extractor.dismissState = .started
+        }
         /// Setup, by:
-        /// [ ] Locking up UI, hide the dismiss and done buttons by transitioning upwards
-        /// [ ] Try seeing what transitioning the attributes layer downwards looks like too
+        /// [x] Locking up UI, hide the dismiss and done buttons by transitioning upwards
+        /// [x] Try seeing what transitioning the attributes layer downwards looks like too
         /// [x] Crop images of all texts that have values in them as soon as scan result completes, so that we have it ready
         /// [x] Place `croppedimages` of chosen texts on cropped layer
         /// [x] Show the `cutoutTextBoxes` on the ImageViewer

@@ -207,15 +207,25 @@ extension AttributesLayer {
             }
         }
         
-        return VStack {
-            topButtons
-                .padding(.horizontal, 20)
-            Spacer()
-            addButtonRow
-            .padding(.horizontal, 20)
-            .padding(.bottom, bottomPadding)
+        var layer: some View {
+            VStack {
+                if !extractor.dismissState.shouldHideUI {
+                    topButtons
+                        .padding(.horizontal, 20)
+                        .transition(.move(edge: .top))
+                }
+                Spacer()
+                if !extractor.dismissState.shouldHideUI {
+                    addButtonRow
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, bottomPadding)
+                        .transition(.move(edge: .bottom))
+                }
+            }
+            .frame(width: UIScreen.main.bounds.width)
+            .edgesIgnoringSafeArea(.bottom)
         }
-        .frame(width: UIScreen.main.bounds.width)
-        .edgesIgnoringSafeArea(.bottom)
+            
+        return layer
     }
 }

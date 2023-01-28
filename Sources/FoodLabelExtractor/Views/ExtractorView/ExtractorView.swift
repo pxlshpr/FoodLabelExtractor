@@ -25,7 +25,7 @@ public struct ExtractorView: View {
     
     var contents: some View {
         ZStack {
-            if extractor.showingBackground {
+            if !extractor.dismissState.shouldShrinkImage {
                 Color(.systemBackground)
                     .edgesIgnoringSafeArea(.all)
             }
@@ -40,11 +40,16 @@ public struct ExtractorView: View {
         }
     }
     
+    @ViewBuilder
     var attributesLayer: some View {
-        AttributesLayer(
-            extractor: extractor,
-            didTapDismiss: didTapDismiss
-        )
+        if !extractor.dismissState.shouldHideUI {
+            AttributesLayer(
+                extractor: extractor,
+                didTapDismiss: didTapDismiss
+            )
+            .zIndex(9)
+            .transition(.move(edge: .bottom))
+        }
     }
     
     @ViewBuilder

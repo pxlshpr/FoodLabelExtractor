@@ -169,8 +169,49 @@ extension Extractor {
             try await sleepTask(0.8, tolerance: 0.01)
 
             guard !Task.isCancelled else { return }
-//            try await self.collapse()
+            try await self.collapse()
         }
+    }
+    
+    @MainActor
+    func collapse() async throws {
+        
+        guard !Task.isCancelled else { return }
+
+        withAnimation {
+            dismissState = .shrinkingImage
+//            animatingCollapse = true
+//            animatingCollapseOfCutouts = true
+//            if let image, let scanResult {
+//                imageHandler?(image, scanResult)
+//                imageHandler = nil
+//            }
+        }
+        
+        try await sleepTask(0.5, tolerance: 0.01)
+
+        guard !Task.isCancelled else { return }
+        withAnimation {
+            dismissState = .shrinkingCroppedImages
+        }
+//
+//        try await sleepTask(0.2, tolerance: 0.01)
+//
+//        guard !Task.isCancelled else { return }
+//        withAnimation {
+//            //TODO: Handle this in LabelScanner with a local variable an an onChange modifier since it's a binding
+//            clearSelectedImage = true
+//
+//            if let scanResult {
+//                if showingColumnPicker {
+//                    scanResultHandler?(scanResult, columns.selectedColumnIndex)
+//                } else {
+//                    scanResultHandler?(scanResult, nil)
+//                }
+//                scanResultHandler = nil
+//                dismissHandler?()
+//            }
+//        }
     }
 }
 

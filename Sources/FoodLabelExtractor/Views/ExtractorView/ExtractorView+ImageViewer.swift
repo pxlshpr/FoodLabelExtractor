@@ -10,10 +10,7 @@ extension ExtractorView {
                 ZStack {
                     imageViewer
                     croppedImagesLayer
-//                        .scaleEffect(viewModel.animatingCollapseOfCroppedImages ? 0 : 1)
-//                        .padding(.top, viewModel.animatingCollapseOfCroppedImages ? 0 : 0)
-//                        .padding(.trailing, viewModel.animatingCollapseOfCroppedImages ? 300 : 0)
-                }
+            }
                 Spacer()
             }
             .transition(.opacity)
@@ -25,29 +22,19 @@ extension ExtractorView {
     }
     
     var imageViewer: some View {
-        ImageViewer(viewModel: imageViewerViewModel)
-//            .scaleEffect(viewModel.animatingCollapse ? 0 : 1)
-//            .opacity(viewModel.shimmeringImage ? 0.4 : 1)
-
-//        let isFocused = Binding<Bool>(
-//            get: { viewModel.showingColumnPicker || viewModel.showingValuePicker },
-//            set: { _ in }
-//        )
-//
-//        return ImageViewer(
-//            id: UUID(),
-//            image: image,
-//            textBoxes: $viewModel.textBoxes,
-//            scannedTextBoxes: $viewModel.scannedTextBoxes,
-//            contentMode: .fit,
-//            zoomBox: $viewModel.zoomBox,
-//            showingBoxes: $viewModel.showingBoxes,
-//            showingCutouts: $viewModel.showingCutouts,
-//            shimmering: $viewModel.shimmering,
-//            isFocused: isFocused
-//        )
-//        .scaleEffect(viewModel.animatingCollapse ? 0 : 1)
-//        .opacity(viewModel.shimmeringImage ? 0.4 : 1)
+        /// Overlay used to block scrolling when dismissing
+        @ViewBuilder
+        var overlay: some View {
+            if extractor.dismissState.shouldHideUI {
+                Color.white.opacity(0)
+            }
+        }
+        
+        return ImageViewer(viewModel: imageViewerViewModel)
+            .overlay(overlay)
+            .scaleEffect(extractor.dismissState.shouldShrinkImage ? 0 : 1)
+            .padding(.top, extractor.dismissState.shouldShrinkImage ? 400 : 0)
+            .padding(.trailing, extractor.dismissState.shouldShrinkImage ? 300 : 0)
     }
     
     var imageViewerHeight: CGFloat {
