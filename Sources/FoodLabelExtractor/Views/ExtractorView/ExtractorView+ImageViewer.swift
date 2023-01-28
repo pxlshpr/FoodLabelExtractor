@@ -19,6 +19,7 @@ extension ExtractorView {
         }
         .edgesIgnoringSafeArea(.all)
         .opacity(extractor.transitionState.isTransitioning ? 0 : 1)
+        .zIndex(8)
     }
     
     var imageViewer: some View {
