@@ -81,6 +81,9 @@ extension AttributesLayer {
     }
 
     func tappedDismiss() {
+        if extractor.state == .showingKeyboard {
+            isFocused = false
+        }
         extractor.dismiss()
     }
     
