@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftSugar
 import SwiftHaptics
 import FoodLabelScanner
+import VisionSugar
 
 extension Extractor {
 
@@ -107,7 +108,9 @@ extension Extractor {
             
             guard !Task.isCancelled else { return }
 
-//            await self.startCroppingImages()
+            print("✂️ About to call cropTextBoxes()")
+            await self.cropTextBoxes()
+            print("✂️ Returned from cropTextBoxes()")
 
             if scanResult.columnCount == 2 {
                 try await self.showColumnPicker()
@@ -116,7 +119,7 @@ extension Extractor {
             }
         }
     }
-    
+
     func extractNutrients() async throws {
         guard let scanResult else { return }
         let extractedNutrients = scanResult.extractedNutrientsForColumn(

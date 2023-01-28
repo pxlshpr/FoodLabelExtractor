@@ -3,58 +3,6 @@ import VisionSugar
 import FoodLabelScanner
 import PrepDataTypes
 
-enum DismissTransitionState {
-    case notStarted
-    case setup
-    case startTransition
-    case endTransition
-    case tearDown
-    
-    var isTransitioning: Bool {
-        switch self {
-        case .setup, .startTransition, .endTransition:
-            return true
-        default:
-            return false
-        }
-    }
-    
-    var showFullScreenImage: Bool {
-        switch self {
-        case .startTransition, .tearDown, .endTransition:
-            return false
-        default:
-            return true
-        }
-    }
-}
-
-enum ExtractorCaptureTransitionState {
-    case notStarted
-    case setup
-    case startTransition
-    case endTransition
-    case tearDown
-    
-    var isTransitioning: Bool {
-        switch self {
-        case .setup, .startTransition, .endTransition:
-            return true
-        default:
-            return false
-        }
-    }
-    
-    var showFullScreenImage: Bool {
-        switch self {
-        case .startTransition, .tearDown, .endTransition:
-            return false
-        default:
-            return true
-        }
-    }
-}
-
 @MainActor
 public class Extractor: ObservableObject {
 
@@ -62,6 +10,11 @@ public class Extractor: ObservableObject {
 
     @Published var transitionState: ExtractorCaptureTransitionState = .notStarted
     @Published var state: ExtractorState = .loadingImage
+    @Published var dismissState: DismissTransitionState = .notStarted
+    
+    var croppingStatus: CroppingStatus = .idle
+    var allCroppedImages: [RecognizedText : UIImage] = [:]
+    @Published var croppedImages: [(UIImage, CGRect, UUID, Angle, (Angle, Angle, Angle, Angle))] = []
 
     @Published public var image: UIImage? = nil
 
@@ -107,6 +60,8 @@ public class Extractor: ObservableObject {
     //MARK: Tasks
     var scanTask: Task<(), Error>? = nil
     var classifyTask: Task<(), Error>? = nil
+    var cropTask: Task<(), Error>? = nil
+    var showCroppedImagesTask: Task<(), Error>? = nil
 
     //MARK: Init
     public init(isUsingCamera: Bool = false) {
@@ -221,10 +176,14 @@ extension Extractor {
         cancelAllTasks()
         scanTask = nil
         classifyTask = nil
+        cropTask = nil
+        showCroppedImagesTask = nil
     }
     
     func cancelAllTasks() {
         scanTask?.cancel()
         classifyTask?.cancel()
+        cropTask?.cancel()
+        showCroppedImagesTask?.cancel()
     }
 }

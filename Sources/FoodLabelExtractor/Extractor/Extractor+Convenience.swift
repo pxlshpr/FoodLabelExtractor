@@ -42,7 +42,7 @@ extension Extractor {
         guard let amount = currentNutrient?.value?.amount else { return "" }
         return amount.cleanWithoutRounding
     }
-    
+
     var currentNutrient: ExtractedNutrient? {
         guard let currentAttribute else { return nil }
         return extractedNutrients.first(where: { $0.attribute == currentAttribute })
@@ -105,5 +105,35 @@ extension Extractor {
             numberOfHops += 1
         }
         return nil
+    }    
+}
+
+extension Extractor {
+    
+    var allTexts: [RecognizedText] {
+        scanResult?.textsWithFoodLabelValues ?? []
+    }
+    
+    var textsToCrop: [RecognizedText] {
+        guard let scanResult else { return [] }
+        
+        var texts = extractedNutrients.compactMap {
+            $0.valueText
+        }
+        
+        if scanResult.columnCount == 2 {
+            switch extractedColumns.selectedColumnIndex {
+            case 2:
+                if let text = scanResult.headers?.headerText2?.text  {
+                    texts.append(text)
+                }
+            default:
+                if let text = scanResult.headers?.headerText1?.text {
+                    texts.append(text)
+                }
+            }
+        }
+
+        return texts
     }    
 }
