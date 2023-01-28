@@ -80,6 +80,10 @@ extension AttributesLayer {
         }
     }
     
+    func tappedDismiss() {
+        didTapDismiss()
+    }
+    
     //MARK: - Helpers Actions
     
     func showKeyboardForCurrentAttribute() {

@@ -64,7 +64,7 @@ extension LabelCamera.Instructions {
         HStack {
             Image(systemName: "1.circle.fill")
                 .foregroundStyle(Color(.secondaryLabel))
-            Text("Make sure the food label is clearly visible and straight")
+            Text("Make sure the food label is clearly visible and straight.")
                 .foregroundColor(.secondary)
                 .font(.callout)
                 .fontWeight(.semibold)
@@ -83,7 +83,7 @@ extension LabelCamera.Instructions {
         HStack {
             Image(systemName: "2.circle.fill")
                 .foregroundStyle(Color(.secondaryLabel))
-            Text("Keep your phone steady and tap the capture button")
+            Text("Keep your phone steady and tap the capture button.")
                 .fontWeight(.semibold)
                 .foregroundColor(.secondary)
                 .padding(.trailing)

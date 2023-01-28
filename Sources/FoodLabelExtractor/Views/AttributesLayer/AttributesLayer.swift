@@ -17,16 +17,17 @@ public struct AttributesLayer: View {
     @State var showingTutorial = false
     @State var dragTranslationX: CGFloat?
 
-    let attributesListAnimation: Animation = K.Animations.bounce
+    let didTapDismiss: () -> ()
     
+    let attributesListAnimation: Animation = K.Animations.bounce
     let scannerDidChangeAttribute = NotificationCenter.default.publisher(for: .scannerDidChangeAttribute)
     
     public init(
-        extractor: Extractor
-//        actionHandler: @escaping (AttributesLayerAction) -> ()
+        extractor: Extractor,
+        didTapDismiss: @escaping () -> ()
     ) {
         self.extractor = extractor
-//        self.actionHandler = actionHandler
+        self.didTapDismiss = didTapDismiss
     }
     
     public var body: some View {

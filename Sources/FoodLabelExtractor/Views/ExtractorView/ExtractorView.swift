@@ -5,8 +5,11 @@ public struct ExtractorView: View {
     @ObservedObject var extractor: Extractor
     @StateObject var imageViewerViewModel = ImageViewer.ViewModel()
     
-    public init(extractor: Extractor) {
+    let didTapDismiss: () -> ()
+    
+    public init(extractor: Extractor, didTapDismiss: @escaping () -> ()) {
         self.extractor = extractor
+        self.didTapDismiss = didTapDismiss
     }
     
     public var body: some View {
@@ -18,6 +21,7 @@ public struct ExtractorView: View {
             .onChange(of: extractor.state, perform: stateChanged)
             .onChange(of: extractor.transitionState, perform: transitionStateChanged)
     }
+    
     var contents: some View {
         ZStack {
             if extractor.showingBackground {
@@ -37,8 +41,8 @@ public struct ExtractorView: View {
     
     var attributesLayer: some View {
         AttributesLayer(
-            extractor: extractor
-//            actionHandler: extractor.handleAttributesLayerAction
+            extractor: extractor,
+            didTapDismiss: didTapDismiss
         )
     }
     

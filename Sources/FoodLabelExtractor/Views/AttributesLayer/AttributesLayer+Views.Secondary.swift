@@ -101,7 +101,7 @@ extension AttributesLayer {
 
     var dismissButton: some View {
         Button {
-            Haptics.feedback(style: .soft)
+            tappedDismiss()
         } label: {
             Image(systemName: "multiply")
                 .imageScale(.medium)
@@ -184,7 +184,6 @@ extension AttributesLayer {
             return Group {
                 if shouldShow {
                     Button {
-                        
                     } label: {
                         Text("Done")
                             .imageScale(.medium)
