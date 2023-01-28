@@ -48,9 +48,20 @@ public class Extractor: ObservableObject {
             textFieldAmountString = currentAmountString
         }
     }
-    @Published var pickedAttributeUnit: FoodLabelUnit = .g
+    @Published var pickedAttributeUnit: FoodLabelUnit = .g {
+        didSet {
+            currentNutrient?.value?.unit = pickedAttributeUnit
+            removeValueTextForCurrentAttributeIfDifferent()
+            removeConfirmationStatusForCurrentAttribute()
+        }
+    }
     @Published var internalTextfieldDouble: Double? = nil {
         didSet {
+            if let internalTextfieldDouble {
+                currentNutrient?.value?.amount = internalTextfieldDouble
+            } else {
+                currentNutrient?.value = nil
+            }
             removeValueTextForCurrentAttributeIfDifferent()
             removeConfirmationStatusForCurrentAttribute()
         }
