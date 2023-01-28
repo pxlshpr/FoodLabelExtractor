@@ -61,7 +61,7 @@ public struct ImageViewer: View {
         .animation(.interactiveSpring(), value: viewModel.textBoxes)
         .animation(.default, value: viewModel.showingBoxes)
         .animation(.default, value: viewModel.isShimmering)
-        .animation(.default, value: viewModel.scannedTextBoxes.count)
+        .animation(.default, value: viewModel.cutoutTextBoxes.count)
         .shimmering(active: viewModel.isShimmering)
     }
     
@@ -75,15 +75,17 @@ public struct ImageViewer: View {
         .animation(.none, value: viewModel.selectableTextBoxes)
         .animation(.none, value: viewModel.showingBoxes)
         .animation(.none, value: viewModel.isShimmering)
-        .animation(.none, value: viewModel.scannedTextBoxes.count)
-//        .shimmering(active: viewModel.isShimmering)
+        .animation(.none, value: viewModel.cutoutTextBoxes.count)
     }
     
     var scannedTextBoxesLayer: some View {
-        TextBoxesLayer(textBoxes: $viewModel.scannedTextBoxes, isCutOut: true)
-            .opacity(viewModel.scannedTextBoxesOpacity)
-            .animation(.default, value: viewModel.textPickerHasAppeared)
-            .animation(.default, value: viewModel.showingBoxes)
-            .animation(.default, value: viewModel.showingCutouts)
+        TextBoxesLayer(
+            textBoxes: $viewModel.cutoutTextBoxes,
+            isCutOut: true
+        )
+        .opacity(viewModel.cutoutTextBoxesOpacity)
+        .animation(.default, value: viewModel.textPickerHasAppeared)
+        .animation(.default, value: viewModel.showingBoxes)
+        .animation(.default, value: viewModel.showingCutouts)
     }
 }

@@ -8,11 +8,13 @@ public class Extractor: ObservableObject {
 
     var isUsingCamera: Bool
 
-    @Published var transitionState: ExtractorCaptureTransitionState = .notStarted
     @Published var state: ExtractorState = .loadingImage
+    @Published var transitionState: ExtractorCaptureTransitionState = .notStarted
     @Published var dismissState: DismissTransitionState = .notStarted
-    
     var croppingStatus: CroppingStatus = .idle
+
+    var lastContentOffset: CGPoint? = nil
+    var lastContentSize: CGSize? = nil
     var allCroppedImages: [RecognizedText : UIImage] = [:]
     @Published var croppedImages: [(UIImage, CGRect, UUID, Angle, (Angle, Angle, Angle, Angle))] = []
 
@@ -22,6 +24,7 @@ public class Extractor: ObservableObject {
     
     @Published var textBoxes: [TextBox] = []
     @Published var selectableTextBoxes: [TextBox] = []
+    @Published var cutoutTextBoxes: [TextBox] = []
 
     @Published var scanResult: ScanResult? = nil
     @Published var extractedNutrients: [ExtractedNutrient] = [] {
@@ -62,10 +65,56 @@ public class Extractor: ObservableObject {
     var classifyTask: Task<(), Error>? = nil
     var cropTask: Task<(), Error>? = nil
     var showCroppedImagesTask: Task<(), Error>? = nil
+    var stackingCroppedImagesOnTopTask: Task<(), Error>? = nil
 
     //MARK: Init
     public init(isUsingCamera: Bool = false) {
         self.isUsingCamera = isUsingCamera
+        
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(imageViewerViewportChanged),
+            name: .zoomScrollViewViewportChanged,
+            object: nil
+        )        
+    }
+}
+
+extension Extractor {
+    public func reset(forCamera: Bool = false) {
+        state = .loadingImage
+        transitionState = .notStarted
+        dismissState = .notStarted
+        croppingStatus = .idle
+        
+        image = nil
+        allCroppedImages = [:]
+        croppedImages = []
+        
+        isUsingCamera = forCamera
+        showingCamera = true
+
+        lastContentOffset = nil
+        lastContentSize = nil
+        textSet = nil
+        textBoxes = []
+        scanResult = nil
+        
+        showingBackground = true
+
+        cancelAllTasks()
+        scanTask = nil
+        classifyTask = nil
+        cropTask = nil
+        showCroppedImagesTask = nil
+        stackingCroppedImagesOnTopTask = nil
+    }
+    
+    func cancelAllTasks() {
+        scanTask?.cancel()
+        classifyTask?.cancel()
+        cropTask?.cancel()
+        showCroppedImagesTask?.cancel()
+        stackingCroppedImagesOnTopTask?.cancel()
     }
 }
 
@@ -76,6 +125,20 @@ extension Extractor {
 }
 
 extension Extractor {
+    
+    @objc func imageViewerViewportChanged(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let contentOffset = userInfo[Notification.ZoomableScrollViewKeys.contentOffset] as? CGPoint,
+              let contentSize = userInfo[Notification.ZoomableScrollViewKeys.contentSize] as? CGSize
+        else { return }
+        
+        lastContentOffset = contentOffset
+        lastContentSize = contentSize
+        print("LabelScannerViewModel: 🚠 scrollViewDidEndZooming — offset: \(contentOffset) size: \(contentSize)")
+        
+//        handleZoomEndINeeded()
+    }
+
     func setSuggestedValue(_ value: FoodLabelValue) {
         ignoreNextValueChange = true
         textFieldAmountString = value.amount.cleanWithoutRounding
@@ -155,35 +218,5 @@ extension Extractor {
 ////        }
 ////
 ////        moveToNextAttributeIfCurrentWasDeleted()
-    }
-}
-
-extension Extractor {
-    public func reset(forCamera: Bool = false) {
-        state = .loadingImage
-        image = nil
-
-        isUsingCamera = forCamera
-        showingCamera = true
-
-        textSet = nil
-        textBoxes = []
-        scanResult = nil
-        
-//        showingBoxes = false
-        showingBackground = true
-
-        cancelAllTasks()
-        scanTask = nil
-        classifyTask = nil
-        cropTask = nil
-        showCroppedImagesTask = nil
-    }
-    
-    func cancelAllTasks() {
-        scanTask?.cancel()
-        classifyTask?.cancel()
-        cropTask?.cancel()
-        showCroppedImagesTask?.cancel()
     }
 }

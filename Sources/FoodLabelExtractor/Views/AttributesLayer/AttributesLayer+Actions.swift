@@ -79,8 +79,11 @@ extension AttributesLayer {
             showingTutorial = true
         }
     }
-    
+
     func tappedDismiss() {
+    }
+    
+    func tappedDone() {
         /// Setup, by:
         /// [ ] Locking up UI
         /// [ ] Crop images of all texts that have values in them as soon as scan result completes, so that we have it ready

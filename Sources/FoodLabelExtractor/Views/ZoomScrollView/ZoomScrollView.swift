@@ -146,6 +146,26 @@ fileprivate struct ZoomScrollViewRepresentable<Content: View>: UIViewControllerR
             self.scrollView.centerContent()
         }
         
+        func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+            sendNotificationAnimation()
+        }
+                
+        func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+            sendNotificationAnimation()
+        }
+        
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            sendNotificationAnimation()
+        }
+
+        func sendNotificationAnimation() {
+            NotificationCenter.default.post(name: .zoomScrollViewViewportChanged, object: nil, userInfo: [
+                Notification.ZoomableScrollViewKeys.contentSize: scrollView.contentSize,
+                Notification.ZoomableScrollViewKeys.contentOffset: scrollView.contentOffset
+            ])
+        }
+        
+
         //MARK: - Event Handlers
         
         func handleDoubleTap() {

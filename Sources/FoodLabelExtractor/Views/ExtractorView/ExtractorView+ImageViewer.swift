@@ -9,7 +9,7 @@ extension ExtractorView {
                 Color.clear.frame(height: K.topBarHeight)
                 ZStack {
                     imageViewer
-//                    croppedImagesLayer
+                    croppedImagesLayer
 //                        .scaleEffect(viewModel.animatingCollapseOfCroppedImages ? 0 : 1)
 //                        .padding(.top, viewModel.animatingCollapseOfCroppedImages ? 0 : 0)
 //                        .padding(.trailing, viewModel.animatingCollapseOfCroppedImages ? 300 : 0)

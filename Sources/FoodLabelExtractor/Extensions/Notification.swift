@@ -2,8 +2,7 @@ import Foundation
 
 extension Notification.Name {
     public static var zoomZoomableScrollView: Notification.Name { return .init("zoomZoomableScrollView") }
-    public static var zoomableScrollViewDidEndZooming: Notification.Name { return .init("zoomableScrollViewDidEndZooming") }
-    public static var zoomableScrollViewDidEndScrollingAnimation: Notification.Name { return .init("zoomableScrollViewDidEndScrollingAnimation") }
+    public static var zoomScrollViewViewportChanged: Notification.Name { return .init("zoomScrollViewViewportChanged") }
     
     public static var scannerDidPresentKeyboard: Notification.Name { return .init("scannerDidPresentKeyboard") }
     public static var scannerDidDismissKeyboard: Notification.Name { return .init("scannerDidDismissKeyboard") }

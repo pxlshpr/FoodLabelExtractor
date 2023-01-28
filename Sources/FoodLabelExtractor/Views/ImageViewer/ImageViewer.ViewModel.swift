@@ -14,7 +14,7 @@ public extension ImageViewer {
 
         //TODO: Revisit these
         @Published public var zoomBox: ZoomBox? = nil
-        @Published public var scannedTextBoxes: [TextBox] = []
+        @Published public var cutoutTextBoxes: [TextBox] = []
         @Published public var showingBoxes: Bool = false
         @Published public var showingCutouts: Bool = false
         @Published public var isShimmering: Bool = false
@@ -37,7 +37,7 @@ extension ImageViewer.ViewModel {
     var shouldShowTextBoxes: Bool {
         textPickerHasAppeared
         && showingBoxes
-        && scannedTextBoxes.isEmpty
+        && cutoutTextBoxes.isEmpty
     }
     
     var textBoxesOpacity: CGFloat {
@@ -46,13 +46,13 @@ extension ImageViewer.ViewModel {
         return 0.3
     }
     
-    var shouldShowScannedTextBoxes: Bool {
+    var shouldShowCutoutTextBoxes: Bool {
         textPickerHasAppeared
         && showingBoxes
         && showingCutouts
     }
     
-    var scannedTextBoxesOpacity: CGFloat {
-        shouldShowScannedTextBoxes ? 1 : 0
+    var cutoutTextBoxesOpacity: CGFloat {
+        shouldShowCutoutTextBoxes ? 1 : 0
     }
 }

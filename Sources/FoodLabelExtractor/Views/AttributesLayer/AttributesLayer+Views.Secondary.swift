@@ -160,7 +160,7 @@ extension AttributesLayer {
             var textColor: Color {
                 extractor.state == .allConfirmed
                 ? Color.white
-                : Color(.secondaryLabel)
+                : Color.primary
             }
             
             @ViewBuilder
@@ -184,6 +184,7 @@ extension AttributesLayer {
             return Group {
                 if shouldShow {
                     Button {
+                        tappedDone()
                     } label: {
                         Text("Done")
                             .imageScale(.medium)

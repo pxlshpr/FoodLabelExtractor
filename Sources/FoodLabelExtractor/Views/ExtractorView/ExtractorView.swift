@@ -18,6 +18,7 @@ public struct ExtractorView: View {
 //            .onChange(of: extractor.showingBoxes, perform: showingBoxesChanged)
             .onChange(of: extractor.textBoxes, perform: textBoxesChanged)
             .onChange(of: extractor.selectableTextBoxes, perform: selectableTextBoxesChanged)
+            .onChange(of: extractor.cutoutTextBoxes, perform: cutoutTextBoxesChanged)
             .onChange(of: extractor.state, perform: stateChanged)
             .onChange(of: extractor.transitionState, perform: transitionStateChanged)
     }
@@ -118,6 +119,13 @@ public struct ExtractorView: View {
     func selectableTextBoxesChanged(_ newValue: [TextBox]) {
         withAnimation(.interactiveSpring()) {
             imageViewerViewModel.selectableTextBoxes = newValue
+        }
+    }
+    
+    func cutoutTextBoxesChanged(_ newValue: [TextBox]) {
+        withAnimation(.interactiveSpring()) {
+            imageViewerViewModel.cutoutTextBoxes = newValue
+            imageViewerViewModel.showingCutouts = true
         }
     }
 
