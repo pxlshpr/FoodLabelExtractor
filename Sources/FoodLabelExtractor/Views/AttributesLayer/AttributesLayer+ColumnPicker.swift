@@ -21,14 +21,17 @@ extension AttributesLayer {
     var columnPickerInstructions: some View {
         VStack(spacing: 10) {
             Text("We recommend choosing the column with larger values.")
+                .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
-            Divider()
-                .frame(width: 200)
+//            Divider()
+//                .frame(width: 200)
             Text("This reduces rounding errors as much as possible.")
                 .multilineTextAlignment(.center)
                 .font(.callout)
+                .foregroundColor(Color(.secondaryLabel))
+                .padding(.horizontal)
+                .padding(.horizontal)
         }
-        .foregroundColor(.secondary)
     }
     
 }

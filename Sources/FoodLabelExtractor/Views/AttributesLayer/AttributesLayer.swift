@@ -77,10 +77,10 @@ public struct AttributesLayer: View {
             VStack {
                 Text(string)
                     .font(.system(.title3, design: .rounded, weight: .medium))
-                    .foregroundColor(Color(.tertiaryLabel))
+                    .foregroundColor(Color(.secondaryLabel))
                 ActivityIndicatorView(isVisible: .constant(true), type: .opacityDots())
                     .frame(width: 30, height: 30)
-                    .foregroundColor(Color(.tertiaryLabel))
+                    .foregroundColor(Color(.secondaryLabel))
             }
             Spacer()
         }
