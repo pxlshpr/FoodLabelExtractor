@@ -160,9 +160,9 @@ extension Extractor {
 //        }
 
         extractedColumns = scanResult.extractedColumns
+        showColumnTextBoxes()
 //        selectedImageTexts = columns.selectedImageTexts
 
         await zoomToNutrients()
-        showColumnTextBoxes()
     }
 }

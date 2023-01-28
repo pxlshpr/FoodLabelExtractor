@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 import PrepDataTypes
 import VisionSugar
 import FoodLabelScanner
@@ -36,6 +36,11 @@ extension Extractor {
 
     var currentValue: FoodLabelValue? {
         currentNutrient?.value
+    }
+    
+    var shouldShowAttributesLayer: Bool {
+        !dismissState.shouldHideUI
+//        && !transitionState.isTransitioning
     }
     
     var currentAmountString: String {
@@ -115,25 +120,42 @@ extension Extractor {
     }
     
     var textsToCrop: [RecognizedText] {
-        guard let scanResult else { return [] }
+//        guard let scanResult else { return [] }
         
-        var texts = extractedNutrients.compactMap {
+        let texts = extractedNutrients.compactMap {
             $0.valueText
         }
         
-        if scanResult.columnCount == 2 {
-            switch extractedColumns.selectedColumnIndex {
-            case 2:
-                if let text = scanResult.headers?.headerText2?.text  {
-                    texts.append(text)
-                }
-            default:
-                if let text = scanResult.headers?.headerText1?.text {
-                    texts.append(text)
-                }
-            }
-        }
+//        if scanResult.columnCount == 2 {
+//            switch extractedColumns.selectedColumnIndex {
+//            case 2:
+//                if let text = scanResult.headers?.headerText2?.text  {
+//                    texts.append(text)
+//                }
+//            default:
+//                if let text = scanResult.headers?.headerText1?.text {
+//                    texts.append(text)
+//                }
+//            }
+//        }
 
         return texts
-    }    
+    }
+}
+
+extension Extractor {
+    var shouldHideOffScreen: Bool {
+        presentationState == .offScreen
+    }
+    
+    var imageOffset: CGFloat {
+        guard let lastContentOffset else { return 0 }
+        return lastContentOffset.y
+    }
+    
+    var yOffset: CGFloat {
+        shouldHideOffScreen
+        ? UIScreen.main.bounds.height + imageOffset
+        : 0
+    }
 }

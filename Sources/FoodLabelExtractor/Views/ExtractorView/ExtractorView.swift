@@ -5,22 +5,25 @@ public struct ExtractorView: View {
     @ObservedObject var extractor: Extractor
     @StateObject var imageViewerViewModel = ImageViewer.ViewModel()
     
-    let didTapDismiss: () -> ()
-    
-    public init(extractor: Extractor, didTapDismiss: @escaping () -> ()) {
+    public init(extractor: Extractor) {
         self.extractor = extractor
-        self.didTapDismiss = didTapDismiss
     }
     
     public var body: some View {
         contents
             .onChange(of: extractor.image, perform: imageChanged)
-//            .onChange(of: extractor.showingBoxes, perform: showingBoxesChanged)
             .onChange(of: extractor.textBoxes, perform: textBoxesChanged)
             .onChange(of: extractor.selectableTextBoxes, perform: selectableTextBoxesChanged)
             .onChange(of: extractor.cutoutTextBoxes, perform: cutoutTextBoxesChanged)
             .onChange(of: extractor.state, perform: stateChanged)
             .onChange(of: extractor.transitionState, perform: transitionStateChanged)
+            .onAppear(perform: appeared)
+    }
+    
+    func appeared() {
+        withAnimation {
+            extractor.presentationState = .onScreen
+        }
     }
     
     var contents: some View {
@@ -30,6 +33,7 @@ public struct ExtractorView: View {
                     .edgesIgnoringSafeArea(.all)
             }
             imageViewerLayer
+//                .opacity(extractor.dismissState == .startedCancelDismissal ? 0 : 1)
             attributesLayer
             cameraLayer
             cameraTransitionLayer
@@ -38,15 +42,16 @@ public struct ExtractorView: View {
 //                    .transition(.scale)
 //            }
         }
+        .offset(y: extractor.presentationState == .offScreen
+                ? UIScreen.main.bounds.height * 2
+                : 0
+        )
     }
     
     @ViewBuilder
     var attributesLayer: some View {
-        if !extractor.dismissState.shouldHideUI {
-            AttributesLayer(
-                extractor: extractor,
-                didTapDismiss: didTapDismiss
-            )
+        if extractor.shouldShowAttributesLayer {
+            AttributesLayer(extractor: extractor)
             .zIndex(9)
             .transition(.move(edge: .bottom))
         }
@@ -57,6 +62,7 @@ public struct ExtractorView: View {
         if extractor.isUsingCamera {
             foodLabelCamera
                 .opacity(extractor.showingCamera ? 1 : 0)
+                .zIndex(20)
         }
     }
     
@@ -95,6 +101,7 @@ public struct ExtractorView: View {
                     Spacer()
                 }
                 .edgesIgnoringSafeArea(.all)
+                .zIndex(21)
             }
         }
     }

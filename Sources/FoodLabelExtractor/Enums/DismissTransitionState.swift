@@ -1,9 +1,14 @@
 import Foundation
 
+enum PresentationState {
+    case offScreen
+    case onScreen
+}
+
 enum DismissTransitionState {
     
     case notStarted
-    case started
+    case startedDoneDismissal
     case waitingForCroppedImages
     
     case showCroppedImages

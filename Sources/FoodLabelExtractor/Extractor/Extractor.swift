@@ -11,6 +11,7 @@ public class Extractor: ObservableObject {
     @Published var state: ExtractorState = .loadingImage
     @Published var transitionState: ExtractorCaptureTransitionState = .notStarted
     @Published var dismissState: DismissTransitionState = .notStarted
+    @Published var presentationState: PresentationState = .offScreen
     var croppingStatus: CroppingStatus = .idle
 
     var lastContentOffset: CGPoint? = nil
@@ -56,6 +57,8 @@ public class Extractor: ObservableObject {
     }
     @Published var internalTextfieldString: String = ""
 
+    var didDismiss: (() -> ())? = nil
+    
     /// This flag is used to keep the association with the value's `RecognizedText` when its changed
     /// by tapping a suggestion.
     var ignoreNextValueChange: Bool = false
@@ -80,27 +83,45 @@ public class Extractor: ObservableObject {
 }
 
 extension Extractor {
-    public func reset(forCamera: Bool = false) {
+    public func setup(forCamera: Bool = false, didDismiss: @escaping () -> ()) {
+        
+        isUsingCamera = forCamera
+
         state = .loadingImage
         transitionState = .notStarted
         dismissState = .notStarted
         croppingStatus = .idle
+        presentationState = .offScreen
         
-        image = nil
-        allCroppedImages = [:]
-        croppedImages = []
-        
-        isUsingCamera = forCamera
-        showingCamera = true
-
         lastContentOffset = nil
         lastContentSize = nil
-        textSet = nil
-        textBoxes = []
-        scanResult = nil
-        
-        showingBackground = true
+        allCroppedImages = [:]
+        croppedImages = []
 
+        image = nil
+        
+        textSet = nil
+
+        textBoxes = []
+        selectableTextBoxes = []
+        cutoutTextBoxes = []
+
+        scanResult = nil
+        extractedNutrients = []
+
+        showingCamera = forCamera
+        showingBackground = true
+        extractedColumns = ExtractedColumns()
+        
+        currentAttribute = nil
+        pickedAttributeUnit = .g
+        internalTextfieldDouble = nil
+        internalTextfieldString = ""
+        
+        self.didDismiss = didDismiss
+
+        ignoreNextValueChange = false
+        
         cancelAllTasks()
         scanTask = nil
         classifyTask = nil

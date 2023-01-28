@@ -81,23 +81,18 @@ extension AttributesLayer {
     }
 
     func tappedDismiss() {
+        withAnimation {
+            extractor.presentationState = .offScreen
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            extractor.didDismiss?()
+        }
     }
     
     func tappedDone() {
         withAnimation {
-            extractor.dismissState = .started
+            extractor.dismissState = .startedDoneDismissal
         }
-        /// Setup, by:
-        /// [x] Locking up UI, hide the dismiss and done buttons by transitioning upwards
-        /// [x] Try seeing what transitioning the attributes layer downwards looks like too
-        /// [x] Crop images of all texts that have values in them as soon as scan result completes, so that we have it ready
-        /// [x] Place `croppedimages` of chosen texts on cropped layer
-        /// [x] Show the `cutoutTextBoxes` on the ImageViewer
-        /// [x] Do the `croppedImages` transition, wiggle, animate up or down
-        /// [x] Now shrink `ImageViewer` into where image would be in sources, while we slide down the attributes layer
-        /// [x] After that finishes, animate `croppedImages` going to the nutrition label
-        /// [ ] Now reset the extractor and set the `showingExtractor` flag to false finally
-
         /// If the cropped images are available, start with the transition, otherwise set the state to wait for them to finish
         if extractor.croppingStatus == .complete {
             extractor.showCroppedImages()
