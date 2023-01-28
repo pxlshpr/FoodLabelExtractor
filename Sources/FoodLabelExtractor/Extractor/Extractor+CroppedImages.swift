@@ -98,83 +98,77 @@ extension Extractor {
     func stackCroppedImagesOnTop() {
         stackingCroppedImagesOnTopTask = Task.detached { [weak self] in
             
-//            guard let self else { return }
-//            guard !Task.isCancelled else { return }
-//
-//            await MainActor.run { [weak self] in
-//                guard let self else { return }
-//                withAnimation {
-//                    self.showingCutouts = true
-//                    self.animatingLiftingUpOfCroppedImages = true
-//                }
-//            }
+            guard let self else { return }
+            guard !Task.isCancelled else { return }
 
-//            let Bounce: Animation = .interactiveSpring(response: 0.35, dampingFraction: 0.66, blendDuration: 0.35)
-//
-//            try await sleepTask(Double.random(in: 0.05...0.15), tolerance: 0.01)
-//
-//            guard !Task.isCancelled else { return }
-//            await MainActor.run { [weak self] in
-//                guard let self else { return }
-//                Haptics.selectionFeedback()
-//                withAnimation(Bounce) {
-//                    self.animatingFirstWiggleOfCroppedImages = true
-//                }
-//            }
-//
-//            try await sleepTask(Double.random(in: 0.05...0.15), tolerance: 0.01)
-//
-//            guard !Task.isCancelled else { return }
-//            await MainActor.run { [weak self] in
-//                guard let self else { return }
-//                Haptics.selectionFeedback()
-//                withAnimation(Bounce) {
-//                    self.animatingFirstWiggleOfCroppedImages = false
-//                    self.animatingSecondWiggleOfCroppedImages = true
-//                }
-//            }
-//
-//            try await sleepTask(Double.random(in: 0.05...0.15), tolerance: 0.01)
-//
-//            guard !Task.isCancelled else { return }
-//            await MainActor.run { [weak self] in
-//                guard let self else { return }
-//                Haptics.selectionFeedback()
-//                withAnimation(Bounce) {
-//                    self.animatingSecondWiggleOfCroppedImages = false
-//                    self.animatingThirdWiggleOfCroppedImages = true
-//                }
-//            }
-//
-//            try await sleepTask(Double.random(in: 0.05...0.15), tolerance: 0.01)
-//
-//            guard !Task.isCancelled else { return }
-//            await MainActor.run { [weak self] in
-//                guard let self else { return }
-//                Haptics.selectionFeedback()
-//                withAnimation(Bounce) {
-//                    self.animatingThirdWiggleOfCroppedImages = false
-//                    self.animatingFourthWiggleOfCroppedImages = true
-//                }
-//            }
-//
-//            try await sleepTask(Double.random(in: 0.3...0.5), tolerance: 0.01)
-//
-//            guard !Task.isCancelled else { return }
-//            await MainActor.run { [weak self] in
-//                guard let self else { return }
-//                Haptics.feedback(style: .soft)
-//                withAnimation(Bounce) {
-//                    self.animatingFourthWiggleOfCroppedImages = false
-//                    self.stackedOnTop = true
-//                }
-//            }
-//
-//            try await sleepTask(0.8, tolerance: 0.01)
-//
-//            await self.writeTestData()
-//
-//            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                withAnimation {
+//                    self.showingCutouts = true
+                    self.dismissState = .liftingUp
+                }
+            }
+
+            let Bounce: Animation = .interactiveSpring(response: 0.35, dampingFraction: 0.66, blendDuration: 0.35)
+
+            try await sleepTask(Double.random(in: 0.05...0.15), tolerance: 0.01)
+
+            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                Haptics.selectionFeedback()
+                withAnimation(Bounce) {
+                    self.dismissState = .firstWiggle
+                }
+            }
+
+            try await sleepTask(Double.random(in: 0.05...0.15), tolerance: 0.01)
+
+            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                Haptics.selectionFeedback()
+                withAnimation(Bounce) {
+                    self.dismissState = .secondWiggle
+                }
+            }
+
+            try await sleepTask(Double.random(in: 0.05...0.15), tolerance: 0.01)
+
+            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                Haptics.selectionFeedback()
+                withAnimation(Bounce) {
+                    self.dismissState = .thirdWiggle
+                }
+            }
+
+            try await sleepTask(Double.random(in: 0.05...0.15), tolerance: 0.01)
+
+            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                Haptics.selectionFeedback()
+                withAnimation(Bounce) {
+                    self.dismissState = .fourthWiggle
+                }
+            }
+
+            try await sleepTask(Double.random(in: 0.3...0.5), tolerance: 0.01)
+
+            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                Haptics.feedback(style: .soft)
+                withAnimation(Bounce) {
+                    self.dismissState = .stackedOnTop
+                }
+            }
+
+            try await sleepTask(0.8, tolerance: 0.01)
+
+            guard !Task.isCancelled else { return }
 //            try await self.collapse()
         }
     }
