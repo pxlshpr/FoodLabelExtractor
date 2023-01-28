@@ -148,8 +148,10 @@ extension AttributesLayer {
         
         var foregroundColor: Color {
             colorScheme == .dark
-            ? shouldDisable ? Color(.tertiaryLabel) : .white
-            : shouldDisable ? Color(.quaternaryLabel) : .secondary
+//            ? shouldDisable ? Color(.tertiaryLabel) : .white
+//            : shouldDisable ? Color(.quaternaryLabel) : .secondary
+            ? shouldDisable ? Color(.tertiaryLabel) : .accentColor
+            : shouldDisable ? Color(.quaternaryLabel) : .accentColor
         }
         
         return Button {

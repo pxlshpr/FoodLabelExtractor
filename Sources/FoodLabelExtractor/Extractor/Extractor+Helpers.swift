@@ -72,4 +72,12 @@ extension Extractor {
         }
         showColumnTextBoxes()
     }
+    
+    func tappedClearButton() {
+        textFieldAmountString = ""
+    }
+    
+    var shouldShowClearButton: Bool {
+        !textFieldAmountString.isEmpty
+    }
 }

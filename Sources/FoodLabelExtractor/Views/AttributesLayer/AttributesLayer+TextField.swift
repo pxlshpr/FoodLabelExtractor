@@ -1,4 +1,7 @@
 import SwiftUI
+import FoodLabelScanner
+import PrepDataTypes
+import SwiftHaptics
 
 extension AttributesLayer {
     
@@ -7,7 +10,7 @@ extension AttributesLayer {
             textFieldBackground
             HStack {
                 textField
-                Spacer()
+                clearButton
                 unitPicker
             }
             .padding(.horizontal, K.textFieldHorizontalPadding)
@@ -24,7 +27,7 @@ extension AttributesLayer {
             }
         )
 
-        return TextField("Enter a value", text: binding)
+        return TextField("", text: binding)
             .focused($isFocused)
             .keyboardType(.decimalPad)
             .font(.system(size: 22, weight: .semibold, design: .default))
@@ -37,12 +40,104 @@ extension AttributesLayer {
     }
     
     var unitPicker: some View {
-//        Menu {
-//            Text("g")
-//            Text("mg")
-//        } label: {
-            Text("mg")
-//        }
+        
+        func unitText(_ string: String) -> some View {
+            Text(string)
+                .fontWeight(.semibold)
+                .foregroundColor(.secondary)
+                .padding(.horizontal, 15)
+                .frame(height: 35)
+                .background(
+                    RoundedRectangle(cornerRadius: 7, style: .continuous)
+                        .fill(Color(.tertiarySystemFill))
+                )
+        }
+
+        let binding = Binding<FoodLabelUnit>(
+            get: { extractor.pickedAttributeUnit },
+            set: { newUnit in
+                withAnimation {
+                    Haptics.feedback(style: .soft)
+                    extractor.pickedAttributeUnit = newUnit
+                }
+            }
+        )
+
+        func unitPicker(for nutrientType: NutrientType) -> some View {
+            return Menu {
+                Picker(selection: binding, label: EmptyView()) {
+                    ForEach(nutrientType.supportedFoodLabelUnits, id: \.self) {
+                        Text($0.description).tag($0)
+                    }
+                }
+            } label: {
+                HStack(spacing: 2) {
+                    Text(extractor.pickedAttributeUnit.description)
+                        .fontWeight(.semibold)
+                    Image(systemName: "chevron.up.chevron.down")
+                        .imageScale(.small)
+                }
+                .foregroundColor(.accentColor)
+                .padding(.horizontal, 15)
+                .frame(height: 35)
+                .background(
+                    RoundedRectangle(cornerRadius: 7, style: .continuous)
+                        .fill(Color(.tertiarySystemFill))
+//                        .fill(Color.accentColor.opacity(
+//                            colorScheme == .dark ? 0.15 : 0.15
+//                        ))
+                )
+                .animation(.none, value: extractor.pickedAttributeUnit)
+            }
+//            .animation(.none, value: extractor.pickedAttributeUnit)
+            .contentShape(Rectangle())
+            .simultaneousGesture(TapGesture().onEnded {
+                Haptics.feedback(style: .soft)
+            })
+        }
+        
+        return Group {
+            if let attribute = extractor.currentAttribute {
+                if attribute == .energy {
+                    Picker("", selection: binding) {
+                        ForEach(
+                            [FoodLabelUnit.kcal, FoodLabelUnit.kj],
+                            id: \.self
+                        ) { unit in
+                            Text(unit.description).tag(unit)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                } else if let nutrientType = attribute.nutrientType {
+                    if nutrientType.supportedFoodLabelUnits.count > 1 {
+                        unitPicker(for: nutrientType)
+                    } else {
+                        unitText(nutrientType.supportedFoodLabelUnits.first?.description ?? "g")
+                    }
+                } else {
+                    unitText("g")
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var clearButton: some View {
+        Button {
+            extractor.tappedClearButton()
+        } label: {
+            Image(systemName: "xmark.circle.fill")
+                .font(.system(size: 20))
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(
+                    Color(.tertiaryLabel),
+                    Color(.tertiarySystemFill)
+                )
+
+        }
+        .opacity(extractor.shouldShowClearButton ? 1 : 0)
+        .buttonStyle(.borderless)
+        .padding(.trailing, 5)
     }
 
     //MARK: - Helpers

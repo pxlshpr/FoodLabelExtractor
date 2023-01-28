@@ -44,7 +44,8 @@ extension AttributesLayer {
             }
             
             var checkBoxColor: Color {
-                shouldDisable ? Color(.quaternaryLabel) : .secondary
+//                shouldDisable ? Color(.quaternaryLabel) : .secondary
+                shouldDisable ? Color(.quaternaryLabel) : .accentColor
             }
             
             return HStack(spacing: 0) {

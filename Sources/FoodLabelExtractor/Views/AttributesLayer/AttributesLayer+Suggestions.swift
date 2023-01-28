@@ -50,7 +50,7 @@ extension AttributesLayer {
         }
         
         var noTextBoxPrompt: String {
-            "Select a text to autofill its value"
+            "Enter value or select from image."
 //            viewModel.textFieldAmountString.isEmpty
 //            ? "or select a detected text from the image."
 //            : "Select a detected text from the image."
@@ -62,7 +62,8 @@ extension AttributesLayer {
             } label: {
                 Image(systemName: "keyboard.chevron.compact.down.fill")
                     .font(.system(size: 18, weight: .medium, design: .default))
-                    .foregroundColor(colorScheme == .dark ? .white : .secondary)
+//                    .foregroundColor(colorScheme == .dark ? .white : .secondary)
+                    .foregroundColor(.secondary)
                     .frame(width: K.topButtonWidth)
                     .frame(height: K.topButtonHeight)
 //                    .background(
@@ -78,7 +79,7 @@ extension AttributesLayer {
                 if valueSuggestions.isEmpty {
                     Text(noTextBoxPrompt)
                         .foregroundColor(Color(.tertiaryLabel))
-                        .frame(maxWidth: .infinity, alignment: .center)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 20)
                         .multilineTextAlignment(.center)
                         .lineLimit(1)
