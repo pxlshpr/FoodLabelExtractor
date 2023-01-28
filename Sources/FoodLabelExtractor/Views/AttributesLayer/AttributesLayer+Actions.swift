@@ -94,8 +94,8 @@ extension AttributesLayer {
         /// [x] Place `croppedimages` of chosen texts on cropped layer
         /// [x] Show the `cutoutTextBoxes` on the ImageViewer
         /// [x] Do the `croppedImages` transition, wiggle, animate up or down
-        /// [ ] Now shrink `ImageViewer` into where image would be in sources, while we slide down the attributes layer
-        /// [ ] After that finishes, animate `croppedImages` going to the nutrition label
+        /// [x] Now shrink `ImageViewer` into where image would be in sources, while we slide down the attributes layer
+        /// [x] After that finishes, animate `croppedImages` going to the nutrition label
         /// [ ] Now reset the extractor and set the `showingExtractor` flag to false finally
 
         /// If the cropped images are available, start with the transition, otherwise set the state to wait for them to finish
