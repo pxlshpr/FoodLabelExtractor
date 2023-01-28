@@ -83,13 +83,9 @@ extension AttributesLayer {
                 .background(
                     RoundedRectangle(cornerRadius: 7, style: .continuous)
                         .fill(Color(.tertiarySystemFill))
-//                        .fill(Color.accentColor.opacity(
-//                            colorScheme == .dark ? 0.15 : 0.15
-//                        ))
                 )
-                .animation(.none, value: extractor.pickedAttributeUnit)
             }
-//            .animation(.none, value: extractor.pickedAttributeUnit)
+            .animation(.none, value: extractor.pickedAttributeUnit)
             .contentShape(Rectangle())
             .simultaneousGesture(TapGesture().onEnded {
                 Haptics.feedback(style: .soft)
