@@ -29,6 +29,11 @@ extension AttributesLayer {
             .keyboardType(.decimalPad)
             .font(.system(size: 22, weight: .semibold, design: .default))
             .matchedGeometryEffect(id: "textField", in: namespace)
+            .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidBeginEditingNotification)) { obj in
+                if let textField = obj.object as? UITextField {
+                    textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+                }
+            }
     }
     
     var unitPicker: some View {
