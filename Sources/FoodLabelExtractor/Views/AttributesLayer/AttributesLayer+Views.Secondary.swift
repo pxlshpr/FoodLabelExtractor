@@ -177,8 +177,10 @@ extension AttributesLayer {
             }
             
             var shouldShow: Bool {
-                !extractor.state.isLoading
+                let bool = !extractor.state.isLoading
                 && extractor.state != .awaitingColumnSelection
+                print("🟡 shouldShow for Done button: \(bool): extractor.state is \(extractor.state.rawValue)")
+                return bool
             }
             
             return Group {

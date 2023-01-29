@@ -31,6 +31,10 @@ public class Extractor: ObservableObject {
     @Published var scanResult: ScanResult? = nil
     @Published var extractedNutrients: [ExtractedNutrient] = [] {
         didSet {
+            /// Filter out case where we reset the extractor for reuse
+            /// (otherwise this sets the extractor state incorrectly to `.allConfirmed`)
+            guard !extractedNutrients.isEmpty else { return }
+            
             /// If we've deleted a nutrient
             if oldValue.count > extractedNutrients.count {
                 handleDeletedNutrient(oldValue: oldValue)
@@ -110,8 +114,8 @@ extension Extractor {
         state = .loadingImage
         transitionState = .notStarted
         dismissState = .notStarted
-        croppingStatus = .idle
         presentationState = .offScreen
+        croppingStatus = .idle
         
         lastContentOffset = nil
         lastContentSize = nil
@@ -127,6 +131,7 @@ extension Extractor {
         cutoutTextBoxes = []
 
         scanResult = nil
+        
         extractedNutrients = []
 
         showingCamera = forCamera
