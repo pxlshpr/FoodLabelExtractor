@@ -3,8 +3,8 @@ import VisionSugar
 import FoodLabelScanner
 
 public struct ExtractorOutput {
-    let scanResult: ScanResult?
-    let extractedNutrients: [ExtractedNutrient]
-    let image: UIImage
-    let croppedImages: [RecognizedText : UIImage]
+    public let scanResult: ScanResult?
+    public let extractedNutrients: [ExtractedNutrient]
+    public let image: UIImage
+    public let croppedImages: [RecognizedText : UIImage]
 }
