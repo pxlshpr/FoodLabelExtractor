@@ -178,9 +178,7 @@ extension Extractor {
 
     func setSuggestedValue(_ value: FoodLabelValue) {
         ignoreNextValueChange = true
-        print("⭐️ currentUnitString before: \(currentUnitString)")
         textFieldAmountString = value.amount.cleanWithoutRounding
-        print("⭐️ currentUnitString after: \(currentUnitString)")
     }
     
     func removeConfirmationStatusForCurrentAttribute() {
