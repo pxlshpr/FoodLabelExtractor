@@ -53,4 +53,9 @@ struct K {
             blendDuration: 0.35
         )
     }
+    
+    struct Collapse {
+        static let topPadding: CGFloat = 436.0
+        static let leftPadding: CGFloat = 64.0
+    }
 }

@@ -169,4 +169,21 @@ extension Extractor {
         ? UIScreen.main.bounds.height + imageOffset
         : 0
     }
+    
+    var imageScale: CGFloat {
+        dismissState.shouldShrinkImage ? 0 : 1
+    }
+    
+    var imagePaddingTop: CGFloat {
+        dismissState.shouldShrinkImage
+        ? K.Collapse.topPadding
+        : 0
+    }
+    
+    var imagePaddingTrailing: CGFloat {
+        dismissState.shouldShrinkImage
+        ? UIScreen.main.bounds.width - K.Collapse.leftPadding
+        : 0
+    }
+
 }
