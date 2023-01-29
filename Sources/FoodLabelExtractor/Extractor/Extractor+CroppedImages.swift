@@ -198,11 +198,11 @@ extension Extractor {
         try await sleepTask(0.3, tolerance: 0.01)
 
         guard !Task.isCancelled else { return }
-        guard let scanResult else {
+        guard let extractorOutput else {
             didDismiss?(nil)
             return
         }
-        didDismiss?((scanResult, extractedNutrients))
+        didDismiss?(extractorOutput)
     }
 }
 

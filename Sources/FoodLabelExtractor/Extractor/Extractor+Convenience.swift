@@ -141,6 +141,16 @@ extension Extractor {
 
         return texts
     }
+    
+    var extractorOutput: ExtractorOutput? {
+        guard let scanResult, let image else { return nil }
+        return ExtractorOutput(
+            scanResult: scanResult,
+            extractedNutrients: extractedNutrients,
+            image: image,
+            croppedImages: allCroppedImages
+        )
+    }
 }
 
 extension Extractor {

@@ -68,7 +68,7 @@ public class Extractor: ObservableObject {
     }
     @Published var internalTextfieldString: String = ""
 
-    var didDismiss: (((ScanResult, [ExtractedNutrient])?) -> Void)? = nil
+    var didDismiss: ((ExtractorOutput?) -> Void)? = nil
     
     /// This flag is used to keep the association with the value's `RecognizedText` when its changed
     /// by tapping a suggestion.
@@ -94,7 +94,10 @@ public class Extractor: ObservableObject {
 }
 
 extension Extractor {
-    public func setup(forCamera: Bool = false, didDismiss: @escaping (((ScanResult, [ExtractedNutrient])?) -> Void)) {
+    public func setup(
+        forCamera: Bool = false,
+        didDismiss: @escaping ((ExtractorOutput?) -> Void)
+    ) {
         
         isUsingCamera = forCamera
 
@@ -166,9 +169,6 @@ extension Extractor {
         
         lastContentOffset = contentOffset
         lastContentSize = contentSize
-        print("LabelScannerViewModel: 🚠 scrollViewDidEndZooming — offset: \(contentOffset) size: \(contentSize)")
-        
-//        handleZoomEndINeeded()
     }
 
     func setSuggestedValue(_ value: FoodLabelValue) {
