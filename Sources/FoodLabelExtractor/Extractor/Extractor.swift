@@ -50,20 +50,25 @@ public class Extractor: ObservableObject {
     }
     @Published var pickedAttributeUnit: FoodLabelUnit = .g {
         didSet {
-//            removeTextForCurrentAttributeIfDifferentUnit()
+            if currentNutrientIsConfirmed, pickedAttributeUnit != currentNutrient?.value?.unit {
+                toggleAttributeConfirmationForCurrentAttribute()
+            }
             currentNutrient?.value?.unit = pickedAttributeUnit
-            removeConfirmationStatusForCurrentAttribute(ifDifferentValue: false)
         }
     }
+    
     @Published var internalTextfieldDouble: Double? = nil {
         didSet {
+            if currentNutrientIsConfirmed, internalTextfieldDouble != currentNutrient?.value?.amount {
+                toggleAttributeConfirmationForCurrentAttribute()
+            }
+            removeTextForCurrentAttributeIfDifferentValue()
+
             if let internalTextfieldDouble {
                 currentNutrient?.value?.amount = internalTextfieldDouble
             } else {
                 currentNutrient?.value = nil
             }
-            removeTextForCurrentAttributeIfDifferentValue()
-            removeConfirmationStatusForCurrentAttribute(ifDifferentValue: true)
         }
     }
     @Published var internalTextfieldString: String = ""
@@ -176,12 +181,10 @@ extension Extractor {
         textFieldAmountString = value.amount.cleanWithoutRounding
     }
     
-    func removeConfirmationStatusForCurrentAttribute(ifDifferentValue: Bool) {
-        guard currentNutrientIsConfirmed else { return }
-        if ifDifferentValue {
-            guard internalTextfieldDouble != currentNutrient?.value?.amount
-            else { return }
-        }
+    func removeConfirmationStatusForCurrentAttribute() {
+        guard currentNutrientIsConfirmed,
+              internalTextfieldDouble != currentNutrient?.value?.amount
+        else { return }
         
         toggleAttributeConfirmationForCurrentAttribute()
     }
