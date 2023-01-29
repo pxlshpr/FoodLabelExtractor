@@ -1,8 +1,12 @@
 import SwiftUI
 
 struct K {
-    
-    static let keyboardHeight: CGFloat = UIScreen.main.bounds.height < 850 ? 291 : 301
+
+    /// ** Hardcoded **
+    static let largeDeviceWidthCutoff: CGFloat = 850.0
+    static let keyboardHeight: CGFloat = UIScreen.main.bounds.height < largeDeviceWidthCutoff
+    ? 291
+    : 301
 
     static let topBarHeight: CGFloat = 59
 

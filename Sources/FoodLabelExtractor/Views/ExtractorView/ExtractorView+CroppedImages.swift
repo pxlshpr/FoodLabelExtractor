@@ -36,10 +36,12 @@ extension ExtractorView {
             extractor.dismissState.shouldStackCropImages ? UIScreen.main.bounds.midX : rect.midX
         }
         
-        /// This correction only needs to applied on the device for some reason
         var yCorrection: CGFloat {
 #if targetEnvironment(simulator)
-            0
+            /// This correction only needs to applied on larger devices in the simulator for some reason
+            UIScreen.main.bounds.width < K.largeDeviceWidthCutoff
+            ? K.topBarHeight
+            : 0
 #else
             K.topBarHeight
 #endif
