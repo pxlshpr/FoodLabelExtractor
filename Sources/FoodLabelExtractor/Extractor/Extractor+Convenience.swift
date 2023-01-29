@@ -116,7 +116,8 @@ extension Extractor {
 extension Extractor {
     
     var allTexts: [RecognizedText] {
-        scanResult?.textsWithFoodLabelValues ?? []
+        scanResult?.texts ?? []
+//        scanResult?.textsWithFoodLabelValues ?? []
     }
     
     
