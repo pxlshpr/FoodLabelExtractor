@@ -61,8 +61,8 @@ extension ExtractorView {
                 return wiggleAngles.1
             } else if extractor.dismissState == .thirdWiggle {
                 return wiggleAngles.2
-//            } else if extractor.dismissState == .fourthWiggle {
-//                return wiggleAngles.3
+            } else if extractor.dismissState == .fourthWiggle {
+                return wiggleAngles.3
             } else {
                 return .degrees(0)
             }
@@ -77,8 +77,8 @@ extension ExtractorView {
                 return 1.15
             } else if extractor.dismissState == .thirdWiggle {
                 return 1.2
-//            } else if extractor.dismissState == .fourthWiggle {
-//                return 1.25
+            } else if extractor.dismissState == .fourthWiggle {
+                return 1.25
             } else if extractor.dismissState == .liftingUp {
                 return 1.05
             } else {
@@ -96,8 +96,8 @@ extension ExtractorView {
                 return 8
             } else if extractor.dismissState == .thirdWiggle {
                 return 9
-//            } else if extractor.dismissState == .fourthWiggle {
-//                return 10
+            } else if extractor.dismissState == .fourthWiggle {
+                return 10
             } else if extractor.dismissState == .liftingUp {
                 return 6
             } else {
