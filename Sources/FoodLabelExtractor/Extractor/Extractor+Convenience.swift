@@ -119,29 +119,39 @@ extension Extractor {
         scanResult?.textsWithFoodLabelValues ?? []
     }
     
+    
     var textsToCrop: [RecognizedText] {
-//        guard let scanResult else { return [] }
+        guard let scanResult else { return [] }
+        var texts: [RecognizedText] = []
         
-        let texts = extractedNutrients.compactMap {
-            $0.valueText
+        func appendText(_ text: RecognizedText?) {
+            guard let text, !texts.contains(text) else { return }
+            texts.append(text)
         }
         
-//        if scanResult.columnCount == 2 {
-//            switch extractedColumns.selectedColumnIndex {
-//            case 2:
-//                if let text = scanResult.headers?.headerText2?.text  {
-//                    texts.append(text)
-//                }
-//            default:
-//                if let text = scanResult.headers?.headerText1?.text {
-//                    texts.append(text)
-//                }
-//            }
-//        }
+        for nutrient in extractedNutrients {
+            appendText(nutrient.attributeText)
+            appendText(nutrient.valueText)
+        }
+        
+        for text in scanResult.headerTexts {
+            appendText(text)
+        }
+
+        for text in scanResult.servingTexts {
+            appendText(text)
+        }
 
         return texts
     }
-    
+
+    var textsToCrop_legacy: [RecognizedText] {
+        let texts = extractedNutrients.compactMap {
+            $0.valueText
+        }
+        return texts
+    }
+
     var extractorOutput: ExtractorOutput? {
         guard let scanResult, let image else { return nil }
         return ExtractorOutput(
