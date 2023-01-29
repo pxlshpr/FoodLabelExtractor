@@ -205,7 +205,6 @@ extension Extractor {
         guard pickedAttributeUnit != currentNutrient?.value?.unit else {
             return
         }
-        print("🥭 picked unit: \(pickedAttributeUnit) != \(currentNutrient?.value?.unit?.description ?? "nil")")
         withAnimation {
             currentNutrient?.valueText = nil
             showTextBoxesForCurrentAttribute()
