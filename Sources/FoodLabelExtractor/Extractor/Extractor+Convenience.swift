@@ -170,13 +170,9 @@ extension Extractor {
         : 0
     }
     
-    var imageScale: CGFloat {
-        dismissState.shouldShrinkImage ? 0 : 1
-    }
-    
     var imagePaddingTop: CGFloat {
         dismissState.shouldShrinkImage
-        ? K.Collapse.topPadding + K.topBarHeight
+        ? K.Collapse.imageTopPadding + K.topBarHeight
         : 0
     }
     
@@ -186,4 +182,23 @@ extension Extractor {
         : 0
     }
 
+    var croppedImagesPaddingTop: CGFloat {
+        dismissState == .shrinkingCroppedImages
+        ? K.Collapse.imageTopPadding - K.topBarHeight
+        : 0
+    }
+    
+    var croppedImagesPaddingTrailing: CGFloat {
+        dismissState == .shrinkingCroppedImages
+        ? K.Collapse.imageTopPadding - K.topBarHeight
+        : 0
+    }
+
+    var croppedImagesScale: CGFloat {
+        dismissState == .shrinkingCroppedImages ? 0 : 1
+    }
+    
+    var imageScale: CGFloat {
+        dismissState.shouldShrinkImage ? 0 : 1
+    }
 }

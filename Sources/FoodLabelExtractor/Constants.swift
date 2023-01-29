@@ -55,7 +55,8 @@ struct K {
     }
     
     struct Collapse {
-        static let topPadding: CGFloat = 436.0
         static let leftPadding: CGFloat = 64.0
+        static let imageTopPadding: CGFloat = 400.0
+        static let nutrientsTopPadding: CGFloat = 436.0
     }
 }
