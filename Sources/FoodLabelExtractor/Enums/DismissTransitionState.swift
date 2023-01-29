@@ -15,7 +15,7 @@ enum DismissTransitionState {
     case firstWiggle
     case secondWiggle
     case thirdWiggle
-    case fourthWiggle
+//    case fourthWiggle
     case liftingUp
     case stackedOnTop
     

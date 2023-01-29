@@ -144,16 +144,16 @@ extension Extractor {
                 }
             }
 
-            try await sleepTask(Double.random(in: 0.05...0.15), tolerance: 0.01)
-
-            guard !Task.isCancelled else { return }
-            await MainActor.run { [weak self] in
-                guard let self else { return }
-                Haptics.selectionFeedback()
-                withAnimation(Bounce) {
-                    self.dismissState = .fourthWiggle
-                }
-            }
+//            try await sleepTask(Double.random(in: 0.05...0.15), tolerance: 0.01)
+//
+//            guard !Task.isCancelled else { return }
+//            await MainActor.run { [weak self] in
+//                guard let self else { return }
+//                Haptics.selectionFeedback()
+//                withAnimation(Bounce) {
+//                    self.dismissState = .fourthWiggle
+//                }
+//            }
 
             try await sleepTask(Double.random(in: 0.3...0.5), tolerance: 0.01)
 
