@@ -74,7 +74,7 @@ extension Extractor {
     func showTappableTextBoxesForCurrentAttribute() {
         guard currentAttribute != nil, let scanResult else { return }
         let texts = scanResult.textsWithFoodLabelValues.filter { text in
-            if text.string.detectedValues.count > 1 {
+            if !text.string.detectedValues.isEmpty {
                 return true
             } else {
                 return !self.textBoxes.contains(where: { $0.boundingBox == text.boundingBox })
