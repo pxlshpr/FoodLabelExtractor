@@ -50,9 +50,9 @@ public class Extractor: ObservableObject {
     }
     @Published var pickedAttributeUnit: FoodLabelUnit = .g {
         didSet {
+//            removeTextForCurrentAttributeIfDifferentUnit()
             currentNutrient?.value?.unit = pickedAttributeUnit
-            removeValueTextForCurrentAttributeIfDifferent()
-            removeConfirmationStatusForCurrentAttribute()
+            removeConfirmationStatusForCurrentAttribute(ifDifferentValue: false)
         }
     }
     @Published var internalTextfieldDouble: Double? = nil {
@@ -62,8 +62,8 @@ public class Extractor: ObservableObject {
             } else {
                 currentNutrient?.value = nil
             }
-            removeValueTextForCurrentAttributeIfDifferent()
-            removeConfirmationStatusForCurrentAttribute()
+            removeTextForCurrentAttributeIfDifferentValue()
+            removeConfirmationStatusForCurrentAttribute(ifDifferentValue: true)
         }
     }
     @Published var internalTextfieldString: String = ""
@@ -176,15 +176,17 @@ extension Extractor {
         textFieldAmountString = value.amount.cleanWithoutRounding
     }
     
-    func removeConfirmationStatusForCurrentAttribute() {
-        guard currentNutrientIsConfirmed,
-            internalTextfieldDouble != currentNutrient?.value?.amount
-        else { return }
+    func removeConfirmationStatusForCurrentAttribute(ifDifferentValue: Bool) {
+        guard currentNutrientIsConfirmed else { return }
+        if ifDifferentValue {
+            guard internalTextfieldDouble != currentNutrient?.value?.amount
+            else { return }
+        }
         
         toggleAttributeConfirmationForCurrentAttribute()
     }
     
-    func removeValueTextForCurrentAttributeIfDifferent() {
+    func removeTextForCurrentAttributeIfDifferentValue() {
         guard !ignoreNextValueChange else {
             ignoreNextValueChange = false
             return
@@ -193,6 +195,17 @@ extension Extractor {
         guard internalTextfieldDouble != currentNutrient?.value?.amount else {
             return
         }
+        withAnimation {
+            currentNutrient?.valueText = nil
+            showTextBoxesForCurrentAttribute()
+        }
+    }
+    
+    func removeTextForCurrentAttributeIfDifferentUnit() {
+        guard pickedAttributeUnit != currentNutrient?.value?.unit else {
+            return
+        }
+        print("🥭 picked unit: \(pickedAttributeUnit) != \(currentNutrient?.value?.unit?.description ?? "nil")")
         withAnimation {
             currentNutrient?.valueText = nil
             showTextBoxesForCurrentAttribute()
