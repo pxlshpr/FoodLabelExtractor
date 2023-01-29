@@ -2,6 +2,7 @@ import SwiftUI
 import VisionSugar
 import SwiftHaptics
 import FoodLabelScanner
+import PrepDataTypes
 
 extension Extractor {
     
@@ -101,19 +102,24 @@ extension Extractor {
     }
 
     func tappedText(_ text: RecognizedText) {
-        guard let firstValue = text.firstFoodLabelValue else {
+        guard let firstValue = text.firstFoodLabelValue, let currentAttribute, let currentNutrientIndex else {
             return
         }
         Haptics.feedback(style: .rigid)
         self.textFieldAmountString = firstValue.amount.cleanWithoutRounding
-        if let unit = firstValue.unit {
-            self.pickedAttributeUnit = unit
-        }
         
-        //TODO: Now re-generate textboxes so that the selected text is shown
-        guard let currentNutrientIndex else { return }
+        let nonOptionalUnit: FoodLabelUnit
+        if let valueUnit = firstValue.unit {
+            nonOptionalUnit = valueUnit
+        } else {
+            nonOptionalUnit = currentAttribute.defaultUnit ?? .g
+        }
+
+        let valueWithUnit = FoodLabelValue(amount: firstValue.amount, unit: nonOptionalUnit)
+        pickedAttributeUnit = nonOptionalUnit
+
         extractedNutrients[currentNutrientIndex].valueText = text
-        extractedNutrients[currentNutrientIndex].value = firstValue
+        extractedNutrients[currentNutrientIndex].value = valueWithUnit
         
         setTextBoxes(
             attributeText: currentAttributeText,
