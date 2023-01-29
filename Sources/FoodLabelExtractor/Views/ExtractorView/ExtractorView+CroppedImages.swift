@@ -39,7 +39,7 @@ extension ExtractorView {
         var yCorrection: CGFloat {
 #if targetEnvironment(simulator)
             /// This correction only needs to applied on larger devices in the simulator for some reason
-            UIScreen.main.bounds.width < K.largeDeviceWidthCutoff
+            UIScreen.main.bounds.height < K.largeDeviceWidthCutoff
             ? K.topBarHeight
             : 0
 #else

@@ -33,6 +33,7 @@ extension ExtractorView {
         
         return ImageViewer(viewModel: imageViewerViewModel)
             .overlay(overlay)
+//            .opacity(extractor.dismissState.shouldShrinkImage ? 0 : 1)
             .scaleEffect(extractor.imageScale)
             .padding(.top, extractor.imagePaddingTop)
             .padding(.trailing, extractor.imagePaddingTrailing)
