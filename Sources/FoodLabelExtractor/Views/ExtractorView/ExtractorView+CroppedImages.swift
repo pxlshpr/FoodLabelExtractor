@@ -23,6 +23,9 @@ extension ExtractorView {
             .scaleEffect(extractor.croppedImagesScale)
             .padding(.top, extractor.croppedImagesPaddingTop)
             .padding(.trailing, extractor.croppedImagesPaddingTrailing)
+//            .scaleEffect(extractor.dismissState == .shrinkingCroppedImages ? 0 : 1)
+//            .padding(.top, extractor.dismissState == .shrinkingCroppedImages ? 0 : 0)
+//            .padding(.trailing, extractor.dismissState == .shrinkingCroppedImages ? 300 : 0)
         }
     }
     

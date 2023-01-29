@@ -178,17 +178,12 @@ extension Extractor {
         
         guard !Task.isCancelled else { return }
 
+//        withAnimation(.easeInOut(duration: 3.0)) {
         withAnimation {
             dismissState = .shrinkingImage
-//            animatingCollapse = true
-//            animatingCollapseOfCutouts = true
-//            if let image, let scanResult {
-//                imageHandler?(image, scanResult)
-//                imageHandler = nil
-//            }
         }
         
-        try await sleepTask(0.5, tolerance: 0.01)
+        try await sleepTask(0.2, tolerance: 0.01)
 
         guard !Task.isCancelled else { return }
         withAnimation {

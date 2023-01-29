@@ -184,13 +184,13 @@ extension Extractor {
 
     var croppedImagesPaddingTop: CGFloat {
         dismissState == .shrinkingCroppedImages
-        ? K.Collapse.imageTopPadding - K.topBarHeight
+        ? K.Collapse.nutrientsTopPadding - K.topBarHeight
         : 0
     }
     
     var croppedImagesPaddingTrailing: CGFloat {
         dismissState == .shrinkingCroppedImages
-        ? K.Collapse.imageTopPadding - K.topBarHeight
+        ? UIScreen.main.bounds.width - K.Collapse.leftPadding
         : 0
     }
 
