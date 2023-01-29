@@ -7,4 +7,5 @@ public struct ExtractorOutput {
     public let extractedNutrients: [ExtractedNutrient]
     public let image: UIImage
     public let croppedImages: [RecognizedText : UIImage]
+    public let selectedColumnIndex: Int
 }

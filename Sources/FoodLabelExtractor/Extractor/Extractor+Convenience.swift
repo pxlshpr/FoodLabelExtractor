@@ -148,7 +148,8 @@ extension Extractor {
             scanResult: scanResult,
             extractedNutrients: extractedNutrients,
             image: image,
-            croppedImages: allCroppedImages
+            croppedImages: allCroppedImages,
+            selectedColumnIndex: extractedColumns.selectedColumnIndex
         )
     }
 }
