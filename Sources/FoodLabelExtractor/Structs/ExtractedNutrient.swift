@@ -5,14 +5,14 @@ import PrepDataTypes
 
 public class ExtractedNutrient: ObservableObject, Identifiable {
     
-    var attribute: Attribute
-    var attributeText: RecognizedText? = nil
-    @Published var isConfirmed: Bool = false
-    @Published var value: FoodLabelValue? = nil
-    @Published var valueText: RecognizedText? = nil
+    public var attribute: Attribute
+    public var attributeText: RecognizedText? = nil
+    @Published public var isConfirmed: Bool = false
+    @Published public var value: FoodLabelValue? = nil
+    @Published public var valueText: RecognizedText? = nil
     
-    var scannerValue: FoodLabelValue? = nil
-    var scannerValueText: RecognizedText? = nil
+    public var scannerValue: FoodLabelValue? = nil
+    public var scannerValueText: RecognizedText? = nil
 
     init(
         attribute: Attribute,
