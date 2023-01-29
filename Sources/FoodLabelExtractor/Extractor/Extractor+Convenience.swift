@@ -176,7 +176,7 @@ extension Extractor {
     
     var imagePaddingTop: CGFloat {
         dismissState.shouldShrinkImage
-        ? K.Collapse.topPadding
+        ? K.Collapse.topPadding + K.topBarHeight
         : 0
     }
     
