@@ -82,7 +82,7 @@ extension AttributesLayer {
         }
         
         var backgroundStyle: some ShapeStyle {
-            Color(.secondarySystemFill)
+            Color(.secondarySystemFill).gradient
         }
         
         return Button {
@@ -106,7 +106,7 @@ extension AttributesLayer {
             .background(
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .foregroundStyle(backgroundStyle)
-                    .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+//                    .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
             )
             .contentShape(Rectangle())
         }
@@ -128,30 +128,38 @@ extension AttributesLayer {
 //            return currentNutrient.isConfirmed
         }
         
-        var imageName: String {
+        var isConfirmed: Bool {
             extractor.currentNutrientIsConfirmed
+        }
+        var imageName: String {
+            isConfirmed
             ? "checkmark.square.fill" /// "trash"
             : "square.dashed"
         }
 
         var background: some View {
-            RoundedRectangle(
-                cornerRadius: K.topButtonCornerRadius,
-                style: .continuous
-            )
-            .foregroundStyle(
-                colorScheme == .dark
+            
+            var color: Color {
+                isConfirmed || shouldDisable
                 ? Color(.secondarySystemFill)
-                : Color(.tertiarySystemFill)
-            )
+                : .accentColor
+            }
+            
+            return RoundedRectangle(cornerRadius: K.topButtonCornerRadius, style: .continuous)
+                .foregroundStyle(color.gradient)
         }
         
         var foregroundColor: Color {
-            colorScheme == .dark
-//            ? shouldDisable ? Color(.tertiaryLabel) : .white
-//            : shouldDisable ? Color(.quaternaryLabel) : .secondary
-            ? shouldDisable ? Color(.tertiaryLabel) : .accentColor
-            : shouldDisable ? Color(.quaternaryLabel) : .accentColor
+            isConfirmed
+            ? .accentColor
+//            ? (
+//                colorScheme == .dark
+//                ? shouldDisable ? Color(.tertiaryLabel) : .white
+//                : shouldDisable ? Color(.quaternaryLabel) : .secondary
+//            )
+            : .white
+//            ? shouldDisable ? Color(.tertiaryLabel) : .accentColor
+//            : shouldDisable ? Color(.quaternaryLabel) : .accentColor
         }
         
         return Button {
