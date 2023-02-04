@@ -165,13 +165,13 @@ extension AttributesLayer {
         
         var foregroundColor: Color {
             isConfirmed
-            ? .accentColor
+            ? .primary
 //            ? (
 //                colorScheme == .dark
 //                ? shouldDisable ? Color(.tertiaryLabel) : .white
 //                : shouldDisable ? Color(.quaternaryLabel) : .secondary
 //            )
-            : .white
+            : (shouldDisable ? .secondary : .white)
 //            ? shouldDisable ? Color(.tertiaryLabel) : .accentColor
 //            : shouldDisable ? Color(.quaternaryLabel) : .accentColor
         }

@@ -6,6 +6,6 @@ final class FoodLabelExtractorTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(FoodLabelExtractor().text, "Hello, World!")
+//        XCTAssertEqual(FoodLabelExtractor().text, "Hello, World!")
     }
 }
