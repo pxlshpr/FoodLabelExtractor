@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/FoodLabelScanner",
       "state" : {
-        "revision" : "9d613f542037d01745e562073c41419c975abf6f",
-        "version" : "0.0.110"
+        "revision" : "1db9a95a6ac1915b2ac6ded0962da49fbe5cbe0b",
+        "version" : "0.0.148"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/PrepDataTypes",
       "state" : {
-        "revision" : "f1e73b73b8535874ac97667085aff92f092742dd",
-        "version" : "0.0.244"
+        "revision" : "693f5da53164b60fb4a9c61f9b3a137f4f1355ca",
+        "version" : "0.0.246"
       }
     },
     {
@@ -43,6 +43,15 @@
       "state" : {
         "revision" : "e1660da3aa0410156b2772faccce9f284ccc23a3",
         "version" : "0.0.130"
+      }
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections",
+      "state" : {
+        "revision" : "937e904258d22af6e447a0b72c0bc67583ef64a2",
+        "version" : "1.0.4"
       }
     },
     {
@@ -73,6 +82,24 @@
       }
     },
     {
+      "identity" : "swiftui-shimmer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/markiv/SwiftUI-Shimmer",
+      "state" : {
+        "revision" : "965a7cbcbf094cbcf22b9251a2323bdc3432e171",
+        "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "swiftuicamera",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pxlshpr/SwiftUICamera",
+      "state" : {
+        "revision" : "dc96ce6518e29e502bbd64f2ad8099afaa557d70",
+        "version" : "0.0.41"
+      }
+    },
+    {
       "identity" : "swiftuipager",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/fermoya/SwiftUIPager",
@@ -82,12 +109,21 @@
       }
     },
     {
+      "identity" : "swiftuipopovers",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pxlshpr/SwiftUIPopovers",
+      "state" : {
+        "revision" : "60e781573af86776d410635f91b6c1fa3fdb90ed",
+        "version" : "1.3.3"
+      }
+    },
+    {
       "identity" : "swiftuisugar",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftUISugar",
       "state" : {
-        "revision" : "992325903f7c4a7185c439abacbd540b2c1f8281",
-        "version" : "0.0.323"
+        "revision" : "ccb2655715dcee7e0890925977f12f0fbfda3ca4",
+        "version" : "0.0.346"
       }
     },
     {

@@ -45,7 +45,7 @@ extension AttributesLayer {
             
             var checkBoxColor: Color {
 //                shouldDisable ? Color(.quaternaryLabel) : .secondary
-                shouldDisable ? Color(.quaternaryLabel) : .accentColor
+                shouldDisable ? Color(.quaternaryLabel) : (isConfirmed ? .secondary : .accentColor)
             }
             
             return HStack(spacing: 0) {
@@ -68,10 +68,24 @@ extension AttributesLayer {
                         .padding(.vertical, 5)
                         .padding(.horizontal, 10)
                         .background(
-                            RoundedRectangle(cornerRadius: 5, style: .continuous)
-                                .fill(Color(.tertiarySystemFill))
-                                .opacity(isConfirmed ? 0 : 1)
+                            Group {
+                                if shouldDisable {
+                                    RoundedRectangle(cornerRadius: 5, style: .continuous)
+                                        .fill(Color(.tertiarySystemFill))
+                                } else {
+                                    RoundedRectangle(cornerRadius: 7, style: .continuous)
+                                        .fill(Color.accentColor.opacity(
+                                            colorScheme == .dark ? 0.1 : 0.15
+                                        ))
+                                        .opacity(isConfirmed ? 0 : 1)
+                                }
+                            }
                         )
+//                        .background(
+//                            RoundedRectangle(cornerRadius: 5, style: .continuous)
+//                                .fill(Color(.tertiarySystemFill))
+//                                .opacity(isConfirmed ? 0 : 1)
+//                        )
                 }
                 Button {
 //                    actionHandler(.toggleAttributeConfirmation(nutrient.attribute))

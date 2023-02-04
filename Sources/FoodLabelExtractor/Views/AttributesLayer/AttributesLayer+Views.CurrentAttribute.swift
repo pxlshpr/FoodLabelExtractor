@@ -93,21 +93,35 @@ extension AttributesLayer {
                     Image(systemName: "keyboard")
                 } else {
                     Text(extractor.currentAmountString)
-                        .foregroundColor(amountColor)
+//                        .foregroundColor(amountColor)
                         .matchedGeometryEffect(id: "textField", in: namespace)
                     Text(extractor.currentUnitString)
-                        .foregroundColor(unitColor)
+//                        .foregroundColor(unitColor)
                         .font(.system(size: 18, weight: .medium, design: .default))
                 }
             }
+            .foregroundColor(.white)
             .font(.system(size: 22, weight: .semibold, design: .default))
             .padding(.horizontal)
             .frame(height: K.topButtonHeight)
             .background(
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .foregroundStyle(backgroundStyle)
-//                    .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+                    .fill(Color.accentColor.gradient)
+//                ZStack {
+//                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+//                        .fill(colorScheme == .light ? Color(.secondarySystemGroupedBackground) : Color(hex: "2C2C2E"))
+//                        .opacity(0.5)
+//                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+//                        .fill(Color.accentColor.opacity(
+//                            colorScheme == .dark ? 0.1 : 0.15
+//                        ))
+//                }
             )
+//            .background(
+//                RoundedRectangle(cornerRadius: 12, style: .continuous)
+//                    .foregroundStyle(backgroundStyle)
+////                    .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
+//            )
             .contentShape(Rectangle())
         }
     }
