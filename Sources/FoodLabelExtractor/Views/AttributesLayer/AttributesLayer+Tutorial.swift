@@ -6,12 +6,14 @@ extension AttributesLayer {
     
     @ViewBuilder
     var tutorialLayer: some View {
-        TutorialLayer(isPresented: $showingTutorial) {
-            withAnimation(.interactiveSpring()) {
-                showingTutorial = false
-                disableNextTutorialInvocation = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    disableNextTutorialInvocation = false
+        if showingTutorial {
+            TutorialLayer(isPresented: $showingTutorial) {
+                withAnimation(.interactiveSpring()) {
+                    showingTutorial = false
+                    disableNextTutorialInvocation = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        disableNextTutorialInvocation = false
+                    }
                 }
             }
         }
@@ -47,21 +49,21 @@ struct TutorialLayer: View {
     var body: some View {
         content
         .edgesIgnoringSafeArea(.all)
-//        .onAppear(perform: appeared)
-        .onChange(of: step) { newValue in
-            print("📚 step is: \(newValue)")
-        }
-        .onChange(of: isPresented) { newValue in
-            if newValue && step == nil {
-                print("📚 showing and step is nil")
-                start()
-            }
-        }
+        .onAppear(perform: appeared)
+//        .onChange(of: isPresented) { newValue in
+//            if newValue && step == nil {
+//                print("📚 showing and step is nil")
+//                start()
+//            }
+//        }
         
     }
     
+    func appeared() {
+        start()
+    }
+    
     func start() {
-        print("📚 starting, step is: \(step)")
         step = TutorialStep.edit.rawValue
     }
     
