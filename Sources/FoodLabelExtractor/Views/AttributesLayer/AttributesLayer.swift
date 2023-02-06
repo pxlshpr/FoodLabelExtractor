@@ -15,6 +15,7 @@ public struct AttributesLayer: View {
     @State var hideBackground: Bool = false
     @State var showingNutrientsPicker = false
     @State var showingTutorial = false
+    @State var disableNextTutorialInvocation = false
     @State var dragTranslationX: CGFloat?
 
     let attributesListAnimation: Animation = K.Animations.bounce
@@ -32,6 +33,9 @@ public struct AttributesLayer: View {
             buttonsLayer
 //            columnPickerLayer
             tutorialLayer
+        }
+        .onChange(of: showingTutorial) { newValue in
+            print("📚 showingTutorial: \(newValue)")
         }
 //        .onChange(of: extractor.state, perform: stateChanged)
     }

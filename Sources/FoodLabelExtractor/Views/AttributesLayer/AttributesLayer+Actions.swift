@@ -75,6 +75,11 @@ extension AttributesLayer {
     }
     
     func showTutorial() {
+        guard !disableNextTutorialInvocation else {
+            disableNextTutorialInvocation = false
+            return
+        }
+        
         withAnimation {
             showingTutorial = true
         }

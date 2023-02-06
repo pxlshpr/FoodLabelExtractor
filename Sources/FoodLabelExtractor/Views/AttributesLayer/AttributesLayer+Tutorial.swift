@@ -6,10 +6,12 @@ extension AttributesLayer {
     
     @ViewBuilder
     var tutorialLayer: some View {
-        if showingTutorial {
-            TutorialLayer() {
-                withAnimation(.interactiveSpring()) {
-                    showingTutorial = false
+        TutorialLayer(isPresented: $showingTutorial) {
+            withAnimation(.interactiveSpring()) {
+                showingTutorial = false
+                disableNextTutorialInvocation = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    disableNextTutorialInvocation = false
                 }
             }
         }
@@ -37,11 +39,33 @@ enum TutorialStep: String {
 }
 
 struct TutorialLayer: View {
+    @Binding var isPresented: Bool
     @State var step: String?
     
     let didTapDismiss: (() -> ())
     
     var body: some View {
+        content
+        .edgesIgnoringSafeArea(.all)
+//        .onAppear(perform: appeared)
+        .onChange(of: step) { newValue in
+            print("📚 step is: \(newValue)")
+        }
+        .onChange(of: isPresented) { newValue in
+            if newValue && step == nil {
+                print("📚 showing and step is nil")
+                start()
+            }
+        }
+        
+    }
+    
+    func start() {
+        print("📚 starting, step is: \(step)")
+        step = TutorialStep.edit.rawValue
+    }
+    
+    var content: some View {
         ZStack(alignment: .bottomLeading) {
 //            Color.black.opacity(0.1)
 //                .onTapGesture {
@@ -88,6 +112,7 @@ struct TutorialLayer: View {
                         }
 //                        .clipped()
                         .frame(maxWidth: 250)
+                        .shadow(color: .black, radius: 100.0)
                     }
             }
             .frame(height: K.attributesLayerHeight - K.topButtonPaddedHeight)
@@ -130,6 +155,7 @@ struct TutorialLayer: View {
                             }
                         }
                         .frame(maxWidth: 250)
+                        .shadow(color: .black, radius: 100.0)
                     }
                     .padding(.trailing, 50)
                     .padding(.bottom, 120)
@@ -174,6 +200,7 @@ struct TutorialLayer: View {
                             }
                         }
                         .frame(maxWidth: 250)
+                        .shadow(color: .black, radius: 100.0)
                     }
                     .padding(.bottom, 285)
             }
@@ -221,6 +248,7 @@ struct TutorialLayer: View {
                                 }
                             }
                             .frame(maxWidth: 250)
+                            .shadow(color: .black, radius: 100.0)
                         }
                 }
                 Spacer()
@@ -228,20 +256,13 @@ struct TutorialLayer: View {
             .frame(maxHeight: .infinity)
             
         }
-        .edgesIgnoringSafeArea(.all)
-        .onAppear(perform: appeared)
-    }
-    
-    func appeared() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            step = TutorialStep.edit.rawValue
-        }
+
     }
 }
 
 struct TutorialLayerPreview: View {
     var body: some View {
-        TutorialLayer {
+        TutorialLayer(isPresented: .constant(true)) {
             
         }
     }
