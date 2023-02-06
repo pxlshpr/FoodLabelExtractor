@@ -155,7 +155,7 @@ extension Extractor {
         stackingCroppedImagesOnTopTask = nil
     }
     
-    func cancelAllTasks() {
+    public func cancelAllTasks() {
         scanTask?.cancel()
         classifyTask?.cancel()
         cropTask?.cancel()
