@@ -213,7 +213,7 @@ extension AttributesLayer {
             VStack {
                 if !extractor.dismissState.shouldHideUI {
                     topButtons
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, 10)
                         .padding(.top, 10)
                         .transition(.move(edge: .top))
                 }
