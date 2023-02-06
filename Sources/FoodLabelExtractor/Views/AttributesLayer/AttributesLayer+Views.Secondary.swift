@@ -214,7 +214,7 @@ extension AttributesLayer {
                 if !extractor.dismissState.shouldHideUI {
                     topButtons
                         .padding(.horizontal, 20)
-                        .padding(.top, 20)
+                        .padding(.top, 10)
                         .transition(.move(edge: .top))
                 }
                 Spacer()
