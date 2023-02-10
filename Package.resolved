@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/FoodLabelScanner",
       "state" : {
-        "revision" : "1db9a95a6ac1915b2ac6ded0962da49fbe5cbe0b",
-        "version" : "0.0.148"
+        "revision" : "ad1b6a48c9d3a121ea9272bfdab68207a09271ce",
+        "version" : "0.0.149"
       }
     },
     {
