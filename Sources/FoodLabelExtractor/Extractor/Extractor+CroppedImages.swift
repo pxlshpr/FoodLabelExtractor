@@ -8,7 +8,7 @@ extension Extractor {
     func cropTextBoxes() {
         guard let image else { return }
 
-        cropTask = Task.detached { [weak self] in
+        cropTask = Task.detached(priority: .low) { [weak self] in
             guard let self else { return }
             
             guard !Task.isCancelled else { return }
@@ -44,7 +44,7 @@ extension Extractor {
     
     func showCroppedImages() {
         print("✂️ Showing cropped images")
-        showCroppedImagesTask = Task.detached { [weak self] in
+        showCroppedImagesTask = Task.detached(priority: .low) { [weak self] in
             
             guard let self else { return }
             guard !Task.isCancelled else { return }
@@ -96,7 +96,7 @@ extension Extractor {
     }
     
     func stackCroppedImagesOnTop() {
-        stackingCroppedImagesOnTopTask = Task.detached { [weak self] in
+        stackingCroppedImagesOnTopTask = Task.detached(priority: .low) { [weak self] in
             
             guard let self else { return }
             guard !Task.isCancelled else { return }
@@ -173,17 +173,27 @@ extension Extractor {
         }
     }
     
+    func startCollapseTask() {
+        //TODO: Rename this task
+        showCroppedImagesTask = Task.detached(priority: .high) { [weak self] in
+            guard !Task.isCancelled else { return }
+            try await self?.collapse()
+        }
+    }
+    
     @MainActor
     func collapse() async throws {
+        
+        //TODO: Simply slide down the image and the Nutrition Label filled and ready
         
         guard !Task.isCancelled else { return }
 
 //        withAnimation(.easeInOut(duration: 3.0)) {
-        withAnimation {
-            dismissState = .shrinkingImage
-        }
-        
-        try await sleepTask(0.2, tolerance: 0.01)
+//        withAnimation {
+//            dismissState = .shrinkingImage
+//        }
+//
+//        try await sleepTask(0.2, tolerance: 0.01)
 
         guard !Task.isCancelled else { return }
         withAnimation {

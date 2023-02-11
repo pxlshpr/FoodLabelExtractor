@@ -96,12 +96,13 @@ extension AttributesLayer {
         withAnimation {
             extractor.dismissState = .startedDoneDismissal
         }
+        extractor.startCollapseTask()
         /// If the cropped images are available, start with the transition, otherwise set the state to wait for them to finish
-        if extractor.croppingStatus == .complete {
-            extractor.showCroppedImages()
-        } else {
-            extractor.dismissState = .waitingForCroppedImages
-        }
+//        if extractor.croppingStatus == .complete {
+//            extractor.showCroppedImages()
+//        } else {
+//            extractor.dismissState = .waitingForCroppedImages
+//        }
     }
     
     //MARK: - Helpers Actions

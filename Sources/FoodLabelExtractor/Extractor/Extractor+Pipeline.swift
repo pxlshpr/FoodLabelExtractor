@@ -39,7 +39,7 @@ extension Extractor {
         guard let image else { return }
         setState(to: .detecting)
 
-        scanTask = Task.detached { [weak self] in
+        scanTask = Task.detached(priority: .low) { [weak self] in
             
             guard let self else { return }
             
@@ -95,7 +95,7 @@ extension Extractor {
         
         guard let textSet else { return }
 
-        classifyTask = Task.detached { [weak self] in
+        classifyTask = Task.detached(priority: .low) { [weak self] in
             guard let self else { return }
             let scanResult = textSet.scanResult
 
@@ -109,7 +109,7 @@ extension Extractor {
             guard !Task.isCancelled else { return }
 
             print("✂️ About to call cropTextBoxes()")
-            await self.cropTextBoxes()
+//            await self.cropTextBoxes()
             print("✂️ Returned from cropTextBoxes()")
 
             if scanResult.columnCount == 2 {
