@@ -39,7 +39,7 @@ extension Extractor {
         guard let image else { return }
         setState(to: .detecting)
 
-        scanTask = Task.detached(priority: .low) { [weak self] in
+        scanTask = Task.detached(priority: .high) { [weak self] in
             
             guard let self else { return }
             
@@ -95,7 +95,7 @@ extension Extractor {
         
         guard let textSet else { return }
 
-        classifyTask = Task.detached(priority: .low) { [weak self] in
+        classifyTask = Task.detached(priority: .high) { [weak self] in
             guard let self else { return }
             let scanResult = textSet.scanResult
 
