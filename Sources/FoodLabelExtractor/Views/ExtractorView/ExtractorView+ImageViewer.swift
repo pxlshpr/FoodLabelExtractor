@@ -55,13 +55,13 @@ extension ExtractorView {
     }
     
     func setImageInImageViewer(_ image: UIImage) {
-        withAnimation(.easeInOut(duration: 0.7)) {
+        withAnimation(.easeInOut(duration: 0.3)) {
             imageViewerViewModel.image = image
         }
     }
     
     func startExtracting(image: UIImage) {
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             extractor.begin()
         }
     }
