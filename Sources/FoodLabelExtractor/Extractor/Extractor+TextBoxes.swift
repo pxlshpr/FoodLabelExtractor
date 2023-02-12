@@ -121,6 +121,8 @@ extension Extractor {
         extractedNutrients[currentNutrientIndex].valueText = text
         extractedNutrients[currentNutrientIndex].value = valueWithUnit
         
+        addCroppedImage(for: text)
+        
         setTextBoxes(
             attributeText: currentAttributeText,
             valueText: text,

@@ -109,7 +109,12 @@ extension Extractor {
             guard !Task.isCancelled else { return }
 
             print("✂️ About to call cropTextBoxes()")
-            await self.cropTextBoxes()
+            //TODO: Performance improvements
+            /// [ ] ~~Do this after the column is picked or if there's 1 column, straight away~~
+            /// [ ] ~~Only cut out the text boxes we will be using (not everything)~~
+            /// [ ] ~~As user interacts with extractor~~
+            ///     [ ] ~~Add any more cropped images that user selects if it doesn't already exist (don't remove any in case they select them again)~~
+//            await self.cropTextBoxes()
             print("✂️ Returned from cropTextBoxes()")
 
             if scanResult.columnCount == 2 {
@@ -124,7 +129,8 @@ extension Extractor {
         guard let scanResult else { return }
         let extractedNutrients = scanResult.extractedNutrientsForColumn(
             extractedColumns.selectedColumnIndex,
-            includeSingleColumnValues: true
+            includeSingleColumnValues: true,
+            ignoring: attributesToIgnore
         )
 
 //        guard let firstAttribute = extractedNutrients.first?.attribute else {
@@ -139,12 +145,14 @@ extension Extractor {
         withAnimation {
             self.extractedNutrients = extractedNutrients
         }
+        cropTextBoxes()
         
 //        currentAttribute = firstAttribute
         selectableTextBoxes = []
         textBoxes = []
         showTextBoxesForCurrentAttribute()
 
+        
         await zoomToNutrients()
     }
     
@@ -159,7 +167,7 @@ extension Extractor {
 //            showingColumnPickerUI = true
 //        }
 
-        extractedColumns = scanResult.extractedColumns
+        extractedColumns = scanResult.extractedColumns(ignoring: attributesToIgnore)
         showColumnTextBoxes()
 //        selectedImageTexts = columns.selectedImageTexts
 
@@ -177,20 +185,38 @@ extension Extractor {
                 self?.croppingStatus = .started
             }
             
-            try await sleepTask(2.0, tolerance: 0.01)
+//            try await sleepTask(0.5, tolerance: 0.01)
 
             var start = CFAbsoluteTimeGetCurrent()
+            
+            let allTexts = await self.allTexts
+            let textsToCrop = await self.textsToCrop
+            print("✂️ Cropping \(allTexts.count) texts when we only need \(textsToCrop.count)")
+            
+            let sizeForCropping = await self.sizeForCropping(
+                for: textsToCrop,
+                in: image.size
+            )
+            
             print("✂️ Resizing image: \(image.size)")
-            let resized = resizeImage(image: image, targetSize: CGSizeMake(500, 500))
+            if let sizeForCropping {
+                await MainActor.run { [weak self] in
+                    self?.resizedImageForCropping = resizeImage(image: image, targetSize: sizeForCropping)
+                }
+            }
+            let imageForCropping = await self.resizedImageForCropping ?? image
+            
             print("✂️ Resizing took \(CFAbsoluteTimeGetCurrent()-start)s")
             start = CFAbsoluteTimeGetCurrent()
             
-            print("✂️ Starting cropping image of size: \(resized.size)")
+            print("✂️ Starting cropping image of size: \(imageForCropping.size)")
             
             var croppedImages: [RecognizedText : UIImage] = [:]
-            for text in await self.allTexts {
+            for text in textsToCrop {
                 guard !Task.isCancelled else { return }
-                guard let croppedImage = await resized.cropped(boundingBox: text.boundingBox) else {
+                guard let croppedImage = await imageForCropping.cropped(
+                    boundingBox: text.boundingBox
+                ) else {
                     print("Couldn't get image for box: \(text)")
                     continue
                 }
@@ -210,6 +236,23 @@ extension Extractor {
                 print("✂️ Was waitingToShowCroppedImages, so showing now")
                 await self.showCroppedImages()
             }
+        }
+    }
+    
+    func addCroppedImage(for text: RecognizedText) {
+        guard let image = self.resizedImageForCropping ?? self.image else { return }
+        
+        cropTask = Task.detached(priority: .low) { [weak self] in
+            let start = CFAbsoluteTimeGetCurrent()
+            print("✂️ Starting cropping image of size: \(image.size)")
+            guard let croppedImage = await image.cropped(boundingBox: text.boundingBox) else {
+                print("Couldn't get image for box: \(text)")
+                return
+            }
+            await MainActor.run { [weak self] in
+                self?.allCroppedImages[text] = croppedImage
+            }
+            print("✂️ Cropped: \(text.string) size: \(croppedImage.size), took: \(CFAbsoluteTimeGetCurrent()-start)s")
         }
     }
     
@@ -326,7 +369,7 @@ extension Extractor {
                     self.dismissState = .liftingUp
                 }
             }
-
+            
             let Bounce: Animation = .interactiveSpring(response: 0.35, dampingFraction: 0.66, blendDuration: 0.35)
 
             try await sleepTask(Double.random(in: 0.05...0.15), tolerance: 0.01)
@@ -406,19 +449,18 @@ extension Extractor {
         
         guard !Task.isCancelled else { return }
 
-//        withAnimation(.easeInOut(duration: 3.0)) {
-//        withAnimation {
-//            dismissState = .shrinkingImage
-//        }
-//
-//        try await sleepTask(0.2, tolerance: 0.01)
+        withAnimation {
+            dismissState = .shrinkingImage
+        }
+
+        try await sleepTask(0.2, tolerance: 0.01)
 
         guard !Task.isCancelled else { return }
         withAnimation {
             dismissState = .shrinkingCroppedImages
         }
 
-        try await sleepTask(0.3, tolerance: 0.01)
+        try await sleepTask(0.4, tolerance: 0.01)
 
         guard !Task.isCancelled else { return }
         guard let extractorOutput else {

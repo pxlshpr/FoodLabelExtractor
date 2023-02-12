@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftHaptics
+import VisionSugar
 
 extension Extractor {
     
@@ -79,5 +80,26 @@ extension Extractor {
     
     var shouldShowClearButton: Bool {
         !textFieldAmountString.isEmpty
+    }
+    
+    func sizeForCropping(for texts: [RecognizedText], in size: CGSize) -> CGSize? {
+        
+        guard let smallest = texts.textWithSmallestHeight else { return .zero }
+        print("✂️ Smallest is '\(smallest.string)' \(smallest.rect)")
+        
+        /// We want the smallest text to be at least `15px` high, so find the ratio accordingly
+        let height = (size.height * 15.0) / smallest.rect.height
+        let ratio = min(height / size.height, 0.9)
+        print("✂️ Height: \(height), Ratio is '\(ratio)")
+
+        guard ratio < 1 else { return nil }
+        
+        return CGSizeMake(size.width * ratio, size.height * ratio)
+    }
+}
+
+extension Array where Element == RecognizedText {
+    var textWithSmallestHeight: RecognizedText? {
+        self.sorted(by: { $0.boundingBox.height < $1.boundingBox.height }).first
     }
 }

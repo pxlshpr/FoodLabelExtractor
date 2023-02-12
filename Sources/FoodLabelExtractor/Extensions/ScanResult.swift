@@ -2,16 +2,16 @@ import Foundation
 import FoodLabelScanner
 
 extension ScanResult {
-    var extractedColumns: ExtractedColumns {
+    func extractedColumns(ignoring attributesToIgnore: [Attribute]) -> ExtractedColumns {
         let column1 = ExtractedColumn(
             column: 1,
             name: headerTitle1,
-            extractedNutrients: extractedNutrientsForColumn(1)
+            extractedNutrients: extractedNutrientsForColumn(1, ignoring: attributesToIgnore)
         )
         let column2 = ExtractedColumn(
             column: 2,
             name: headerTitle2,
-            extractedNutrients: extractedNutrientsForColumn(2)
+            extractedNutrients: extractedNutrientsForColumn(2, ignoring: attributesToIgnore)
         )
         return ExtractedColumns(
             column1: column1,
@@ -26,8 +26,17 @@ import VisionSugar
 
 extension ScanResult {
     
-    func extractedNutrientsForColumn(_ column: Int, includeSingleColumnValues singles: Bool = false) -> [ExtractedNutrient] {
-        var extractedNutrients = nutrients.rows.map({ row in
+    func extractedNutrientsForColumn(
+        _ column: Int,
+        includeSingleColumnValues singles: Bool = false,
+        ignoring attributesToIgnore: [Attribute]
+    ) -> [ExtractedNutrient] {
+        var extractedNutrients: [ExtractedNutrient] = nutrients.rows.compactMap({ row in
+            
+            guard !attributesToIgnore.contains(row.attribute) else {
+                print("⛏ Ignoring \(row.attribute.description) since we've already extracted it")
+                return nil
+            }
             
             var value: FoodLabelValue? = nil
             let valueText: RecognizedText?
@@ -75,14 +84,18 @@ extension ScanResult {
         } else {
             energy = ExtractedNutrient(attribute: .energy)
         }
-        extractedNutrients.insert(energy, at: 0)
+        if !attributesToIgnore.contains(.energy) {
+            extractedNutrients.insert(energy, at: 0)
+        }
         
         /// Add any missing macros (to ensure they're all always present)
         for macro in Macro.allCases {
             guard !extractedNutrients.contains(where: { $0.attribute.macro == macro }) else {
                 continue
             }
-            extractedNutrients.append(.init(attribute: macro.attribute))
+            if !attributesToIgnore.contains(macro.attribute) {
+                extractedNutrients.append(.init(attribute: macro.attribute))
+            }
         }
 
         return extractedNutrients

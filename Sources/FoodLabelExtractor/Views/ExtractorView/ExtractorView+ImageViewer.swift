@@ -33,8 +33,8 @@ extension ExtractorView {
         
         return ImageViewer(viewModel: imageViewerViewModel)
             .overlay(overlay)
-            .opacity(extractor.dismissState.shouldShrinkImage ? 0 : 1)
-//            .offset(y: extractor.dismissState.shouldShrinkImage ? UIScreen.main.bounds.height + extractor.imageOffset : 0)
+//            .opacity(extractor.dismissState.shouldShrinkImage ? 0 : 1)
+            .offset(y: extractor.dismissState.shouldShrinkImage ? UIScreen.main.bounds.height + extractor.imageOffset : 0)
 //            .scaleEffect(extractor.dismissState.shouldShrinkImage ? 0 : 1)
 //            .padding(.top, extractor.dismissState.shouldShrinkImage ? 400 : 0)
 //            .padding(.trailing, extractor.dismissState.shouldShrinkImage ? 300 : 0)
@@ -55,8 +55,10 @@ extension ExtractorView {
     }
     
     func setImageInImageViewer(_ image: UIImage) {
-        withAnimation(.easeInOut(duration: 0.2)) {
-            imageViewerViewModel.image = image
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            withAnimation(.easeInOut(duration: 0.5)) {
+                imageViewerViewModel.image = image
+            }
         }
     }
     

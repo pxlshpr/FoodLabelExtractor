@@ -8,6 +8,7 @@ import SwiftHaptics
 public class Extractor: ObservableObject {
 
     var isUsingCamera: Bool
+    var attributesToIgnore: [Attribute] = []
 
     @Published var state: ExtractorState = .loadingImage
     @Published var transitionState: ExtractorCaptureTransitionState = .notStarted
@@ -21,6 +22,8 @@ public class Extractor: ObservableObject {
     @Published var croppedImages: [(UIImage, CGRect, UUID, Angle, (Angle, Angle, Angle, Angle))] = []
 
     @Published public var image: UIImage? = nil
+    /// Lower-res image for cropping to imrove perf
+    var resizedImageForCropping: UIImage?
 
     @Published var textSet: RecognizedTextSet? = nil
     
@@ -88,6 +91,7 @@ public class Extractor: ObservableObject {
     var scanTask: Task<(), Error>? = nil
     var classifyTask: Task<(), Error>? = nil
     var cropTask: Task<(), Error>? = nil
+    var cropTappedTextTask: Task<(), Error>? = nil
     var showCroppedImagesTask: Task<(), Error>? = nil
     var stackingCroppedImagesOnTopTask: Task<(), Error>? = nil
 
@@ -106,10 +110,11 @@ public class Extractor: ObservableObject {
 extension Extractor {
     public func setup(
         forCamera: Bool = false,
+        attributesToIgnore: [Attribute] = [],
         didDismiss: @escaping ((ExtractorOutput?) -> Void)
     ) {
-        
         isUsingCamera = forCamera
+        self.attributesToIgnore = attributesToIgnore
 
         state = .loadingImage
         transitionState = .notStarted
@@ -151,6 +156,7 @@ extension Extractor {
         scanTask = nil
         classifyTask = nil
         cropTask = nil
+        cropTappedTextTask = nil
         showCroppedImagesTask = nil
         stackingCroppedImagesOnTopTask = nil
     }
@@ -159,6 +165,7 @@ extension Extractor {
         scanTask?.cancel()
         classifyTask?.cancel()
         cropTask?.cancel()
+        cropTappedTextTask?.cancel()
         showCroppedImagesTask?.cancel()
         stackingCroppedImagesOnTopTask?.cancel()
     }

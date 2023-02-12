@@ -5,7 +5,11 @@ import PrepViews
 extension AttributesLayer {
     
     var nutrientsPicker: some View {
-        let shouldShowEnergy = !extractor.extractedNutrients.contains(where: { $0.attribute == .energy })
+        var shouldShowEnergy: Bool {
+            !extractor.extractedNutrients.contains(where: { $0.attribute == .energy })
+            &&
+            !extractor.attributesToIgnore.contains(.energy)
+        }
         
         func hasUnusedMicros(in group: NutrientTypeGroup, matching searchString: String = "") -> Bool {
             group.nutrients.contains(where: {
@@ -19,10 +23,14 @@ extension AttributesLayer {
         
         func hasMicronutrient(for nutrientType: NutrientType) -> Bool {
             extractor.extractedNutrients.contains(where: { $0.attribute.nutrientType == nutrientType })
+            ||
+            extractor.attributesToIgnore.contains(where: { $0.nutrientType == nutrientType })
         }
 
         func shouldShowMacro(_ macro: Macro) -> Bool {
             !extractor.extractedNutrients.contains(where: { $0.attribute.macro == macro })
+            &&
+            !extractor.attributesToIgnore.contains(where: { $0.macro == macro })
         }
         
         func didAddNutrients(energy: Bool, macros: [Macro], micros: [NutrientType]) {
