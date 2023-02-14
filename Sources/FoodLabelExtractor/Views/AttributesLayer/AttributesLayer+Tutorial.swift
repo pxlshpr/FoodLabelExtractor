@@ -52,7 +52,7 @@ struct TutorialLayer: View {
         .onAppear(perform: appeared)
 //        .onChange(of: isPresented) { newValue in
 //            if newValue && step == nil {
-//                print("📚 showing and step is nil")
+//                cprint("📚 showing and step is nil")
 //                start()
 //            }
 //        }

@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftHaptics
+import PrepDataTypes
 
 extension AttributesLayer {
     
@@ -155,7 +156,7 @@ extension AttributesLayer {
         var cancelAnimation: Animation {
             .interactiveSpring()
         }
-        print("👉🏽 drag.translation: \(value.translation)")
+        cprint("👉🏽 drag.translation: \(value.translation)")
         let predictedTranslationX = value.predictedEndTranslation.width
         let predictedButtonX = (buttonWidth / 2.0) + (selectedColumn == 2 ? buttonWidth : 0) + predictedTranslationX
         let predictedButtonIsOnRight = predictedButtonX > buttonWidth
@@ -163,7 +164,7 @@ extension AttributesLayer {
         if predictedButtonIsOnRight {
             if selectedColumn == 1 {
                 Haptics.feedback(style: .soft)
-                print("👉🏽 setting dragTranslation as: \(buttonWidth) with animation before resetting to nil")
+                cprint("👉🏽 setting dragTranslation as: \(buttonWidth) with animation before resetting to nil")
                 withAnimation(transitionAnimation) {
                     dragTranslationX = buttonWidth
                 }
@@ -178,7 +179,7 @@ extension AttributesLayer {
             if selectedColumn == 2 {
                 Haptics.feedback(style: .soft)
 //                dragTranslationX = nil
-                print("👉🏽 setting dragTranslation as: -\(buttonWidth) with animation before resetting to nil")
+                cprint("👉🏽 setting dragTranslation as: -\(buttonWidth) with animation before resetting to nil")
                 withAnimation(transitionAnimation) {
                     dragTranslationX = -buttonWidth
                 }

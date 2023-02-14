@@ -3,6 +3,7 @@ import SwiftSugar
 import SwiftHaptics
 import FoodLabelScanner
 import VisionSugar
+import PrepDataTypes
 
 extension Extractor {
 
@@ -108,14 +109,14 @@ extension Extractor {
             
             guard !Task.isCancelled else { return }
 
-            print("✂️ About to call cropTextBoxes()")
+            cprint("✂️ About to call cropTextBoxes()")
             //TODO: Performance improvements
             /// [ ] ~~Do this after the column is picked or if there's 1 column, straight away~~
             /// [ ] ~~Only cut out the text boxes we will be using (not everything)~~
             /// [ ] ~~As user interacts with extractor~~
             ///     [ ] ~~Add any more cropped images that user selects if it doesn't already exist (don't remove any in case they select them again)~~
 //            await self.cropTextBoxes()
-            print("✂️ Returned from cropTextBoxes()")
+            cprint("✂️ Returned from cropTextBoxes()")
 
             if scanResult.columnCount == 2 {
                 try await self.showColumnPicker()
@@ -191,14 +192,14 @@ extension Extractor {
             
             let allTexts = await self.allTexts
             let textsToCrop = await self.textsToCrop
-            print("✂️ Cropping \(allTexts.count) texts when we only need \(textsToCrop.count)")
+            cprint("✂️ Cropping \(allTexts.count) texts when we only need \(textsToCrop.count)")
             
             let sizeForCropping = await self.sizeForCropping(
                 for: textsToCrop,
                 in: image.size
             )
             
-            print("✂️ Resizing image: \(image.size)")
+            cprint("✂️ Resizing image: \(image.size)")
             if let sizeForCropping {
                 await MainActor.run { [weak self] in
                     self?.resizedImageForCropping = resizeImage(image: image, targetSize: sizeForCropping)
@@ -206,10 +207,10 @@ extension Extractor {
             }
             let imageForCropping = await self.resizedImageForCropping ?? image
             
-            print("✂️ Resizing took \(CFAbsoluteTimeGetCurrent()-start)s")
+            cprint("✂️ Resizing took \(CFAbsoluteTimeGetCurrent()-start)s")
             start = CFAbsoluteTimeGetCurrent()
             
-            print("✂️ Starting cropping image of size: \(imageForCropping.size)")
+            cprint("✂️ Starting cropping image of size: \(imageForCropping.size)")
             
             var croppedImages: [RecognizedText : UIImage] = [:]
             for text in textsToCrop {
@@ -217,23 +218,23 @@ extension Extractor {
                 guard let croppedImage = await imageForCropping.cropped(
                     boundingBox: text.boundingBox
                 ) else {
-                    print("Couldn't get image for box: \(text)")
+                    cprint("Couldn't get image for box: \(text)")
                     continue
                 }
-                print("✂️ Cropped: \(text.string) size: \(croppedImage.size)")
+                cprint("✂️ Cropped: \(text.string) size: \(croppedImage.size)")
                 croppedImages[text] = croppedImage
             }
 
             let duration = CFAbsoluteTimeGetCurrent()-start
             guard !Task.isCancelled else { return }
             await MainActor.run { [weak self, croppedImages] in
-                print("✂️ Cropping completed in \(duration)s, setting dict and status")
+                cprint("✂️ Cropping completed in \(duration)s, setting dict and status")
                 self?.allCroppedImages = croppedImages
                 self?.croppingStatus = .complete
             }
             
             if await self.dismissState == .waitingForCroppedImages {
-                print("✂️ Was waitingToShowCroppedImages, so showing now")
+                cprint("✂️ Was waitingToShowCroppedImages, so showing now")
                 await self.showCroppedImages()
             }
         }
@@ -244,15 +245,15 @@ extension Extractor {
         
         cropTask = Task.detached(priority: .low) { [weak self] in
             let start = CFAbsoluteTimeGetCurrent()
-            print("✂️ Starting cropping image of size: \(image.size)")
+            cprint("✂️ Starting cropping image of size: \(image.size)")
             guard let croppedImage = await image.cropped(boundingBox: text.boundingBox) else {
-                print("Couldn't get image for box: \(text)")
+                cprint("Couldn't get image for box: \(text)")
                 return
             }
             await MainActor.run { [weak self] in
                 self?.allCroppedImages[text] = croppedImage
             }
-            print("✂️ Cropped: \(text.string) size: \(croppedImage.size), took: \(CFAbsoluteTimeGetCurrent()-start)s")
+            cprint("✂️ Cropped: \(text.string) size: \(croppedImage.size), took: \(CFAbsoluteTimeGetCurrent()-start)s")
         }
     }
     
@@ -273,7 +274,7 @@ extension Extractor {
         showCroppedImagesTask = Task.detached(priority: .high) { [weak self] in
 
             let start = CFAbsoluteTimeGetCurrent()
-            print("✂️ Showing cropped images")
+            cprint("✂️ Showing cropped images")
 
             guard let self else { return }
             guard !Task.isCancelled else { return }
@@ -283,13 +284,13 @@ extension Extractor {
             for (text, cropped) in await self.allCroppedImages {
                 guard !Task.isCancelled else { return }
                 guard await self.textsToCrop.contains(where: { $0.id == text.id }) else {
-                    print("✂️ Not including: \(text.string) since it's not in textsToCrop")
+                    cprint("✂️ Not including: \(text.string) since it's not in textsToCrop")
                     continue
                 }
                 
-                print("✂️ Getting rect for: \(text.string), timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
+                cprint("✂️ Getting rect for: \(text.string), timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
                 let correctedRect = await self.rectForText(text)
-                print("✂️ ... got rect, timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
+                cprint("✂️ ... got rect, timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
 
                 let randomWiggleAngles = await self.randomWiggleAngles
                 
@@ -305,7 +306,7 @@ extension Extractor {
 
 //                await MainActor.run { [weak self] in
 //                    guard let self else { return }
-//                    print("✂️ ... appending image to croppedImages, timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
+//                    cprint("✂️ ... appending image to croppedImages, timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
 //                    let randomWiggleAngles = self.randomWiggleAngles
 //
 //                    if !self.croppedImages.contains(where: { $0.2 == text.id }) {
@@ -317,19 +318,19 @@ extension Extractor {
 //                            randomWiggleAngles
 //                        ))
 //                    }
-//                    print("✂️ ... appended image to croppedImages, timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
+//                    cprint("✂️ ... appended image to croppedImages, timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
 //                }
             }
             
             await MainActor.run { [weak self, localCroppedImages] in
                 guard let self else { return }
-                print("✂️ ... setting croppedImages, timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
+                cprint("✂️ ... setting croppedImages, timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
                 
                 withAnimation {
                     self.croppedImages = localCroppedImages
                 }
                 
-                print("✂️ ... set croppedImages, timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
+                cprint("✂️ ... set croppedImages, timestamp: \(CFAbsoluteTimeGetCurrent()-start)s")
             }
 
             try await sleepTask(1.0, tolerance: 0.01)
@@ -351,7 +352,7 @@ extension Extractor {
 
             guard !Task.isCancelled else { return }
             
-            print("✂️ Completed showCroppedImage, took: \(CFAbsoluteTimeGetCurrent()-start)s")
+            cprint("✂️ Completed showCroppedImage, took: \(CFAbsoluteTimeGetCurrent()-start)s")
             await self.stackCroppedImagesOnTop()
         }
     }

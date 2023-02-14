@@ -179,7 +179,7 @@ extension AttributesLayer {
             var shouldShow: Bool {
                 let bool = !extractor.state.isLoading
                 && extractor.state != .awaitingColumnSelection
-                print("🟡 shouldShow for Done button: \(bool): extractor.state is \(extractor.state.rawValue)")
+                cprint("🟡 shouldShow for Done button: \(bool): extractor.state is \(extractor.state.rawValue)")
                 return bool
             }
             

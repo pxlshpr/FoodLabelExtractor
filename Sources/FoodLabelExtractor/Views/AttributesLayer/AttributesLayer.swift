@@ -1,6 +1,7 @@
 import SwiftUI
 import FoodLabelScanner
 import ActivityIndicatorView
+import PrepDataTypes
 
 public struct AttributesLayer: View {
     
@@ -35,7 +36,7 @@ public struct AttributesLayer: View {
             tutorialLayer
         }
         .onChange(of: showingTutorial) { newValue in
-            print("📚 showingTutorial: \(newValue)")
+            cprint("📚 showingTutorial: \(newValue)")
         }
 //        .onChange(of: extractor.state, perform: stateChanged)
     }

@@ -34,7 +34,7 @@ extension ScanResult {
         var extractedNutrients: [ExtractedNutrient] = nutrients.rows.compactMap({ row in
             
             guard !attributesToIgnore.contains(row.attribute) else {
-                print("⛏ Ignoring \(row.attribute.description) since we've already extracted it")
+                cprint("⛏ Ignoring \(row.attribute.description) since we've already extracted it")
                 return nil
             }
             

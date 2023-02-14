@@ -2,6 +2,7 @@ import SwiftUI
 import VisionSugar
 import SwiftHaptics
 import SwiftSugar
+import PrepDataTypes
 
 extension Extractor {
     
@@ -35,10 +36,10 @@ extension Extractor {
     
     func rectForText(_ text: RecognizedText) -> CGRect {
         if let lastContentSize, let lastContentOffset {
-            print("    📐 Have contentSize and contentOffset, so calculating")
+            cprint("    📐 Have contentSize and contentOffset, so calculating")
             return getRectForText(text, contentSize: lastContentSize, contentOffset: lastContentOffset)
         }
-        print("    📐 DON'T Have contentSize and contentOffset, doing it manually")
+        cprint("    📐 DON'T Have contentSize and contentOffset, doing it manually")
 
         //TODO: Try and always have lastContentSize and lastContentOffset and calculate using those
         let boundingBox = text.boundingBox
@@ -59,11 +60,11 @@ extension Extractor {
 //                height: rectForSize.size.height
 //            )
 //
-//            print("🌱 box.boundingBox: \(boundingBox)")
-//            print("🌱 scaledSize: \(scaledSize)")
-//            print("🌱 rectForSize: \(rectForSize)")
-//            print("🌱 correctedRect: \(correctedRect)")
-//            print("🌱 image.boundingBoxForScreenFill: \(image.boundingBoxForScreenFill)")
+//            cprint("🌱 box.boundingBox: \(boundingBox)")
+//            cprint("🌱 scaledSize: \(scaledSize)")
+//            cprint("🌱 rectForSize: \(rectForSize)")
+//            cprint("🌱 correctedRect: \(correctedRect)")
+//            cprint("🌱 image.boundingBoxForScreenFill: \(image.boundingBoxForScreenFill)")
 //        } else {
 
             let rectForSize: CGRect
@@ -78,7 +79,7 @@ extension Extractor {
                 x = rectForSize.origin.x
                 y = rectForSize.origin.y + ((screen.height - scaledHeight) / 2.0)
 
-                print("🌱 scaledSize: \(scaledSize)")
+                cprint("🌱 scaledSize: \(scaledSize)")
             } else {
                 let scaledWidth = (image.size.width * screen.height) / image.size.height
                 let scaledSize = CGSize(width: scaledWidth, height: screen.height)
@@ -94,8 +95,8 @@ extension Extractor {
                 height: rectForSize.size.height
             )
 
-            print("🌱 rectForSize: \(rectForSize)")
-            print("🌱 correctedRect: \(correctedRect), screenHeight: \(screen.height)")
+            cprint("🌱 rectForSize: \(rectForSize)")
+            cprint("🌱 correctedRect: \(correctedRect), screenHeight: \(screen.height)")
 //        }
         return correctedRect
     }
@@ -104,7 +105,7 @@ extension Extractor {
         /// Get the bounding box in terms of the (scaled) image dimensions
         let rect = text.boundingBox.rectForSize(contentSize)
 
-        print("    📐 Getting rectForSize for: \(text.string) \(rect)")
+        cprint("    📐 Getting rectForSize for: \(text.string) \(rect)")
 
         /// Now offset it by the scrollview's current offset to get it's current position
         return CGRect(
