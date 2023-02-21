@@ -71,13 +71,14 @@ extension AttributesLayer {
             .listStyle(.plain)
             .buttonStyle(.borderless)
             .onReceive(scannerDidChangeAttribute) { notification in
-                guard let userInfo = notification.userInfo,
-                      let attribute = userInfo[Notification.ScannerKeys.nextAttribute] as? Attribute else {
-                    return
-                }
-                withAnimation {
-                    scrollProxy.scrollTo(attribute, anchor: .center)
-                }
+                /// **Removed**  due to the occasional crash at the `.scrollTo` call
+//                guard let userInfo = notification.userInfo,
+//                      let attribute = userInfo[Notification.ScannerKeys.nextAttribute] as? Attribute else {
+//                    return
+//                }
+//                withAnimation {
+//                    scrollProxy.scrollTo(attribute, anchor: .center)
+//                }
             }
         }
     }
