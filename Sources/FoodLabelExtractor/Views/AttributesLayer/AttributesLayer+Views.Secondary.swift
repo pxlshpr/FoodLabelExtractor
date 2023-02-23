@@ -123,10 +123,7 @@ extension AttributesLayer {
         }
         
         var addButton: some View {
-            Button {
-                Haptics.feedback(style: .soft)
-                showingNutrientsPicker = true
-            } label: {
+            var label: some View {
                 Image(systemName: "plus")
                     .imageScale(.medium)
                     .fontWeight(.medium)
@@ -138,7 +135,21 @@ extension AttributesLayer {
                             .shadow(color: Color(.black).opacity(0.2), radius: 3, x: 0, y: 3)
                     )
             }
-            .sheet(isPresented: $showingNutrientsPicker) { nutrientsPicker }
+            
+            var button: some View {
+                Button {
+                    Haptics.feedback(style: .soft)
+                    showingNutrientsPicker = true
+                } label: {
+                    label
+                }
+                .sheet(isPresented: $showingNutrientsPicker) { nutrientsPicker }
+            }
+            
+            return ZStack {
+                label
+                button
+            }
         }
         
         var addButtonRow: some View {
