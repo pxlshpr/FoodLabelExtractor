@@ -18,14 +18,14 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/pxlshpr/FoodLabelScanner", from: "0.0.149"),
-        .package(url: "https://github.com/pxlshpr/PrepDataTypes", from: "0.0.246"),
-        .package(url: "https://github.com/pxlshpr/PrepViews", from: "0.0.130"),
+        .package(url: "https://github.com/pxlshpr/FoodLabelScanner", from: "0.0.150"),
+        .package(url: "https://github.com/pxlshpr/PrepDataTypes", from: "0.0.278"),
+        .package(url: "https://github.com/pxlshpr/PrepViews", from: "0.0.147"),
         .package(url: "https://github.com/pxlshpr/SwiftHaptics", from: "0.1.3"),
-        .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.86"),
+        .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.87"),
         .package(url: "https://github.com/pxlshpr/SwiftUICamera", from: "0.0.41"),
-        .package(url: "https://github.com/pxlshpr/SwiftUISugar", from: "0.0.346"),
-        .package(url: "https://github.com/pxlshpr/VisionSugar", from: "0.0.77"),
+        .package(url: "https://github.com/pxlshpr/SwiftUISugar", from: "0.0.369"),
+        .package(url: "https://github.com/pxlshpr/VisionSugar", from: "0.0.78"),
         .package(url: "https://github.com/pxlshpr/SwiftUIPopovers", from: "1.3.3"),
 
         .package(url: "https://github.com/exyte/ActivityIndicatorView", from: "1.1.0"),
